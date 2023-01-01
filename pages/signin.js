@@ -10,7 +10,7 @@ import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
-import { makeStyles } from '@material-ui/styles';
+import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles((theme) =>  ({
   root: {
