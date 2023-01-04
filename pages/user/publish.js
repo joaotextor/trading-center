@@ -1,5 +1,6 @@
 
-import { styled, Typography, Box, TextField, Select, Button } from '@mui/material'
+import { DeleteForever, NoEncryption } from '@mui/icons-material'
+import { styled, Typography, Box, TextField, Select, Button, IconButton } from '@mui/material'
 import { Container } from '@mui/system'
 import TemplateDefault from '../../src/templates/Default'
 
@@ -9,6 +10,10 @@ const classes = {
     container: `${PREFIX}-container`,
     box: `${PREFIX}-box`,
     detailsField: `${PREFIX}-details-field`,
+    dropZone: `${PREFIX}-dropZone`,
+    thumbImage: `${PREFIX}-thumb-image`,
+    thumbMask: `${PREFIX}-thumb-mask`,
+    labelMainImage: `${PREFIX}-label-main-image`,
 }
 
 const MyContainer = styled(Container)(({theme}) => ({
@@ -24,7 +29,58 @@ const MyContainer = styled(Container)(({theme}) => ({
 
     [`& .${classes.detailsField}`]: {
         marginTop: 10,
-    }
+    },
+}))
+
+const ThumbBox = styled(Box)(({theme})=> ({
+        position: 'relative',
+        display: 'flex',
+        border: '2px solid black',
+        padding: 10,
+        margin: '0 15px 15px 0',
+        justifyContent: 'center',
+        alignItems: 'center',
+        textAlign: 'center',
+        width: 200,
+        height: 150,
+
+        [`&.${classes.dropZone}`]: {
+            border: '2px dashed black',
+            backgroundColor: theme.palette.background.default,
+        },
+
+        [`&.${classes.thumbImage}`]: {
+            padding: 0,
+            border: '1px solid black',
+            backgroundSize: 'cover',
+        },
+
+        [`& .${classes.thumbMask}`]: {
+            display: 'none',
+            width: '100%',
+            height: '100%',
+            margin: 0,
+            border: 0,
+            backgroundColor: theme.palette.background.blackTransparent
+        },
+
+        [`&.${classes.thumbImage}:hover .${classes.thumbMask}`]: {
+            display: 'flex'
+        },
+
+        [`& .${classes.labelMainImage}`]: {
+            color: 'white',
+            margin: 0,
+            border: 0,
+            borderRadius: '5px',
+            width: 'fit-content',
+            height: '20px',
+            backgroundColor: 'blue',
+            padding: '6px 10px',
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+        },
 }))
 
 export default function Publish() {
@@ -32,17 +88,17 @@ export default function Publish() {
     return (
         <TemplateDefault>
             <MyContainer className={classes.container} maxWidth="sm">
-                <Typography component="h1" variant="h2" align="center" color="textPrimary">
+                <Typography component="h1" variant="h2" align="center" color="primary">
                     Publish new Ad
                 </Typography>
-                <Typography component="h5" variant="h5" align="center" color="textPrimary">
+                <Typography component="h5" variant="h5" align="center" color="primary">
                     The more detailed the better!
                 </Typography>
             </MyContainer>
 
             <MyContainer className={classes.container} maxWidth="md">
                 <Box className={classes.box}>
-                    <Typography component="h6" variant="h6" color="textPrimary">
+                    <Typography component="h6" variant="h6" color="primary">
                         Ad Title
                     </Typography>
                     <TextField
@@ -50,7 +106,7 @@ export default function Publish() {
                         fullWidth
                     />
                     <br /><br />
-                    <Typography component="h6" variant="h6" color="textPrimary">
+                    <Typography component="h6" variant="h6" color="primary">
                         Gategory
                     </Typography>
                     <Select
@@ -84,21 +140,50 @@ export default function Publish() {
 
             <MyContainer className={classes.container} maxWidth="md">
                 <Box className={classes.box}>
-                    <Typography component="h6" variant="h6" color="textPrimary">
+                    <Typography component="h6" variant="h6" color="primary">
                             Images
                     </Typography>
-                    <Typography component="div" variant="body2" color="textPrimary">
+                    <Typography component="div" variant="body2" color="primary">
                             The first image will be your ad&apos;s cover picture.
                     </Typography>
+                    <Box sx={{
+                        display: 'flex',
+                        marginTop: '10px',
+                        }}>
+                        <ThumbBox className={classes.dropZone}>
+                            <Typography>
+                                Click to select or drag image here
+                            </Typography>
+                        </ThumbBox>
+
+                        <ThumbBox 
+                        className={classes.thumbImage} 
+                        sx={{
+                            backgroundImage: 'url(https://source.unsplash.com/random)'
+                        }}>
+                            <ThumbBox className={classes.thumbMask}>
+                                <IconButton color="secondary">
+                                    <DeleteForever fontSize="large"/>    
+                                </IconButton>   
+                            </ThumbBox>
+
+                            <ThumbBox className={classes.labelMainImage}>
+                                <Typography>
+                                    Main
+                                </Typography>
+                            </ThumbBox>
+                        </ThumbBox>
+
+                    </Box>
                 </Box>
             </MyContainer>
 
             <MyContainer className={classes.container} maxWidth="md">
                 <Box className={classes.box}>
-                    <Typography component="h6" variant="h6" color="textPrimary">
+                    <Typography component="h6" variant="h6" color="primary">
                             Description
                     </Typography>
-                    <Typography component="div" variant="body2" color="textPrimary">
+                    <Typography component="div" variant="body2" color="primary">
                             Write the details of what you are selling.
                     </Typography>
                     <TextField className={classes.detailsField}
@@ -112,7 +197,7 @@ export default function Publish() {
 
             <MyContainer className={classes.container} maxWidth="md">
                 <Box className={classes.box}>
-                    <Typography component="h6" variant="h6" color="textPrimary" gutterBottom>
+                    <Typography component="h6" variant="h6" color="primary" gutterBottom>
                             Contact Info
                     </Typography>
                     <TextField
