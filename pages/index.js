@@ -108,7 +108,7 @@ export default function Home() {
             <MyContainer maxWidth="md">
                 <Typography component="h2" variant="h4" align="center" color="primary" gutterBottom>Featured</Typography>
                 <Grid container spacing={4}>
-                    <Grid item sx={12} sm={6} md={4}>
+                    <Grid item xs={12} sm={6} md={4}>
                         <Card>
                             <CardMedia 
                                 sx={{padding: "50%"}}
@@ -140,7 +140,7 @@ export default function Home() {
                         </Card>
                     </Grid>
 
-                    <Grid item sx={12} sm={6} md={4}>
+                    <Grid item xs={12} sm={6} md={4}>
                         <Card>
                             <CardMedia 
                                 sx={{padding: "50%"}}
@@ -172,7 +172,7 @@ export default function Home() {
                         </Card>
                     </Grid>
 
-                    <Grid item sx={12} sm={6} md={4}>
+                    <Grid item xs={12} sm={6} md={4}>
                         <Card>
                             <CardMedia 
                                 sx={{padding: "50%"}}
