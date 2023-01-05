@@ -1,7 +1,18 @@
 
-import { DeleteForever, NoEncryption } from '@mui/icons-material'
-import { styled, Typography, Box, TextField, Select, Button, IconButton } from '@mui/material'
+import { DeleteForever } from '@mui/icons-material'
+import {
+    styled,
+    Typography,
+    Box,
+    TextField,
+    Select,
+    Button,
+    IconButton
+} from '@mui/material'
 import { Container } from '@mui/system'
+import { useState } from 'react'
+import { useDropzone } from 'react-dropzone'
+
 import TemplateDefault from '../../src/templates/Default'
 
 const PREFIX = 'Publish'
@@ -51,8 +62,9 @@ const ThumbBox = styled(Box)(({theme})=> ({
 
         [`&.${classes.thumbImage}`]: {
             padding: 0,
-            border: '1px solid black',
-            backgroundSize: 'cover',
+            border: 0,
+            backgroundSize: 'contain',
+            backgroundRepeat: 'no-repeat',
         },
 
         [`& .${classes.thumbMask}`]: {
@@ -84,6 +96,36 @@ const ThumbBox = styled(Box)(({theme})=> ({
 }))
 
 export default function Publish() {
+
+    const [files, setFiles] = useState([])
+
+    const { getRootProps, getInputProps } = useDropzone({
+        accept: 'image/*',
+        onDrop: (acceptedFile) => {
+            const newFiles = acceptedFile.map(file => {
+                return Object.assign(file, {
+                    preview: URL.createObjectURL(file)
+                })
+                // Equivalent to:
+                // const object = {
+                //     ...file,
+                //     preview: URL.createObjectURL(file)
+                // }
+                // return object
+            })
+
+            setFiles([
+                ...files,
+                ...newFiles
+            ])
+        }
+    })
+
+    const handleRemoveFile = fileName => {
+        const newFileState = files.filter(file => file.name !== fileName )
+
+        setFiles(newFileState)
+    }
     
     return (
         <TemplateDefault>
@@ -148,31 +190,45 @@ export default function Publish() {
                     </Typography>
                     <Box sx={{
                         display: 'flex',
+                        flexWrap: 'wrap',
                         marginTop: '10px',
                         }}>
-                        <ThumbBox className={classes.dropZone}>
+                        <ThumbBox className={classes.dropZone} {...getRootProps()}>
+                            <input {...getInputProps()} />
                             <Typography>
                                 Click to select or drag image here
                             </Typography>
                         </ThumbBox>
 
-                        <ThumbBox 
-                        className={classes.thumbImage} 
-                        sx={{
-                            backgroundImage: 'url(https://source.unsplash.com/random)'
-                        }}>
-                            <ThumbBox className={classes.thumbMask}>
-                                <IconButton color="secondary">
-                                    <DeleteForever fontSize="large"/>    
-                                </IconButton>   
-                            </ThumbBox>
+                        {
+                            files.map((file, index) => (
+                                <ThumbBox 
+                                key={`${file.name}-${index}`}
+                                className={classes.thumbImage} 
+                                sx={{
+                                    backgroundImage: `url(${file.preview})`,
+                                    backgroundPosition: 'center'
+                                }}>
+                                    <ThumbBox className={classes.thumbMask}>
+                                        <IconButton color="secondary" onClick={() => handleRemoveFile(file.name)}>
+                                            <DeleteForever fontSize="large"/>    
+                                        </IconButton>   
+                                    </ThumbBox>
 
-                            <ThumbBox className={classes.labelMainImage}>
-                                <Typography>
-                                    Main
-                                </Typography>
-                            </ThumbBox>
-                        </ThumbBox>
+                                    {
+                                        index === 0 ?
+                                        <ThumbBox className={classes.labelMainImage}>
+                                            <Typography>
+                                                Main
+                                            </Typography>
+                                        </ThumbBox>
+                                        : null
+                                    }
+                                    
+                                </ThumbBox>
+                            )
+                            )
+                        }
 
                     </Box>
                 </Box>
