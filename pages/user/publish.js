@@ -7,7 +7,11 @@ import {
     TextField,
     Select,
     Button,
-    IconButton
+    IconButton,
+    FormControl,
+    InputLabel,
+    OutlinedInput,
+    InputAdornment
 } from '@mui/material'
 import { Container } from '@mui/system'
 import { useState } from 'react'
@@ -248,6 +252,26 @@ export default function Publish() {
                         variant="outlined"
                         fullWidth
                     />
+                </Box>
+            </MyContainer>
+
+            <MyContainer className={classes.container} maxWidth="md">
+                <Box className={classes.box}>
+                    <Typography component="h6" variant="h6" color="primary" gutterBottom>
+                            Price
+                    </Typography>
+                    <FormControl
+                        variant="outlined"
+                        fullWidth
+                    >
+                        <InputLabel variant="outlined">Value</InputLabel>
+                        <OutlinedInput 
+                            label="Value" //without this prop, the outline will be above the InputLabel's value (Value). Another approch would set the InputLabel's background to white, but this wont add a space before and after the label (like an inline margin), making it look weird.
+                            onChange={() => {}}
+                            startAdornment={<InputAdornment position="start">US$</InputAdornment>}
+                            labelWidth={40}
+                        />
+                    </FormControl>
                 </Box>
             </MyContainer>
 
