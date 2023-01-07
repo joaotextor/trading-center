@@ -32,53 +32,6 @@ const MyContainer = styled(Container)(({theme}) => ({
     },
 }))
 
-const ThumbBox = styled(Box)(({theme})=> ({
-        position: 'relative',
-        display: 'flex',
-        border: '2px solid black',
-        padding: 10,
-        margin: '0 15px 15px 0',
-        justifyContent: 'center',
-        alignItems: 'center',
-        textAlign: 'center',
-        width: 200,
-        height: 150,
-
-        [`&.${classes.thumbImage}`]: {
-            padding: 0,
-            border: 0,
-            backgroundSize: 'contain',
-            backgroundRepeat: 'no-repeat',
-        },
-
-        [`& .${classes.thumbMask}`]: {
-            display: 'none',
-            width: '100%',
-            height: '100%',
-            margin: 0,
-            border: 0,
-            backgroundColor: theme.palette.background.blackTransparent
-        },
-
-        [`&.${classes.thumbImage}:hover .${classes.thumbMask}`]: {
-            display: 'flex'
-        },
-
-        [`& .${classes.labelMainImage}`]: {
-            color: 'white',
-            margin: 0,
-            border: 0,
-            borderRadius: '5px',
-            width: 'fit-content',
-            height: '20px',
-            backgroundColor: 'blue',
-            padding: '6px 10px',
-            position: 'absolute',
-            bottom: 0,
-            left: 0,
-        },
-}))
-
 const SearchBox = styled(Paper)(({theme}) => ({
     display: 'flex',
     justifyContent: 'center',
@@ -90,7 +43,7 @@ const SearchBox = styled(Paper)(({theme}) => ({
 export default function Home() {
     return (
         <TemplateDefault>
-            <MyContainer maxWidth="md" className={classes.container}>
+            <MyContainer maxWidth="lg" className={classes.container}>
                 <Typography component="h1" variant="h3" align="center" color="primary">
                     What do you wish to find?
                 </Typography>
@@ -105,13 +58,13 @@ export default function Home() {
                 </SearchBox>
             </MyContainer>
 
-            <MyContainer maxWidth="md">
+            <MyContainer maxWidth="lg">
                 <Typography component="h2" variant="h4" align="center" color="primary" gutterBottom>Featured</Typography>
                 <Grid container spacing={4}>
                     <Grid item xs={12} sm={6} md={4}>
                         <Card>
                             <CardMedia 
-                                sx={{padding: "50%"}}
+                                sx={{padding: "30%"}}
                                 image={'https://source.unsplash.com/random'}
                                 title="Image title"
                             />
@@ -143,7 +96,7 @@ export default function Home() {
                     <Grid item xs={12} sm={6} md={4}>
                         <Card>
                             <CardMedia 
-                                sx={{padding: "50%"}}
+                                sx={{padding: "30%"}}
                                 image={'https://source.unsplash.com/random'}
                                 title="Image title"
                             />
@@ -175,7 +128,7 @@ export default function Home() {
                     <Grid item xs={12} sm={6} md={4}>
                         <Card>
                             <CardMedia 
-                                sx={{padding: "50%"}}
+                                sx={{padding: "30%"}}
                                 image={'https://source.unsplash.com/random'}
                                 title="Image title"
                             />
