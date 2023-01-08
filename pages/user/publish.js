@@ -32,10 +32,7 @@ const classes = {
 }
 
 const MyContainer = styled(Container)(({theme}) => ({
-    [`&.${classes.container}`]: {
-        padding: 20,
-    },
-
+    marginTop: 30,
     [`& .${classes.box}`]: {
         padding: 20,
         backgroundColor: theme.palette.background.white,
@@ -133,16 +130,16 @@ export default function Publish() {
     
     return (
         <TemplateDefault>
-            <MyContainer className={classes.container} maxWidth="sm">
+            <Container className={classes.container} maxWidth="sm">
                 <Typography component="h1" variant="h2" align="center" color="primary">
                     Publish new Ad
                 </Typography>
                 <Typography component="h5" variant="h5" align="center" color="primary">
                     The more detailed the better!
                 </Typography>
-            </MyContainer>
+            </Container>
 
-            <MyContainer className={classes.container} maxWidth="md">
+            <MyContainer maxWidth="md">
                 <Box className={classes.box}>
                     <Typography component="h6" variant="h6" color="primary">
                         Ad Title

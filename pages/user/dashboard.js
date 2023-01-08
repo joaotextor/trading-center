@@ -6,10 +6,11 @@ import {
   CardMedia, 
   Container, 
   Grid, 
-  Typography 
+  Typography, 
+  styled,
 } from '@mui/material'
 
-import { styled } from '@mui/material/styles'
+import Link from 'next/link'
 import TemplateDefault from '../../src/templates/Default'
 
 const PREFIX = 'Dashboard'
@@ -21,10 +22,7 @@ const classes = {
 }
 
 const MyContainer = styled(Container)(({theme}) => ({
-  [`&.${classes.container}`]: {
-    padding: 20,
-  },
-  
+  marginTop: 20,
   [`& .${classes.button}`]: {
     margin: "30px auto",
     display: "block",
@@ -36,15 +34,21 @@ const MyContainer = styled(Container)(({theme}) => ({
   }
 }))
 
+const MyLink = styled(Link)(({theme}) => ({
+  textDecoration: 'none'
+}))
+
 export default function Home() {
   return (
     <TemplateDefault>
-      <MyContainer className={classes.container} maxWidth="sm">
+      <Container maxWidth="sm" align="center">
         <Typography component="h1" variant="h2" align="center">
           My Adds
         </Typography>
-        <Button variant="contained" color="primary" className={classes.button}>Publish Add</Button>
-      </MyContainer>
+        <MyLink href="/user/publish" passHref>
+          <Button variant="contained" color="primary" sx={{margin: 2}}>Publish Add</Button>
+        </MyLink>
+      </Container>
       <MyContainer maxWidth="md" className={classes.card}>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6} md={3}>

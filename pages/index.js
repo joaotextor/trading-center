@@ -16,10 +16,7 @@ const classes = {
 }
 
 const MyContainer = styled(Container)(({theme}) => ({
-    [`&.${classes.container}`]: {
-        padding: 20,
-    },
-
+    marginTop: 20,
     [`& .${classes.box}`]: {
         padding: 20,
         backgroundColor: theme.palette.background.white,
@@ -42,7 +39,7 @@ const SearchBox = styled(Paper)(({theme}) => ({
 export default function Home() {
     return (
         <TemplateDefault>
-            <MyContainer maxWidth="lg" className={classes.container} sx={{padding: 20}}>
+            <Container maxWidth="lg">
                 <Typography component="h1" variant="h3" align="center" color="primary">
                     What do you wish to find?
                 </Typography>
@@ -55,9 +52,9 @@ export default function Home() {
                         <SearchIcon />
                     </IconButton>
                 </SearchBox>
-            </MyContainer>
+            </Container>
 
-            <MyContainer maxWidth="lg">
+            <MyContainer maxWidth="lg" sx={{padding: 5}}>
                 <Typography component="h2" variant="h4" align="center" color="primary" gutterBottom>Featured</Typography>
                 <Grid container spacing={4}>
                     <Grid item xs={12} sm={6} md={4}>
