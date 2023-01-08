@@ -1,5 +1,4 @@
-import { Button, Card, CardActions, CardContent, CardMedia, Grid, IconButton, InputBase, Paper, Typography } from "@mui/material"
-import { styled } from "@mui/styles"
+import { Button, Card, CardActions, CardContent, CardMedia, Grid, IconButton, InputBase, Paper, Typography, styled } from "@mui/material"
 import { Box, Container } from "@mui/system"
 
 import SearchIcon from '@mui/icons-material/Search'
@@ -43,7 +42,7 @@ const SearchBox = styled(Paper)(({theme}) => ({
 export default function Home() {
     return (
         <TemplateDefault>
-            <MyContainer maxWidth="lg" className={classes.container}>
+            <MyContainer maxWidth="lg" className={classes.container} sx={{padding: 20}}>
                 <Typography component="h1" variant="h3" align="center" color="primary">
                     What do you wish to find?
                 </Typography>
