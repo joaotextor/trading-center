@@ -11,23 +11,20 @@ import {
   Menu,
   MenuItem,
   Divider,
+  styled
 } from '@mui/material'
 
 import Link from 'next/link'
 import { AccountCircle, MenuIcon } from '@mui/icons-material'
-import { styled } from '@mui/styles'
 
 const MyLink = styled(Link)(({theme}) => ({
     textDecoration: 'none',
     ['&:any-link']: {
       color: theme.palette.primary.main
     },
-    ['& > button']: {
+    ['&.homeLink']: {
       color: theme.palette.secondary.main
-    },
-    ['& .menuItem']: {
-      color: theme.palette.primary.main
-    },
+    }
 }))
 
 export default function ButtonAppBar() {
@@ -41,8 +38,8 @@ export default function ButtonAppBar() {
       <AppBar position="static">
         <Container maxWidth="lg">
           <Toolbar>
-            <Typography className="root-link" variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              Trading Center
+            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+              <MyLink className="homeLink" href="/" passHref>Trading Center</MyLink>
             </Typography>
             <MyLink href="/user/publish" passHref>
               <Button color="secondary" variant="outlined">
@@ -71,11 +68,11 @@ export default function ButtonAppBar() {
               // }}
             >
               <MyLink href="/user/dashboard" passHref>
-                <MenuItem className="menuItem">My Ads</MenuItem>
+                <MenuItem>My Ads</MenuItem>
               </MyLink>
 
               <MyLink href="/user/publish" passHref>
-                <MenuItem className="menuItem">Publish new Ad</MenuItem>
+                <MenuItem>Publish new Ad</MenuItem>
               </MyLink>
               
               <Divider />
