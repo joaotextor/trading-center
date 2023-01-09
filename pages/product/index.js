@@ -13,7 +13,7 @@ import {
 
 import Carousel from 'react-material-ui-carousel'
 
-import TemplateDefault from "../src/templates/Default"
+import TemplateDefault from "../../src/templates/Default"
 
 const MyBox = styled(Box)(({theme}) => ({
     backgroundColor: theme.palette.background.white,
