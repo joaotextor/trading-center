@@ -1,8 +1,18 @@
-import { Button, Card, CardActions, CardContent, CardMedia, Grid, IconButton, InputBase, Paper, Typography, styled } from "@mui/material"
+import {
+    Grid,
+    IconButton,
+    InputBase,
+    Paper,
+    Typography,
+    styled, 
+    Button
+} from "@mui/material"
 import { Box, Container } from "@mui/system"
 
 import SearchIcon from '@mui/icons-material/Search'
 import TemplateDefault from "../src/templates/Default"
+
+import Card from "../src/components/Card"
 
 const PREFIX = 'Home'
 
@@ -58,25 +68,12 @@ export default function Home() {
                 <Typography component="h2" variant="h4" align="center" color="primary" gutterBottom>Featured</Typography>
                 <Grid container spacing={4}>
                     <Grid item xs={12} sm={6} md={4}>
-                        <Card>
-                            <CardMedia 
-                                sx={{padding: "30%"}}
-                                image={'https://source.unsplash.com/random'}
-                                title="Image title"
-                            />
-                            <CardContent>
-                                <Typography component="h2" variant="h5">
-                                Product X
-                                </Typography>
-                                <Typography component="h2" variant="h6" fontSize={16}>
-                                US$ XX.XX
-                                </Typography>
-                            </CardContent>
-                            <CardActions sx={{
-                                display: 'flex', 
-                                justifyContent: 'center', 
-                                background: 'black'}}>
-
+                        <Card
+                        title="PRODUTO X"
+                        subtitle="R$ 89,90"
+                        image="https://source.unsplash.com/random"
+                        actions={
+                            <>
                                 <Button 
                                     sx={{flexGrow: 1}}
                                     size="small" 
@@ -85,30 +82,18 @@ export default function Home() {
                                 >
                                 View More
                                 </Button>
-                            </CardActions>
-                        </Card>
+                            </>
+                        }
+                        />
                     </Grid>
 
                     <Grid item xs={12} sm={6} md={4}>
-                        <Card>
-                            <CardMedia 
-                                sx={{padding: "30%"}}
-                                image={'https://source.unsplash.com/random'}
-                                title="Image title"
-                            />
-                            <CardContent>
-                                <Typography component="h2" variant="h5">
-                                Product X
-                                </Typography>
-                                <Typography component="h2" variant="h6" fontSize={16}>
-                                US$ XX.XX
-                                </Typography>
-                            </CardContent>
-                            <CardActions sx={{
-                                display: 'flex', 
-                                justifyContent: 'center', 
-                                background: 'black'}}>
-
+                        <Card
+                        title="PRODUTO X"
+                        subtitle="R$ 89,90"
+                        image="https://source.unsplash.com/random"
+                        actions={
+                            <>
                                 <Button 
                                     sx={{flexGrow: 1}}
                                     size="small" 
@@ -117,30 +102,18 @@ export default function Home() {
                                 >
                                 View More
                                 </Button>
-                            </CardActions>
-                        </Card>
+                            </>
+                        }
+                        />
                     </Grid>
 
                     <Grid item xs={12} sm={6} md={4}>
-                        <Card>
-                            <CardMedia 
-                                sx={{padding: "30%"}}
-                                image={'https://source.unsplash.com/random'}
-                                title="Image title"
-                            />
-                            <CardContent>
-                                <Typography component="h2" variant="h5">
-                                Product X
-                                </Typography>
-                                <Typography component="h2" variant="h6" fontSize={16}>
-                                US$ XX.XX
-                                </Typography>
-                            </CardContent>
-                            <CardActions sx={{
-                                display: 'flex', 
-                                justifyContent: 'center', 
-                                background: 'black'}}>
-
+                        <Card
+                        title="PRODUTO X"
+                        subtitle="R$ 89,90"
+                        image="https://source.unsplash.com/random"
+                        actions={
+                            <>
                                 <Button 
                                     sx={{flexGrow: 1}}
                                     size="small" 
@@ -149,11 +122,30 @@ export default function Home() {
                                 >
                                 View More
                                 </Button>
-                            </CardActions>
-                        </Card>
+                            </>
+                        }
+                        />
                     </Grid>
 
-                    
+                    <Grid item xs={12} sm={6} md={4}>
+                        <Card
+                        title="PRODUTO X"
+                        subtitle="R$ 89,90"
+                        image="https://source.unsplash.com/random"
+                        actions={
+                            <>
+                                <Button 
+                                    sx={{flexGrow: 1}}
+                                    size="small" 
+                                    color="primary" 
+                                    variant="contained"
+                                >
+                                View More
+                                </Button>
+                            </>
+                        }
+                        />
+                    </Grid>
                 </Grid>
             </MyContainer>
         </TemplateDefault>

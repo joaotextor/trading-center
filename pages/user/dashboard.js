@@ -1,9 +1,5 @@
 import { 
-  Button,
-  Card,
-  CardActions,
-  CardContent, 
-  CardMedia, 
+  Button, 
   Container, 
   Grid, 
   Typography, 
@@ -12,6 +8,8 @@ import {
 
 import Link from 'next/link'
 import TemplateDefault from '../../src/templates/Default'
+
+import Card from '../../src/components/Card'
 
 const PREFIX = 'Dashboard'
 
@@ -52,156 +50,94 @@ export default function Home() {
       <MyContainer maxWidth="md" className={classes.card}>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6} md={3}>
-            <Card>
-              <CardMedia 
-                sx={{padding: "50%"}}
-                image={'https://source.unsplash.com/random'}
-                title="Image title"
-              />
-              <CardContent>
-                <Typography component="h2" variant="h5">
-                  Product X
-                </Typography>
-                <Typography component="h2" variant="h6" fontSize={16}>
-                  US$ XX.XX
-                </Typography>
-              </CardContent>
-              <CardActions>
-                <Button size="small" color="primary">
-                  Edit
+            <Card
+            title="PRODUTO"
+            subtitle="R$ 88,90"
+            image="https://source.unsplash.com/random"
+            actions={
+              <>
+                <Button size="small" variant="contained" color="primary">
+                  Editar
                 </Button>
-                <Button size="small" color="primary">
-                  Remove
+                <Button size="small" variant="contained" color="primary">
+                  Remover
                 </Button>
-              </CardActions>
-            </Card>
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <Card xs={12} sm={6} md={3}>
-              <CardMedia 
-                sx={{padding: "50%"}}
-                image={'https://source.unsplash.com/random'}
-                title="Image title"
-              />
-              <CardContent>
-                <Typography component="h2" variant="h5">
-                  Product X
-                </Typography>
-                <Typography component="h2" variant="h6" fontSize={16}>
-                  US$ XX.XX
-                </Typography>
-              </CardContent>
-              <CardActions>
-                <Button size="small" color="primary">
-                  Edit
-                </Button>
-                <Button size="small" color="primary">
-                  Remove
-                </Button>
-              </CardActions>
-            </Card>
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <Card xs={12} sm={6} md={3}>
-              <CardMedia 
-                sx={{padding: "50%"}}
-                image={'https://source.unsplash.com/random'}
-                title="Image title"
-              />
-              <CardContent>
-                <Typography component="h2" variant="h5">
-                  Product X
-                </Typography>
-                <Typography component="h2" variant="h6" fontSize={16}>
-                  US$ XX.XX
-                </Typography>
-              </CardContent>
-              <CardActions>
-                <Button size="small" color="primary">
-                  Edit
-                </Button>
-                <Button size="small" color="primary">
-                  Remove
-                </Button>
-              </CardActions>
-            </Card>
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <Card xs={12} sm={6} md={3}>
-              <CardMedia 
-                sx={{padding: "50%"}}
-                image={'https://source.unsplash.com/random'}
-                title="Image title"
-              />
-              <CardContent>
-                <Typography component="h2" variant="h5">
-                  Product X
-                </Typography>
-                <Typography component="h2" variant="h6" fontSize={16}>
-                  US$ XX.XX
-                </Typography>
-              </CardContent>
-              <CardActions>
-                <Button size="small" color="primary">
-                  Edit
-                </Button>
-                <Button size="small" color="primary">
-                  Remove
-                </Button>
-              </CardActions>
-            </Card>
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <Card xs={12} sm={6} md={3}>
-              <CardMedia 
-                sx={{padding: "50%"}}
-                image={'https://source.unsplash.com/random'}
-                title="Image title"
-              />
-              <CardContent>
-                <Typography component="h2" variant="h5">
-                  Product X
-                </Typography>
-                <Typography component="h2" variant="h6" fontSize={16}>
-                  US$ XX.XX
-                </Typography>
-              </CardContent>
-              <CardActions>
-                <Button size="small" color="primary">
-                  Edit
-                </Button>
-                <Button size="small" color="primary">
-                  Remove
-                </Button>
-              </CardActions>
-            </Card>
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <Card xs={12} sm={6} md={3}>
-              <CardMedia 
-                sx={{padding: "50%"}}
-                image={'https://source.unsplash.com/random'}
-                title="Image title"
-              />
-              <CardContent>
-                <Typography component="h2" variant="h5">
-                  Product X
-                </Typography>
-                <Typography component="h2" variant="h6" fontSize={16}>
-                  US$ XX.XX
-                </Typography>
-              </CardContent>
-              <CardActions>
-                <Button size="small" color="primary">
-                  Edit
-                </Button>
-                <Button size="small" color="primary">
-                  Remove
-                </Button>
-              </CardActions>
-            </Card>
+              </>
+            }
+            />
           </Grid>
 
+          <Grid item xs={12} sm={6} md={3}>
+            <Card
+            title="PRODUTO"
+            subtitle="R$ 88,90"
+            image="https://source.unsplash.com/random"
+            actions={
+              <>
+                <Button size="small" variant="contained" color="primary">
+                  Editar
+                </Button>
+                <Button size="small" variant="contained" color="primary">
+                  Remover
+                </Button>
+              </>
+            }
+            />
+          </Grid>
+
+          <Grid item xs={12} sm={6} md={3}>
+            <Card
+            title="PRODUTO"
+            subtitle="R$ 88,90"
+            image="https://source.unsplash.com/random"
+            actions={
+              <>
+                <Button size="small" variant="contained" color="primary">
+                  Editar
+                </Button>
+                <Button size="small" variant="contained" color="primary">
+                  Remover
+                </Button>
+              </>
+            }
+            />
+          </Grid>
+
+          <Grid item xs={12} sm={6} md={3}>
+            <Card
+            title="PRODUTO"
+            subtitle="R$ 88,90"
+            image="https://source.unsplash.com/random"
+            actions={
+              <>
+                <Button size="small" variant="contained" color="primary">
+                  Editar
+                </Button>
+                <Button size="small" variant="contained" color="primary">
+                  Remover
+                </Button>
+              </>
+            }
+            />
+          </Grid>
+
+          <Grid item xs={12} sm={6} md={3}>
+            <Card
+            title="PRODUTO"
+            subtitle="R$ 88,90"
+            image="https://source.unsplash.com/random"
+            actions={
+              <>
+                <Button size="small" variant="contained" color="primary">
+                  Editar
+                </Button>
+                <Button size="small" variant="contained" color="primary">
+                  Remover
+                </Button>
+              </>
+            }
+            />
+          </Grid>
         </Grid>
       </MyContainer>
     </TemplateDefault>
