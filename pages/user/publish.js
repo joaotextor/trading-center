@@ -11,7 +11,9 @@ import {
     FormControl,
     InputLabel,
     OutlinedInput,
-    InputAdornment
+    InputAdornment,
+    MenuItem,
+    FormHelperText,
 } from '@mui/material'
 import { Container } from '@mui/material'
 
@@ -102,9 +104,10 @@ const ThumbBox = styled(Box)(({theme})=> ({
 
 const validationSchema = yup.object().shape({
     title: yup.string()
-    .min(6, 'Write a longer title')
-    .max(100, 'Title too large')
-    .required('Mandatory field'),
+        .min(6, 'Write a longer title')
+        .max(100, 'Title too large')
+        .required('Mandatory field'),
+     category: yup.string().required('Mandatory field')
 })
 
 export default function Publish() {
@@ -143,7 +146,8 @@ export default function Publish() {
         <TemplateDefault>
             <Formik
                 initialValues={{
-                    title: '' 
+                    title: '',
+                    category: '',
                 }}
                 validationSchema={validationSchema}
                 onSubmit={(values) => {
@@ -190,33 +194,36 @@ export default function Publish() {
                                     <Typography component="h6" variant="h6" color="primary">
                                         Gategory
                                     </Typography>
-                                    <Select
-                                        native
-                                        value=""
-                                        fullWidth
-                                        onChange={() => {}}
-                                        inputProps={{
-                                            name: 'age,'
-                                        }}
-                                        variant="standard"
-                                    >
-                                        <option value="">Select</option>
-                                        <option value={1}>Babies and Children</option>
-                                        <option value={2}>Agriculture</option>
-                                        <option value={3}>Fashion</option>
-                                        <option value={3}>Cars, Motorcycles and Boats</option>
-                                        <option value={3}>Services</option>
-                                        <option value={3}>Recreation</option>
-                                        <option value={3}>Animals</option>
-                                        <option value={3}>Furniture, Home and Garden</option>
-                                        <option value={3}>Real Estate</option>
-                                        <option value={3}>Equipments and Tools</option>
-                                        <option value={3}>Smartphones and Tablets</option>
-                                        <option value={3}>Sport</option>
-                                        <option value={3}>Technology</option>
-                                        <option value={3}>Jobs</option>
-                                        <option value={3}>Other</option>
-                                    </Select>
+                                    <FormControl
+                                        error={errors.category}
+                                        fullWidth>
+                                        <Select
+                                            name="category"
+                                            value={values.category}
+                                            fullWidth
+                                            onChange={handleChange}
+                                            variant="standard"
+                                        >
+                                            <MenuItem value="Babies and Children">Babies and Children</MenuItem>
+                                            <MenuItem value="Agriculture">Agriculture</MenuItem>
+                                            <MenuItem value="Fashion">Fashion</MenuItem>
+                                            <MenuItem value="Cars, Motorcycles and Boats">Cars, Motorcycles and Boats</MenuItem>
+                                            <MenuItem value="Services">Services</MenuItem>
+                                            <MenuItem value="Recreation">Recreation</MenuItem>
+                                            <MenuItem value="Animals">Animals</MenuItem>
+                                            <MenuItem value="Furniture, Home and Garden">Furniture, Home and Garden</MenuItem>
+                                            <MenuItem value="Real Estate">Real Estate</MenuItem>
+                                            <MenuItem value="Equipments and Tools">Equipments and Tools</MenuItem>
+                                            <MenuItem value="Smartphones and Tablets">Smartphones and Tablets</MenuItem>
+                                            <MenuItem value="Sport">Sport</MenuItem>
+                                            <MenuItem value="Technology">Technology</MenuItem>
+                                            <MenuItem value="Jobs">Jobs</MenuItem>
+                                            <MenuItem value="Other">Other</MenuItem>
+                                        </Select>
+                                        <FormHelperText>
+                                            {errors.category}
+                                        </FormHelperText>
+                                    </FormControl>
                                 </Box>
                             </MyContainer>
             
@@ -305,7 +312,6 @@ export default function Publish() {
                                             label="Value" //without this prop, the outline will be above the InputLabel's value (Value). Another approch would set the InputLabel's background to white, but this wont add a space before and after the label (like an inline margin), making it look weird.
                                             onChange={() => {}}
                                             startAdornment={<InputAdornment position="start">US$</InputAdornment>}
-                                            labelWidth={40}
                                         />
                                     </FormControl>
                                 </Box>
