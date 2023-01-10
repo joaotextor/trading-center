@@ -14,6 +14,7 @@ import {
     InputAdornment,
     MenuItem,
     FormHelperText,
+    Input,
 } from '@mui/material'
 import { Container } from '@mui/material'
 
@@ -35,6 +36,13 @@ const classes = {
     thumbImage: `${PREFIX}-thumb-image`,
     thumbMask: `${PREFIX}-thumb-mask`,
     labelMainImage: `${PREFIX}-label-main-image`,
+    inputLabel: {
+        fontWeight: 400,
+        marginLeft: -1.5,
+    },
+    helperText: {
+        marginLeft: 0,
+    }
 }
 
 const MyContainer = styled(Container)(({theme}) => ({
@@ -107,7 +115,10 @@ const validationSchema = yup.object().shape({
         .min(6, 'Write a longer title')
         .max(100, 'Title too large')
         .required('Mandatory field'),
-     category: yup.string().required('Mandatory field')
+     category: yup.string().required('Mandatory field'),
+     description: yup.string()
+        .min(50, "Write a description with at least 50 characters")
+        .required('Mandatory field'),
 })
 
 export default function Publish() {
@@ -148,6 +159,7 @@ export default function Publish() {
                 initialValues={{
                     title: '',
                     category: '',
+                    description: '',
                 }}
                 validationSchema={validationSchema}
                 onSubmit={(values) => {
@@ -176,27 +188,28 @@ export default function Publish() {
             
                             <MyContainer maxWidth="md">
                                 <Box className={classes.box}>
-                                    <Typography component="h6" variant="h6" color="primary">
-                                        Ad Title
-                                    </Typography>
-                                    <TextField
-                                        name="title"
-                                        variant="standard"
-                                        value={values.title}
-                                        onChange={handleChange}
-                                        label="ex.: bike rim 18 with warranty"
-                                        fullWidth
+                                    <FormControl
                                         error={errors.title}
-                                        helperText={errors.title}
+                                        fullWidth
+                                    >
+                                        <InputLabel sx={classes.inputLabel}>Ad Title</InputLabel>
+                                        <Input
+                                            name="title"
+                                            variant="standard"
+                                            value={values.title}
+                                            onChange={handleChange}
+                                        />
+                                                                                                           <FormHelperText sx={classes.helperText}>
+                                            {errors.title}
+                                        </FormHelperText>
 
-                                    />
+                                    </FormControl>
                                     <br /><br />
-                                    <Typography component="h6" variant="h6" color="primary">
-                                        Gategory
-                                    </Typography>
                                     <FormControl
                                         error={errors.category}
-                                        fullWidth>
+                                        fullWidth
+                                        >
+                                        <InputLabel sx={classes.inputLabel}>Category</InputLabel>
                                         <Select
                                             name="category"
                                             value={values.category}
@@ -220,7 +233,7 @@ export default function Publish() {
                                             <MenuItem value="Jobs">Jobs</MenuItem>
                                             <MenuItem value="Other">Other</MenuItem>
                                         </Select>
-                                        <FormHelperText>
+                                        <FormHelperText  sx={classes.helperText}>
                                             {errors.category}
                                         </FormHelperText>
                                     </FormControl>
@@ -283,18 +296,24 @@ export default function Publish() {
             
                             <MyContainer className={classes.container} maxWidth="md">
                                 <Box className={classes.box}>
-                                    <Typography component="h6" variant="h6" color="primary">
-                                            Description
-                                    </Typography>
-                                    <Typography component="div" variant="body2" color="primary">
-                                            Write the details of what you are selling.
-                                    </Typography>
-                                    <TextField className={classes.detailsField}
+                                    <FormControl
+                                        error={errors.description}
+                                        fullWidth
+                                    >
+                                        <InputLabel sx={classes.inputLabel}>Write the details of what you are selling.
+                                        </InputLabel>
+                                        <Input className={classes.detailsField}
                                         multiline
+                                        name="description"
+                                        onChange={handleChange}
+                                        value={values.description}
                                         rows={6}
                                         variant="outlined"
-                                        fullWidth
-                                    />
+                                        />
+                                        <FormHelperText sx={classes.helperText}>
+                                            {errors.description}
+                                        </FormHelperText>
+                                    </FormControl>
                                 </Box>
                             </MyContainer>
             
