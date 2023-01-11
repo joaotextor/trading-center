@@ -115,10 +115,17 @@ const validationSchema = yup.object().shape({
         .min(6, 'Write a longer title')
         .max(100, 'Title too large')
         .required('Mandatory field'),
-     category: yup.string().required('Mandatory field'),
-     description: yup.string()
+    category: yup.string().required('Mandatory field'),
+    description: yup.string()
         .min(50, "Write a description with at least 50 characters")
         .required('Mandatory field'),
+    price: yup.number()
+        .required("Mandatory field"),
+    contactName: yup.string().required('Mandatory field'),
+    contactEmail: yup.string()
+        .email('Insert a valid email address')
+        .required('Mandatory field'),
+    contactPhone: yup.number('Phone must contain only numbers.').required('Mandatory field'),
 })
 
 export default function Publish() {
@@ -160,6 +167,10 @@ export default function Publish() {
                     title: '',
                     category: '',
                     description: '',
+                    price: '',
+                    contactName: '',
+                    contactEmail: '',
+                    contactPhone: '',
                 }}
                 validationSchema={validationSchema}
                 onSubmit={(values) => {
@@ -319,19 +330,21 @@ export default function Publish() {
             
                             <MyContainer className={classes.container} maxWidth="md">
                                 <Box className={classes.box}>
-                                    <Typography component="h6" variant="h6" color="primary" gutterBottom>
-                                            Price
-                                    </Typography>
                                     <FormControl
-                                        variant="outlined"
+                                        variant="standard"
                                         fullWidth
+                                        error={errors.price}
                                     >
-                                        <InputLabel variant="outlined">Value</InputLabel>
-                                        <OutlinedInput 
+                                        <InputLabel variant="outlined"  sx={classes.inputLabel}>Price</InputLabel>
+                                        <Input 
+                                            name="price"
                                             label="Value" //without this prop, the outline will be above the InputLabel's value (Value). Another approch would set the InputLabel's background to white, but this wont add a space before and after the label (like an inline margin), making it look weird.
-                                            onChange={() => {}}
+                                            onChange={handleChange}
                                             startAdornment={<InputAdornment position="start">US$</InputAdornment>}
                                         />
+                                        <FormHelperText  sx={classes.helperText}>
+                                            {errors.price}
+                                        </FormHelperText>
                                     </FormControl>
                                 </Box>
                             </MyContainer>
@@ -341,26 +354,41 @@ export default function Publish() {
                                     <Typography component="h6" variant="h6" color="primary" gutterBottom>
                                             Contact Info
                                     </Typography>
-                                    <TextField
-                                        label="Contact Name"
-                                        variant="outlined"
-                                        size="small"
-                                        fullWidth
-                                    />
+                                    <FormControl error={errors.contactName} fullWidth>
+                                        <InputLabel sx={classes.inputLabel}>Contact Name</InputLabel>
+                                        <Input
+                                            name="contactName"
+                                            value={values.contactName}
+                                            onChange={handleChange}
+                                        />
+                                        <FormHelperText  sx={classes.helperText}>
+                                            {errors.contactName}
+                                        </FormHelperText>
+                                    </FormControl>
                                     <br /><br />
-                                    <TextField
-                                        label="E-mail"
-                                        variant="outlined"
-                                        size="small"
-                                        fullWidth
-                                    />
+                                    <FormControl error={errors.contactName} fullWidth>
+                                        <InputLabel sx={classes.inputLabel}>Email</InputLabel>
+                                        <Input
+                                            name="contactEmail"
+                                            value={values.contactEmail}
+                                            onChange={handleChange}
+                                        />
+                                        <FormHelperText  sx={classes.helperText}>
+                                            {errors.contactEmail}
+                                        </FormHelperText>
+                                    </FormControl>
                                     <br /><br />
-                                    <TextField
-                                        label="Phone"
-                                        variant="outlined"
-                                        size="small"
-                                        fullWidth
-                                    />
+                                    <FormControl error={errors.contactName} fullWidth>
+                                        <InputLabel sx={classes.inputLabel}>Phone</InputLabel>
+                                        <Input
+                                            name="contactPhone"
+                                            value={values.contactPhone}
+                                            onChange={handleChange}
+                                        />
+                                        <FormHelperText  sx={classes.helperText}>
+                                            {errors.contactPhone}
+                                        </FormHelperText>
+                                    </FormControl>
                                     <br /><br />
                                 </Box>
                             </MyContainer>
