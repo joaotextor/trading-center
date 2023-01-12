@@ -33,7 +33,7 @@ export default function FileUpload({ files, errors, touched, setFieldValue }) {
     //! Using file.path will cause a bug in which if the user uploads 2 ore more files with the same name, all of them will be deleted at once when deleting one of them.
     const handleRemoveFile = filePath => {
         console.log(filePath, files)
-        const newFileState = files.filter(file => file.path !== filePath )
+        const newFileState = files.filter((file, index) => (index+file.path) !== filePath )
 
         setFieldValue('files', newFileState)
     }
@@ -73,7 +73,7 @@ export default function FileUpload({ files, errors, touched, setFieldValue }) {
                             backgroundPosition: 'center'
                         }}>
                             <ThumbBox className="thumb-mask">
-                                <IconButton color="secondary" onClick={() => handleRemoveFile(file.path)}>
+                                <IconButton color="secondary" onClick={() => handleRemoveFile(`${index}${file.path}`)}>
                                     <DeleteForever fontSize="large"/>    
                                 </IconButton>   
                             </ThumbBox>
