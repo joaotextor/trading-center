@@ -1,12 +1,9 @@
 
-import { DeleteForever, LocalConvenienceStoreOutlined } from '@mui/icons-material'
 import {
-    styled,
     Typography,
     Box,
     Select,
     Button,
-    IconButton,
     FormControl,
     InputLabel,
     InputAdornment,
@@ -16,134 +13,26 @@ import {
 } from '@mui/material'
 import { Container } from '@mui/material'
 
-import { useState } from 'react'
-import { useDropzone } from 'react-dropzone'
+import { Formik } from 'formik'
 
-import { Formik, FormikConsumer } from 'formik'
-import * as yup from 'yup'
+import TemplateDefault from '../../../src/templates/Default'
 
-import TemplateDefault from '../../src/templates/Default'
+import { initialValues, validationSchema } from './formValues'
 
-const PREFIX = 'Publish'
+import {
+    classes,
+    MyContainer,
+} from './styles'
 
-const classes = {
-    container: `${PREFIX}-container`,
-    box: `${PREFIX}-box`,
-    detailsField: `${PREFIX}-details-field`,
-    dropZone: `${PREFIX}-dropZone`,
-    thumbImage: `${PREFIX}-thumb-image`,
-    thumbMask: `${PREFIX}-thumb-mask`,
-    labelMainImage: `${PREFIX}-label-main-image`,
-    inputLabel: {
-        fontWeight: 400,
-        marginLeft: -1.5,
-    },
-    helperText: {
-        marginLeft: 0,
-    }
-}
+import FileUpload from '../../../src/components/FileUpload'
 
-const MyContainer = styled(Container)(({theme}) => ({
-    marginTop: 30,
-    [`& .${classes.box}`]: {
-        padding: 20,
-        backgroundColor: theme.palette.background.white,
-        boxShadow: '5px 5px 15px grey'
-    },
-
-    [`& .${classes.detailsField}`]: {
-        marginTop: 10,
-    },
-}))
-
-const ThumbBox = styled(Box)(({theme})=> ({
-        position: 'relative',
-        display: 'flex',
-        border: '2px solid black',
-        padding: 10,
-        margin: '0 15px 15px 0',
-        justifyContent: 'center',
-        alignItems: 'center',
-        textAlign: 'center',
-        width: 200,
-        height: 150,
-
-        [`&.${classes.dropZone}`]: {
-            border: '2px dashed black',
-            backgroundColor: theme.palette.background.default,
-        },
-
-        [`&.${classes.thumbImage}`]: {
-            padding: 0,
-            border: 0,
-            backgroundSize: 'contain',
-            backgroundRepeat: 'no-repeat',
-        },
-
-        [`& .${classes.thumbMask}`]: {
-            display: 'none',
-            width: '100%',
-            height: '100%',
-            margin: 0,
-            border: 0,
-            backgroundColor: theme.palette.background.blackTransparent
-        },
-
-        [`&.${classes.thumbImage}:hover .${classes.thumbMask}`]: {
-            display: 'flex'
-        },
-
-        [`& .${classes.labelMainImage}`]: {
-            color: 'white',
-            margin: 0,
-            border: 0,
-            borderRadius: '5px',
-            width: 'fit-content',
-            height: '20px',
-            backgroundColor: 'blue',
-            padding: '6px 10px',
-            position: 'absolute',
-            bottom: 0,
-            left: 0,
-        },
-}))
-
-const validationSchema = yup.object().shape({
-    title: yup.string()
-        .min(6, 'Write a longer title')
-        .max(100, 'Title too large')
-        .required('Mandatory field'),
-    category: yup.string().required('Mandatory field'),
-    description: yup.string()
-        .min(50, "Write a description with at least 50 characters")
-        .required('Mandatory field'),
-    price: yup.number()
-        .required("Mandatory field"),
-    contactName: yup.string().required('Mandatory field'),
-    contactEmail: yup.string()
-        .email('Insert a valid email address')
-        .required('Mandatory field'),
-    contactPhone: yup.number('Phone must contain only numbers.').required('Mandatory field'),
-    files: yup.array()
-        .min(1, "Submit at least one image")
-        .required('Mandatory field'),
-})
 
 export default function Publish() {
 
     return (
         <TemplateDefault>
             <Formik
-                initialValues={{
-                    title: '',
-                    category: '',
-                    description: '',
-                    price: '',
-                    contactName: '',
-                    contactEmail: '',
-                    contactPhone: '',
-                    files: [],
-                }}
+                initialValues={initialValues}
                 validationSchema={validationSchema}
                 onSubmit={(values) => {
                     console.log('Sent', values)
@@ -159,33 +48,7 @@ export default function Publish() {
                         setFieldValue,
                     }) => {
 
-                        const { getRootProps, getInputProps } = useDropzone({
-                            accept: 'image/*',
-                            onDrop: (acceptedFile) => {
-                                const newFiles = acceptedFile.map(file => {
-                                    return Object.assign(file, {
-                                        preview: URL.createObjectURL(file)
-                                    })
-                                    // Equivalent to:
-                                    // const object = {
-                                    //     ...file,
-                                    //     preview: URL.createObjectURL(file)
-                                    // }
-                                    // return object
-                                })
-                    
-                                setFieldValue('files',[
-                                    ...values.files,
-                                    ...newFiles
-                                ])
-                            }
-                        })
-                    
-                        const handleRemoveFile = fileName => {
-                            const newFileState = values.files.filter(file => file.name !== fileName )
-                    
-                            setFieldValue('files', newFileState)
-                        }
+                        
 
                         return (
                             <form onSubmit={handleSubmit}>
@@ -255,60 +118,12 @@ export default function Publish() {
             
                             <MyContainer className={classes.container} maxWidth="md">
                                 <Box className={classes.box}>
-                                    <Typography component="h6" variant="h6" color={errors.files && touched.files ? 'error' : 'primary'}>
-                                            Images
-                                    </Typography>
-                                    <Typography component="div" variant="body2" color={errors.files && touched.files ? 'error' : 'primary'}>
-                                            The first image will be your ad&apos;s cover picture.
-                                    </Typography>
-                                    {
-                                        errors.files && touched.files
-                                        ? <Typography variant="body2" color="error" gutterBottom>{errors.files}</Typography>
-                                        : null
-                                    }
-                                    <Box sx={{
-                                        display: 'flex',
-                                        flexWrap: 'wrap',
-                                        marginTop: '10px',
-                                        }}>
-                                        <ThumbBox className={classes.dropZone} {...getRootProps()}>
-                                            <input {...getInputProps()} />
-                                            <Typography color={errors.files ? 'error' : 'primary'}>
-                                                Click to select or drag image here
-                                            </Typography>
-                                        </ThumbBox>
-                
-                                        {
-                                            values.files.map((file, index) => (
-                                                <ThumbBox 
-                                                key={`${file.name}-${index}`}
-                                                className={classes.thumbImage} 
-                                                sx={{
-                                                    backgroundImage: `url(${file.preview})`,
-                                                    backgroundPosition: 'center'
-                                                }}>
-                                                    <ThumbBox className={classes.thumbMask}>
-                                                        <IconButton color="secondary" onClick={() => handleRemoveFile(file.name)}>
-                                                            <DeleteForever fontSize="large"/>    
-                                                        </IconButton>   
-                                                    </ThumbBox>
-                
-                                                    {
-                                                        index === 0 ?
-                                                        <ThumbBox className={classes.labelMainImage}>
-                                                            <Typography>
-                                                                Main
-                                                            </Typography>
-                                                        </ThumbBox>
-                                                        : null
-                                                    }
-                                                    
-                                                </ThumbBox>
-                                            )
-                                            )
-                                        }
-                
-                                    </Box>
+                                    <FileUpload 
+                                        files={values.files}
+                                        errors={errors.files}
+                                        touched={touched.files}
+                                        setFieldValue={setFieldValue}
+                                    />
                                 </Box>
                             </MyContainer>
             
