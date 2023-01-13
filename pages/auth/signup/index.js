@@ -1,15 +1,46 @@
-import { Box, Button, Container, FormControl, FormHelperText, Input, InputLabel, Typography } from '@mui/material'
-
-
+import {
+    Box,
+    Button,
+    CircularProgress,
+    Container,
+    FormControl,
+    FormHelperText,
+    Input,
+    InputLabel,
+    Typography,
+} from '@mui/material'
 
 import { Formik } from 'formik'
+import axios from 'axios'
+import { useRouter } from 'next/router'
 
 import TemplateDefault from '../../../src/templates/Default'
+import {
+    validationSchema,
+    initialValues
+} from './formValues'
+import useToasty from '../../../src/contexts/Toasty'
 import { classes } from './styles'
 
-import { validationSchema, initialValues } from './formValues'
-
 export default function Signup() {
+
+    const { setToasty } = useToasty()
+    const router = useRouter()
+
+    const handleFormSubmit = async values => {
+        const response = await axios.post('/api/users', values)
+
+        if (response.data.success) {
+            
+            setToasty({
+                open: true,
+                severity: 'success',
+                text: 'Signup successful'
+            })
+            router.push('/auth/signin')
+        }
+    }
+
     return (
         <TemplateDefault>
             <Container maxWidth="sm" component="main" sx={classes.container}>
@@ -25,9 +56,7 @@ export default function Signup() {
                     <Formik
                         initialValues={initialValues}
                         validationSchema={validationSchema}
-                        onSubmit={(values) => {
-                            console.log('ok', values)
-                        }}
+                        onSubmit={handleFormSubmit}
                     >
                         {
                             ({
@@ -35,7 +64,8 @@ export default function Signup() {
                                 values,
                                 errors,
                                 handleChange,
-                                handleSubmit
+                                handleSubmit,
+                                isSubmitting
                             }) => {
                                 return (
                                     <form onSubmit={handleSubmit}>
@@ -89,16 +119,26 @@ export default function Signup() {
                                             </FormHelperText>
                                         </FormControl>
 
-                                        <Button
-                                            type="submit"
-                                            fullWidth
-                                            variant="contained"
-                                            color="primary"
-                                            // disabled={isSubmitting}
-                                            sx={classes.submit}
-                                        >
-                                            Signup
-                                        </Button>
+                                        {
+                                            isSubmitting
+                                            ? (
+                                                <CircularProgress sx={classes.loading}/>
+                                            )
+                                            : (
+                                                <Button
+                                                    type="submit"
+                                                    fullWidth
+                                                    variant="contained"
+                                                    color="primary"
+                                                    // disabled={isSubmitting}
+                                                    sx={classes.submit}
+                                                >
+                                                Signup
+                                                </Button> 
+                                            )
+                                        }
+
+                                        
                                     </form>
                                 )
                             }

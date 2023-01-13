@@ -31,5 +31,6 @@ export default async function users(req, res) {
       user.save()
 
       res.status(201).json({ success: true })
+      console.log('API: cadastrado')
   }
 }

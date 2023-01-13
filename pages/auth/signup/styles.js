@@ -19,6 +19,11 @@ const classes = {
 
     submit: {
         marginTop: 2,
+    },
+
+    loading: {
+        display: "block",
+        margin: '10px auto' 
     }
 }
 
