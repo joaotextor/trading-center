@@ -1,36 +1,11 @@
-import dbConnect from '../../src/utils/dbConnect'
-import { crypto } from '../../src/utils/password'
-import UsersModel from '../../src/models/users'
+import nextConnect from 'next-connect'
 
-export default async function users(req, res) {
-  const { method } = req
+import { user } from '../../src/controllers/users'
+ 
+const route = nextConnect()
 
-  switch(method) {
-    case 'GET':
-      await dbConnect()
-      res.status(200).json({ success: true})
-      break
+route.get(user.get)
 
-    case 'POST':
-      const {
-        name,
-        email,
-        password
-      } = req.body
+route.post(user.post)
 
-      await dbConnect()
-
-      const passwordCrypto = await crypto(password)
-
-      const user = new UsersModel({
-        name,
-        email,
-        password: passwordCrypto,
-      })
-
-      user.save()
-
-      res.status(201).json({ success: true })
-      console.log('API: cadastrado')
-  }
-}
+export default route
