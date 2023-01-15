@@ -24,6 +24,10 @@ const classes = {
     loading: {
         display: "block",
         margin: '10px auto' 
+    },
+
+    errorMessage: {
+        marginBlock: '0 20px'
     }
 }
 

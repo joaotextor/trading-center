@@ -1,4 +1,5 @@
 import {
+    Alert,
   Box,
   Button,
   CircularProgress,
@@ -12,7 +13,7 @@ import {
 
 import { Formik } from 'formik'
 import { useRouter } from 'next/router'
-import { signIn, getSession } from 'next-auth/react'
+import { signIn, useSession } from 'next-auth/react'
 
 import TemplateDefault from '../../../src/templates/Default'
 import {
@@ -25,14 +26,24 @@ import { classes } from './styles'
 export default function Login() {
 
   const { setToasty } = useToasty()
-  const router = useRouter()  
+  const router = useRouter()
+  const { data: session, status } = useSession()
+
+//   console.log(status)
 
   const handleFormSubmit = async values => {
-    signIn('credentials', {
-     email: values.email,
-     password: values.password,
-     callbackUrl: 'http://127.0.0.1:3000/user/dashboard'
+    const status = await signIn('credentials', {
+        email: values.email,
+        password: values.password,
+        callbackUrl: 'http://127.0.0.1:3000/user/dashboard',
+        redirect: false,
     })
+
+    if (status.ok == false) {
+        return router.push('/auth/signin?i=1')
+    }
+
+    router.push('/user/dashboard')
  }
 
   return (
@@ -60,6 +71,11 @@ export default function Login() {
                           }) => {
                               return (
                                   <form onSubmit={handleSubmit}>
+                                      {
+                                        router.query.i == 1
+                                        ? <Alert severity='error' sx={classes.errorMessage}>Incorrect e-mail or password!</Alert>
+                                        : null
+                                      }  
                                       <FormControl fullWidth error={errors.email && touched.email} sx={classes.formControl}>
                                           <InputLabel sx={classes.inputLabel}>E-mail</InputLabel>
                                           <Input
