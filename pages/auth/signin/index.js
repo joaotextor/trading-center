@@ -11,8 +11,8 @@ import {
 } from '@mui/material'
 
 import { Formik } from 'formik'
-import axios from 'axios'
 import { useRouter } from 'next/router'
+import { signIn, getSession } from 'next-auth/react'
 
 import TemplateDefault from '../../../src/templates/Default'
 import {
@@ -22,18 +22,18 @@ import {
 import useToasty from '../../../src/contexts/Toasty'
 import { classes } from './styles'
 
-export default function Signin() {
+export default function Login() {
 
   const { setToasty } = useToasty()
-  const router = useRouter()
+  const router = useRouter()  
 
   const handleFormSubmit = async values => {
-      const response = await axios.post('/api/users', values)
-
-      if (response.data.success) {
-          
-      }
-  }
+    signIn('credentials', {
+     email: values.email,
+     password: values.password,
+     callbackUrl: 'http://127.0.0.1:3000/user/dashboard'
+    })
+ }
 
   return (
       <TemplateDefault>
@@ -96,7 +96,7 @@ export default function Signin() {
                                                   fullWidth
                                                   variant="contained"
                                                   color="primary"
-                                                  // disabled={isSubmitting}
+                                                  disabled={isSubmitting}
                                                   sx={classes.submit}
                                               >
                                               Signin

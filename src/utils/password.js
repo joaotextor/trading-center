@@ -7,3 +7,8 @@ export async function crypto(pwd) {
 
     return password
 }
+
+export async function compare(pwd, hash) {
+    const result = await bcrypt.compare(pwd, hash)
+    return result
+}
