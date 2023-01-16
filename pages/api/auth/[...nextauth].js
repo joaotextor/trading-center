@@ -5,10 +5,6 @@ import { MongooseAdapter } from "@choutkamartin/mongoose-adapter"
 import axios from "axios"
 
 export const authOptions = {
-  session: {
-    jwt: true
-  }, 
-
   providers: [
     CredentialsProvider({
         name: 'credentials',
@@ -24,7 +20,13 @@ export const authOptions = {
                 throw '/auth/signin?i=1'
             }
           }
+    }),
+
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET
     })
+
   ],
 
   session: {

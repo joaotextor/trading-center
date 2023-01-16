@@ -28,7 +28,22 @@ const classes = {
 
     errorMessage: {
         marginBlock: '0 20px'
-    }
+    },
+
+    orSeparator: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#e8e8e8',
+        width: '100%',
+        height: '1px',
+        margin: '7 0 4',
+
+        '& span': {
+            backgroundColor: 'white',
+            padding: '0 30px'
+        }
+    },
 }
 
 export { classes }

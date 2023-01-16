@@ -1,14 +1,14 @@
 import {
     Alert,
-  Box,
-  Button,
-  CircularProgress,
-  Container,
-  FormControl,
-  FormHelperText,
-  Input,
-  InputLabel,
-  Typography,
+    Box,
+    Button,
+    CircularProgress,
+    Container,
+    FormControl,
+    FormHelperText,
+    Input,
+    InputLabel,
+    Typography,
 } from '@mui/material'
 
 import { Formik } from 'formik'
@@ -22,6 +22,7 @@ import {
 } from './formValues'
 import useToasty from '../../../src/contexts/Toasty'
 import { classes } from './styles'
+import Image from 'next/image'
 
 export default function Login() {
 
@@ -35,7 +36,6 @@ export default function Login() {
     const status = await signIn('credentials', {
         email: values.email,
         password: values.password,
-        callbackUrl: 'http://127.0.0.1:3000/user/dashboard',
         redirect: false,
     })
 
@@ -46,6 +46,13 @@ export default function Login() {
     router.push('/user/dashboard')
  }
 
+ const handleGoogleLogin = async () => {
+    await signIn('google', {
+        redirect: true,
+        callbackUrl: 'http://127.0.0.1:3000/user/dashboard'
+    })
+ }
+
   return (
       <TemplateDefault>
           <Container maxWidth="lg" component="main" sx={classes.container}>
@@ -53,8 +60,29 @@ export default function Login() {
                   Login to your account
               </Typography>
           </Container>
+
           <Container maxWidth="xs">  
               <Box sx={classes.box}>
+
+                <Box sx={classes.box}>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        fullWidth
+                        startIcon={
+                            <Image
+                                src="/images/logo_google.svg"
+                                alt="google"
+                                width={20}
+                                height={20}
+                            />
+                        }
+                        onClick={handleGoogleLogin}
+                    >Login with Google</Button>
+                </Box>
+                <Box sx={classes.orSeparator}>
+                    <span>OR</span>
+                </Box>
                   <Formik
                       initialValues={initialValues}
                       validationSchema={validationSchema}
