@@ -44,6 +44,11 @@ const classes = {
             padding: '0 30px'
         }
     },
+
+    googleLoginButton: {
+        marginInline: '0',
+        marginBottom: '20px'
+    }
 }
 
 export { classes }

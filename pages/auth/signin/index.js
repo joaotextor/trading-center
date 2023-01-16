@@ -64,7 +64,7 @@ export default function Login() {
           <Container maxWidth="xs">  
               <Box sx={classes.box}>
 
-                <Box sx={classes.box}>
+                <Box sx={classes.googleLoginButton}>
                     <Button
                         variant="contained"
                         color="primary"
