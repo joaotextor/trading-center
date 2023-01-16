@@ -29,7 +29,7 @@ export default function Login() {
   const router = useRouter()
   const { data: session, status } = useSession()
 
-//   console.log(status)
+  console.log(session)
 
   const handleFormSubmit = async values => {
     const status = await signIn('credentials', {

@@ -28,7 +28,7 @@ export const authOptions = {
   ],
 
   session: {
-    jwt: true
+    strategy: "jwt",
   }, 
 
   jwt: {
