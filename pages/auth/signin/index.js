@@ -30,28 +30,28 @@ export default function Login() {
   const router = useRouter()
   const { data: session, status } = useSession()
 
-  console.log(session)
+  console.log(session, status)
 
   const handleFormSubmit = async values => {
-    const status = await signIn('credentials', {
+    const signInStatus = await signIn('credentials', {
         email: values.email,
         password: values.password,
         redirect: false,
     })
 
-    if (status.ok == false) {
+    if (signInStatus.ok == false) {
         return router.push('/auth/signin?i=1')
     }
 
     router.push('/user/dashboard')
  }
 
- const handleGoogleLogin = async () => {
+const handleGoogleLogin = async () => {
     await signIn('google', {
         redirect: true,
-        callbackUrl: 'http://127.0.0.1:3000/user/dashboard'
+        callbackUrl: '/user/dashboard'
     })
- }
+}
 
   return (
       <TemplateDefault>

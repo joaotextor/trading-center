@@ -5,6 +5,10 @@ import { MongooseAdapter } from "@choutkamartin/mongoose-adapter"
 import axios from "axios"
 
 export const authOptions = {
+  session: {
+    strategy: "jwt",
+  }, 
+
   providers: [
     CredentialsProvider({
         name: 'credentials',
@@ -29,12 +33,8 @@ export const authOptions = {
 
   ],
 
-  session: {
-    strategy: "jwt",
-  }, 
-
   jwt: {
-    secret: process.env.JWT_TOKEN
+    secret: process.env.NEXTAUTH_SECRET
   },
 
   adapter: MongooseAdapter(process.env.MONGODB_URI),
