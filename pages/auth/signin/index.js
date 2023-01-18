@@ -24,17 +24,19 @@ import useToasty from '../../../src/contexts/Toasty'
 import { classes } from './styles'
 import Image from 'next/image'
 
-export default function Login() {
+export default function Login({ APP_URL }) {
 
-  const { setToasty } = useToasty()
-  const router = useRouter()
-  const { data: session, status } = useSession() 
+    console.log(APP_URL)
 
-  session
-  ? router.push('/user/dashboard')
-  : null
+    const { setToasty } = useToasty()
+    const router = useRouter()
+    const { data: session, status } = useSession() 
 
-  const handleFormSubmit = async values => {
+    session
+    ? router.push(`${APP_URL}/user/dashboard`)
+    : null
+
+    const handleFormSubmit = async values => {
     const signInStatus = await signIn('credentials', {
         email: values.email,
         password: values.password,
@@ -42,16 +44,16 @@ export default function Login() {
     })
 
     if (signInStatus.ok == false) {
-        return router.push('/auth/signin?i=1')
+        return router.push(`${APP_URL}/auth/signin?i=1`)
     }
 
-    router.push('/user/dashboard')
+    router.push(`${APP_URL}/user/dashboard`)
  }
 
 const handleGoogleLogin = async () => {
     await signIn('google', {
         redirect: true,
-        callbackUrl: '/user/dashboard'
+        callbackUrl: `${APP_URL}/user/dashboard`
     })
 }
 
@@ -161,4 +163,10 @@ const handleGoogleLogin = async () => {
           </Container>
       </TemplateDefault>
   )
+}
+
+Login.getInitialProps = async function () {
+    return {
+        APP_URL: process.env.APP_URL
+    }
 }

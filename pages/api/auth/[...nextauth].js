@@ -13,7 +13,7 @@ export const authOptions = {
     CredentialsProvider({
         name: 'credentials',
         async authorize(credentials, req) {
-            const res = await axios.post('http://127.0.0.1:3000/api/auth/signin', credentials)
+            const res = await axios.post(`${process.env.APP_URL}/api/auth/signin`, credentials)
             console.log(res.data)
 
             const user = res.data
