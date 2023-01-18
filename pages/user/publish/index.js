@@ -27,7 +27,7 @@ import {
 import FileUpload from '../../../src/components/FileUpload'
 
 
-export default function Publish() {
+const Publish = () => {
 
     return (
         <TemplateDefault>
@@ -234,3 +234,7 @@ export default function Publish() {
         </TemplateDefault>
     )
 }
+
+Publish.requireAuth = true
+
+export default Publish

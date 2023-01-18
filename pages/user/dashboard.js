@@ -36,7 +36,7 @@ const MyLink = styled(Link)(({theme}) => ({
   textDecoration: 'none'
 }))
 
-export default function Home() {
+const Home = () => {
   return (
     <TemplateDefault>
       <Container maxWidth="sm" align="center">
@@ -143,3 +143,7 @@ export default function Home() {
     </TemplateDefault>
   )
 }
+
+Home.requireAuth = true
+
+export default Home

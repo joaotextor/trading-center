@@ -7,7 +7,7 @@ import axios from "axios"
 export const authOptions = {
   session: {
     strategy: "jwt",
-  }, 
+  },
 
   providers: [
     CredentialsProvider({
@@ -32,6 +32,10 @@ export const authOptions = {
     })
 
   ],
+
+  pages: {
+    signIn: `/auth/signin`,
+  },
 
   jwt: {
     secret: process.env.NEXTAUTH_SECRET
