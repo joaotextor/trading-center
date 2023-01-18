@@ -26,9 +26,9 @@ import Image from 'next/image'
 export default function Login({ APP_URL }) {
 
     const router = useRouter()
-    const { data: session, status } = useSession() 
-
-    session
+    const { data: session, status } = useSession()
+    
+    status === 'authenticated'
     ? router.push(`${APP_URL}/user/dashboard`)
     : null
 
