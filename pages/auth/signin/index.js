@@ -28,9 +28,11 @@ export default function Login() {
 
   const { setToasty } = useToasty()
   const router = useRouter()
-  const { data: session, status } = useSession()
+  const { data: session, status } = useSession() 
 
-  console.log(session, status)
+  session
+  ? router.push('/user/dashboard')
+  : null
 
   const handleFormSubmit = async values => {
     const signInStatus = await signIn('credentials', {
