@@ -28,6 +28,10 @@ export default function Login({ APP_URL }) {
     const router = useRouter()
     const { data: session, status } = useSession()
     
+    /*
+    TODO | Place this below. Transform in normal IF
+    TODO | On 'else', returns the entire component
+     */
     status === 'authenticated'
     ? router.push(`${APP_URL}/user/dashboard`)
     : null
