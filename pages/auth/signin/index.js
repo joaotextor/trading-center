@@ -165,8 +165,15 @@ const handleGoogleLogin = async () => {
   )
 }
 
-Login.getInitialProps = async function () {
+export async function getServerSideProps(context) {
+    const APP_URL = await process.env.APP_URL
     return {
-        APP_URL: process.env.APP_URL
+        props: {APP_URL}
     }
 }
+
+// Login.getServerSideProps = async function () {
+//     return {
+//         APP_URL: process.env.APP_URL
+//     }
+// }
