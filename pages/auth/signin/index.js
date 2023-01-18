@@ -171,9 +171,3 @@ export async function getServerSideProps(context) {
         props: {APP_URL}
     }
 }
-
-// Login.getServerSideProps = async function () {
-//     return {
-//         APP_URL: process.env.APP_URL
-//     }
-// }
