@@ -20,15 +20,11 @@ import {
   validationSchema,
   initialValues
 } from './formValues'
-import useToasty from '../../../src/contexts/Toasty'
 import { classes } from './styles'
 import Image from 'next/image'
 
 export default function Login({ APP_URL }) {
 
-    console.log(APP_URL)
-
-    const { setToasty } = useToasty()
     const router = useRouter()
     const { data: session, status } = useSession() 
 
