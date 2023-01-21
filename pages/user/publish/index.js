@@ -12,12 +12,13 @@ import {
     Input,
 } from '@mui/material'
 import { Container } from '@mui/material'
-
-import { Formik } from 'formik'
-
 import TemplateDefault from '../../../src/templates/Default'
 
+import { Formik } from 'formik'
+import { useRouter } from 'next/router'
+
 import { initialValues, validationSchema } from './formValues'
+import useToasty from '../../../src/contexts/Toasty'
 
 import {
     classes,
@@ -25,18 +26,58 @@ import {
 } from './styles'
 
 import FileUpload from '../../../src/components/FileUpload'
+import axios from 'axios'
 
 
 const Publish = () => {
+    
+    const { setToasty } = useToasty()
+    const router = useRouter()
+
+
+    const handleSuccess = () => {
+        setToasty({
+            open: true,
+            text: 'Advertisement published successfully',
+            severity: 'success'
+        })
+
+        // router.push('/user/dashboard')
+    }
+
+    const handleError = () => {
+        setToasty({
+            open: true,
+            text: 'A problem occurred! Please, try again.',
+            severity: 'error'
+        })
+    }
+
+    const handleFormSubmit = async (values) => {
+        //JS method to send form values to the server
+        const formData = new FormData()
+
+        for(let field in values) {
+            if (field === 'files') {
+                values.files.forEach(file => {
+                    formData.append('files', file)
+                })
+            } else {
+                formData.append(field, values[field])
+            }
+        }
+
+        await axios.post('/api/products', formData)
+            .then(handleSuccess)
+            .catch(handleError)
+    }
 
     return (
         <TemplateDefault>
             <Formik
                 initialValues={initialValues}
                 validationSchema={validationSchema}
-                onSubmit={(values) => {
-                    console.log('Sent', values)
-                }}
+                onSubmit={handleFormSubmit}
             >
                 {
                     ({
