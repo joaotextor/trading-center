@@ -10,18 +10,9 @@ export default function FileUpload({ files, errors, touched, setFieldValue }) {
     const { getRootProps, getInputProps } = useDropzone({
         accept: 'image/*',
         onDrop: (acceptedFile) => {
-            const newFiles = acceptedFile.map(file => {
-                return {
-                    ...file,
-                    preview: URL.createObjectURL(file)
-                }
-                // Equivalent to:
-                // const object = {
-                //     ...file,
-                //     preview: URL.createObjectURL(file)
-                // }
-                // return object
-            })
+            const newFiles = acceptedFile.map(file => Object.assign(file, { 
+                preview: URL.createObjectURL(file)
+                    }))
 
             setFieldValue('files',[
                 ...files,
