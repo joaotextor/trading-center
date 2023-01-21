@@ -14,7 +14,6 @@ export const authOptions = {
         name: 'credentials',
         async authorize(credentials, req) {
             const res = await axios.post(`${process.env.APP_URL}/api/auth/signin`, credentials)
-            console.log(res.data)
 
             const user = res.data
 
@@ -39,6 +38,27 @@ export const authOptions = {
 
   jwt: {
     secret: process.env.NEXTAUTH_SECRET
+  },
+
+  callbacks: {
+    async jwt({token, user, account, profile}) {
+
+      if (user) {
+        if (user.id) {
+          token.uid = user.id
+        } else if (user._id) {
+          token.uid = user._id
+        }
+      }
+
+      return Promise.resolve(token) 
+    },
+
+    async session({session, user, token}) {
+
+      session.userId = token.uid
+      return session
+    }
   },
 
   adapter: MongooseAdapter(process.env.MONGODB_URI),
