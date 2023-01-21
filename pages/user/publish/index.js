@@ -10,12 +10,14 @@ import {
     MenuItem,
     FormHelperText,
     Input,
+    CircularProgress,
 } from '@mui/material'
 import { Container } from '@mui/material'
 import TemplateDefault from '../../../src/templates/Default'
 
 import { Formik } from 'formik'
 import { useRouter } from 'next/router'
+import { getSession } from 'next-auth/react'
 
 import { initialValues, validationSchema } from './formValues'
 import useToasty from '../../../src/contexts/Toasty'
@@ -29,11 +31,16 @@ import FileUpload from '../../../src/components/FileUpload'
 import axios from 'axios'
 
 
-const Publish = () => {
+const Publish = ({ userId, image }) => {
     
     const { setToasty } = useToasty()
     const router = useRouter()
 
+    const formValues = {
+        ...initialValues,
+        userId,
+        image
+    }
 
     const handleSuccess = () => {
         setToasty({
@@ -42,7 +49,7 @@ const Publish = () => {
             severity: 'success'
         })
 
-        // router.push('/user/dashboard')
+        router.push('/user/dashboard')
     }
 
     const handleError = () => {
@@ -75,7 +82,7 @@ const Publish = () => {
     return (
         <TemplateDefault>
             <Formik
-                initialValues={initialValues}
+                initialValues={formValues}
                 validationSchema={validationSchema}
                 onSubmit={handleFormSubmit}
             >
@@ -87,13 +94,27 @@ const Publish = () => {
                         handleChange,
                         handleSubmit,
                         setFieldValue,
+                        isSubmitting
                     }) => {
 
                         
 
                         return (
                             <form onSubmit={handleSubmit}>
-                            
+
+                                <Input
+                                    type="hidden"
+                                    name="userId"
+                                    value={values.userId}
+                                />
+                                
+                                <Input
+                                    type="hidden"
+                                    name="image"
+                                    value={values.image}
+                                />
+
+
                                 <Container className={classes.container} maxWidth="sm">
                                     <Typography component="h1" variant="h2" align="center" color="primary">
                                         Publish new Ad
@@ -257,12 +278,18 @@ const Publish = () => {
                             </MyContainer>
             
                             <MyContainer className={classes.container} maxWidth="md">
-                                <Box textAlign="right">
-                                    <Button
+                                <Box display="flex" justifyContent="right"> 
+
+                                {
+                                    isSubmitting
+                                        ? <CircularProgress sx={classes.loading}/>
+                                        : <Button
                                         variant="contained"
                                         color="primary"
                                         type="submit"
                                     >Publish Ad</Button>
+                                }
+                                    
                                 </Box>
                             </MyContainer>
                         </form>
@@ -277,5 +304,16 @@ const Publish = () => {
 }
 
 Publish.requireAuth = true
+
+export async function getServerSideProps({req}) {
+    const { userId, user } = await getSession({ req })
+
+    return {
+        props: {
+            userId,
+            image: user.image ? user.image : null
+        }
+    }
+}
 
 export default Publish

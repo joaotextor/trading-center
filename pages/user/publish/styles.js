@@ -16,7 +16,12 @@ const classes = {
     },
     helperText: {
         marginLeft: 0,
-    }
+    },
+
+    loading: {
+        display: "block",
+        margin: '10px' 
+    },
 }
 
 const MyContainer = styled(Container)(({theme}) => ({
