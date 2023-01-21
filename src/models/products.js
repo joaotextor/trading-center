@@ -17,6 +17,14 @@ const schema = new mongoose.Schema({
         required: [true, '"category" field is required']
     },
 
+    userId: {
+        type: String,
+    },
+
+    image: {
+        type: String,
+    },
+
     contactEmail: {
         type: String,
         required: [true, '"email" field is required']
@@ -46,14 +54,6 @@ const schema = new mongoose.Schema({
         type: [filesSchema],
         default: undefined,
     },
-
-    user: {
-        id: String,
-        name: String,
-        email: String,
-        phone: String,
-        image: String,
-    }
 })
 
 export default mongoose.models.products || mongoose.model('products', schema)

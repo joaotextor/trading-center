@@ -1,6 +1,11 @@
+import path from 'path'
+import fs from 'fs'
+
 import dbConnect from "../utils/dbConnect"
 import ProductsModel from '../models/products'
 import formidable from 'formidable-serverless'
+
+
 
 const product = {
     // get: async (req, res) => {
@@ -12,41 +17,83 @@ const product = {
     post: async (req, res) => {
       await dbConnect()
 
-      const form = new formidable.IncomingForm()
-
-      form.parse(req, (error, fields, data) => {
-        console.log('Chegou em form.parse')
-        res.status(200)
+      const form = new formidable.IncomingForm({
+        multiples: true,
+        uploadDir: 'public/uploads',
+        keepExtensions: true,
       })
-        // const {
-        //     title,
-        //     category,
-        //     contactEmail,
-        //     contactName,
-        //     contactPhone,
-        //     description,
-        //     files,
-        //     price,
-        //     user,
-        //   } = req.body
-          
-          
-          
-        //   const product = new ProductsModel({
-        //     title,
-        //     category,
-        //     contactEmail,
-        //     contactName,
-        //     contactPhone,
-        //     description,
-        //     files,
-        //     price,
-        //     user,
-        //   })
-          
-        //   product.save()
-          
-        //   res.status(201).json({ success: true })
+
+      form.parse(req, async (error, fields, data) => {
+        
+        if (error) {
+          return res.status(500).json({ success: false })
+        }
+
+        const { files } = data
+
+        const filesToRename = files instanceof Array
+          ? files
+          : [files]
+
+        const filesToSave = []
+
+        filesToRename.forEach(file => {
+          const timestamp = Date.now()
+          const random = Math.floor(Math.random() * 999999999) + 1
+
+          const extension = path.extname(file.name)
+          const filename = `${timestamp}_${random}${extension}`
+
+          const oldpath = path.join(__dirname, `../../../../${file.path}`)
+          const newpath = path.join(__dirname, `../../../../${form.uploadDir}/${filename}`)
+
+          filesToSave.push({
+            name: filename,
+            path: newpath,
+          })
+
+          fs.rename(oldpath, newpath, (error) => {
+            if (error) {
+              console.log(error)
+              return res.status(500).json({ success: false })
+            }
+          })
+        })
+
+        const {
+          title,
+          category,
+          userId,
+          image,
+          description,
+          price,
+          contactName,
+          contactEmail,
+          contactPhone,
+        } = fields
+
+        const product = new ProductsModel({
+          title,
+          category,
+          userId,
+          image,
+          description,
+          price,
+          contactName,
+          contactEmail,
+          contactPhone,
+          files: filesToSave,
+        })
+
+        const register = await product.save()
+
+        if (register) {
+          res.status(201).json({ success: true })
+        } else {
+          res.status(500).json({ success: false})
+        }
+
+        })
     }
 }
 
