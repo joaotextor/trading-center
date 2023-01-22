@@ -70,7 +70,7 @@ export default function Home() {
                     <Grid item xs={12} sm={6} md={4}>
                         <Card
                         title="PRODUTO X"
-                        subtitle="R$ 89,90"
+                        subtitle="CAD$ 89.90"
                         image="https://source.unsplash.com/random"
                         actions={
                             <>
@@ -90,7 +90,7 @@ export default function Home() {
                     <Grid item xs={12} sm={6} md={4}>
                         <Card
                         title="PRODUTO X"
-                        subtitle="R$ 89,90"
+                        subtitle="CAD$ 89.90"
                         image="https://source.unsplash.com/random"
                         actions={
                             <>
@@ -110,7 +110,7 @@ export default function Home() {
                     <Grid item xs={12} sm={6} md={4}>
                         <Card
                         title="PRODUTO X"
-                        subtitle="R$ 89,90"
+                        subtitle="CAD$ 89.90"
                         image="https://source.unsplash.com/random"
                         actions={
                             <>
@@ -130,7 +130,7 @@ export default function Home() {
                     <Grid item xs={12} sm={6} md={4}>
                         <Card
                         title="PRODUTO X"
-                        subtitle="R$ 89,90"
+                        subtitle="CAD$ 89.90"
                         image="https://source.unsplash.com/random"
                         actions={
                             <>
