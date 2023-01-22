@@ -14,6 +14,7 @@ import ProductsModel from '../../src/models/products'
 
 import TemplateDefault from '../../src/templates/Default'
 
+import formatCurrency from '../../src/utils/formatCurrency'
 import Card from '../../src/components/Card'
 import axios from 'axios'
 
@@ -64,7 +65,7 @@ const Home = ({products}) => {
             <Grid key={product._id} item xs={12} sm={6} md={3}>
               <Card
               title={product.title}
-              subtitle={product.price}
+              subtitle={formatCurrency(product.price, 'CA')}
               image={`/uploads/${product.files[0].name}`}
               actions={
                 <>
