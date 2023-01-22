@@ -1,7 +1,8 @@
-import { useEffect, useState, useCallback } from 'react'
+import { useState } from 'react'
 import axios from 'axios'
 import Link from 'next/link'
 import { getSession } from 'next-auth/react'
+import Router from 'next/router'
 
 import { 
   Button, 
@@ -53,7 +54,6 @@ const Home = ({products}) => {
 
   const [alertOpen, setAlertOpen] = useState(false)
   const [productToRemove, setProductToRemove] = useState()
-  const [removedProducts, setRemovedProducts] = useState([])
 
   const {setToasty} = useToasty()
   
@@ -76,7 +76,7 @@ const Home = ({products}) => {
   }
 
   const handleSuccess = () => {
-    setRemovedProducts([...removedProducts, productToRemove])
+    Router.reload(window,location.pathname)
     setAlertOpen(false)
     setToasty(
       {open: true,
@@ -109,13 +109,22 @@ const Home = ({products}) => {
         </MyLink>
       </Container>
       <MyContainer maxWidth="md" className={classes.card}>
+
+      {
+
+        products.length === 0 &&
+        <Typography component="div" variant="body1" align="center" color="primary" gutterBottom>
+          No Ad has been published yet.
+        </Typography>
+
+      }
+      
         <Grid container spacing={2}>
 
-          {
+            {
 
             products.map(product => {
-              if (removedProducts.includes(product._id)) return null
-              
+
               return (
                 <Grid key={product._id} item xs={12} sm={6} md={3}>
                   <Card
