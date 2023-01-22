@@ -99,7 +99,7 @@ const Home = ({products}) => {
   return (
 
     <TemplateDefault>
-      <AlertDialog open={alertOpen} onClose={handleCloseModal} action={handleRemoveProduct} description="FIADAPUTA"/>
+      <AlertDialog open={alertOpen} onClose={handleCloseModal} action={handleRemoveProduct} description="Confirm deletion?"/>
       <Container maxWidth="sm" align="center">
         <Typography component="h1" variant="h2" align="center">
           My Adds
