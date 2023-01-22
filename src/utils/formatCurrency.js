@@ -1,6 +1,6 @@
 export default function formatCurrency(value, country) {
     switch (country) {
-        case 'CA': return value.toLocaleString('en-CA', {style: 'currency', currency: 'CAD'})
+        case 'CA': return 'C'+value.toLocaleString('en-CA', {style: 'currency', currency: 'CAD'});
 
         case 'US': return value.toLocaleString('US', {style: 'currency', currency: 'USD'})
 
