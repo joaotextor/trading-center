@@ -44,8 +44,8 @@ const product = {
           const extension = path.extname(file.name)
           const filename = `${timestamp}_${random}${extension}`
 
-          const oldpath = path.join(__dirname, `../../../../${file.path}`)
-          const newpath = path.join(__dirname, `../../../../${form.uploadDir}/${filename}`)
+          const oldpath = path.join(__dirname, `../../../../../${file.path}`)
+          const newpath = path.join(__dirname, `../../../../../${form.uploadDir}/${filename}`)
 
           filesToSave.push({
             name: filename,
@@ -54,7 +54,6 @@ const product = {
 
           fs.rename(oldpath, newpath, (error) => {
             if (error) {
-              console.log(error)
               return res.status(500).json({ success: false })
             }
           })
