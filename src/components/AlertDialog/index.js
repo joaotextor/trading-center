@@ -6,7 +6,7 @@ import DialogContent from '@mui/material/DialogContent'
 import DialogContentText from '@mui/material/DialogContentText'
 import DialogTitle from '@mui/material/DialogTitle'
 
-export default function AlertDialog( {open, onClose, action, description} ) {
+export default function AlertDialog( {open, onClose, action, title, description} ) {
 
     return (
       <>
@@ -15,7 +15,7 @@ export default function AlertDialog( {open, onClose, action, description} ) {
           onClose={onClose}
         >
           <DialogTitle id="alert-dialog-title">
-            {"Use Google's location service?"}
+            {title}
           </DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
