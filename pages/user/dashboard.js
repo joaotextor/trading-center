@@ -1,3 +1,8 @@
+import { useEffect, useState, useCallback } from 'react'
+import axios from 'axios'
+import Link from 'next/link'
+import { getSession } from 'next-auth/react'
+
 import { 
   Button, 
   Container, 
@@ -6,9 +11,6 @@ import {
   styled,
 } from '@mui/material'
 
-import Link from 'next/link'
-import { getSession } from 'next-auth/react'
-
 import dbConnect from '../../src/utils/dbConnect'
 import ProductsModel from '../../src/models/products'
 
@@ -16,7 +18,11 @@ import TemplateDefault from '../../src/templates/Default'
 
 import formatCurrency from '../../src/utils/formatCurrency'
 import Card from '../../src/components/Card'
-import axios from 'axios'
+import AlertDialog from '../../src/components/AlertDialog'
+import useToasty from '../../src/contexts/Toasty'
+import { HomeOutlined } from '@mui/icons-material'
+
+
 
 const PREFIX = 'Dashboard'
 
@@ -45,9 +51,55 @@ const MyLink = styled(Link)(({theme}) => ({
 
 const Home = ({products}) => {
 
-  console.log(products)
+  const [alertOpen, setAlertOpen] = useState(false)
+  const [productToRemove, setProductToRemove] = useState()
+  const [removedProducts, setRemovedProducts] = useState([])
+
+  const {setToasty} = useToasty()
+  
+  const handleCloseModal = () => setAlertOpen(false)
+  
+  const handleOpenModal = (productId) => {
+    setProductToRemove(productId)
+    setAlertOpen(true)
+  }
+
+  
+  const handleRemoveProduct = () => {
+    axios.delete('/api/products/delete', {
+      data: {
+        id: productToRemove
+      }
+    })
+      .then(handleSuccess)
+      .catch(handleError)
+  }
+
+  const handleSuccess = () => {
+    setRemovedProducts([...removedProducts, productToRemove])
+    setAlertOpen(false)
+    setToasty(
+      {open: true,
+      severity: 'success',
+      text: 'Ad removed successfully'
+    } 
+    )
+  }
+
+  const handleError = () => {
+    setToasty(
+      {open: true,
+      severity: 'error',
+      text: 'Error removing Ad'
+    } 
+    )
+    setAlertOpen(false)
+  }
+
   return (
+
     <TemplateDefault>
+      <AlertDialog open={alertOpen} onClose={handleCloseModal} action={handleRemoveProduct} description="FIADAPUTA"/>
       <Container maxWidth="sm" align="center">
         <Typography component="h1" variant="h2" align="center">
           My Adds
@@ -61,25 +113,36 @@ const Home = ({products}) => {
 
           {
 
-            products.map(product => (
-            <Grid key={product._id} item xs={12} sm={6} md={3}>
-              <Card
-              title={product.title}
-              subtitle={formatCurrency(product.price, 'CA')}
-              image={`/uploads/${product.files[0].name}`}
-              actions={
-                <>
-                  <Button size="small" variant="contained" color="primary">
-                    Editar
-                  </Button>
-                  <Button size="small" variant="contained" color="primary">
-                    Remover
-                  </Button>
-                </>
-              }
-              />
-          </Grid>
-            )
+            products.map(product => {
+              if (removedProducts.includes(product._id)) return null
+              
+              return (
+                <Grid key={product._id} item xs={12} sm={6} md={3}>
+                  <Card
+                  title={product.title}
+                  subtitle={formatCurrency(product.price, 'CA')}
+                  image={`/uploads/${product.files[0].name}`}
+                  actions={
+                    <>
+                      <Button
+                        size="small"
+                        variant="contained"
+                        color="primary">
+                        Edit
+                      </Button>
+                      <Button
+                        size="small"
+                        variant="contained"
+                        color="primary"
+                        onClick={() => handleOpenModal(product._id)}>
+                        Remove
+                      </Button>
+                    </>
+                  }
+                  />
+              </Grid>
+                )
+            }
           )
             
           }
