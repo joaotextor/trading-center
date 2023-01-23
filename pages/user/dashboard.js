@@ -21,9 +21,6 @@ import formatCurrency from '../../src/utils/formatCurrency'
 import Card from '../../src/components/Card'
 import AlertDialog from '../../src/components/AlertDialog'
 import useToasty from '../../src/contexts/Toasty'
-import { HomeOutlined } from '@mui/icons-material'
-
-
 
 const PREFIX = 'Dashboard'
 
@@ -165,13 +162,23 @@ const Home = ({products}) => {
 Home.requireAuth = true
 
 export async function getServerSideProps({req}) {
-  const session = await getSession({ req })
-  await dbConnect()
-  const products = await ProductsModel.find({ 'userId': session.userId })
+  try {
+    console.log({req})
+    const session = await getSession({ req })
 
-  return {
-    props: {
-      products: JSON.parse(JSON.stringify(products))
+    await dbConnect()
+    const products = await ProductsModel.find({ 'userId': session.userId })
+  
+    return {
+      props: {
+        products: JSON.parse(JSON.stringify(products))
+      }
+    }
+  }
+
+  catch {
+    return {
+      props: {null: null}
     }
   }
 }
