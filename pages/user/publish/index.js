@@ -306,13 +306,24 @@ const Publish = ({ userId, image }) => {
 Publish.requireAuth = true
 
 export async function getServerSideProps({req}) {
-    const { userId, user } = await getSession({ req })
+    
+    try {
+        const { userId, user } = await getSession({ req })
 
-    return {
-        props: {
-            userId,
-            image: user.image || null
+        return {
+            props: {
+                userId,
+                image: user.image || null
+            }
         }
+    }
+
+    catch {
+        return {
+            props: {
+                null: null
+            }
+        }  
     }
 }
 
