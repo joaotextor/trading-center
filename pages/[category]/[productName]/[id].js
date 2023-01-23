@@ -13,7 +13,10 @@ import {
 
 import Carousel from 'react-material-ui-carousel'
 
-import TemplateDefault from "../../src/templates/Default"
+import TemplateDefault from "../../../src/templates/Default"
+import dbConnect from "../../../src/utils/dbConnect"
+import ProductsModel from "../../../src/models/products"
+import formatCurrency from "../../../src/utils/formatCurrency"
 
 const MyBox = styled(Box)(({theme}) => ({
     backgroundColor: theme.palette.background.white,
@@ -52,7 +55,7 @@ const classes = {
     }
 }
 
-export default function Product() {
+export default function Product({ product }) {
     return (
         <TemplateDefault>
             <Container maxWidth="lg">
@@ -65,20 +68,19 @@ export default function Product() {
                             navButtonsAlwaysVisible
                             navButtonsProps={{style: classes.carouselNavButtons}}
                             >
-                                <Card sx={classes.card}>
-                                    <CardMedia
-                                        sx={classes.cardMedia}
-                                        image="https://source.unsplash.com/random?a=1"
-                                        title="Image Title"
-                                    />
-                                </Card>
-                                <Card sx={classes.card}>
-                                    <CardMedia
-                                        sx={classes.cardMedia}
-                                        image="https://source.unsplash.com/random?a=54"
-                                        title="Image Title"
-                                    />
-                                </Card>
+                                {
+                                    product.files.map(file => ( 
+                                        <>
+                                        <Card key={file.name} sx={classes.card}>
+                                            <CardMedia
+                                                sx={classes.cardMedia}
+                                                image={`/uploads/${file.name}`}
+                                                title={product.title}
+                                            />
+                                        </Card>
+                                        </>
+                                    ))
+                                }
                             </Carousel>
                         </MyBox>
 
@@ -87,12 +89,12 @@ export default function Product() {
                                 Publish in June 16th, 2022
                             </Typography>
                             <Typography component="h4" variant="h4" sx={classes.productName}>
-                               Jaguar XE 2.0 D R-Sport Aut.
+                               {product.title}
                             </Typography>
                             <Typography component="h4" variant="h4" sx={classes.productPrice}>
-                                CAD$ 50.000,00
+                                {formatCurrency(product.price, "CA")}
                             </Typography>
-                            <Chip label="Category" />
+                            <Chip label={product.category} />
                         </MyBox>
 
                         <MyBox>
@@ -100,7 +102,7 @@ export default function Product() {
                                 Description
                             </Typography>
                             <Typography component="p" variant="body2" sx={classes.productName}>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris efficitur fringilla congue. Fusce hendrerit posuere quam placerat porttitor. Praesent porttitor erat nec sem facilisis, eget pellentesque magna lacinia. In hac habitasse platea dictumst. Donec id nisi vel ipsum iaculis tincidunt nec eget orci. Nullam sit amet fringilla mi. Mauris cursus fermentum felis, nec dignissim magna tempus ac. Fusce id velit nec magna tempus posuere nec sit amet nisi. Pellentesque justo ipsum, interdum nec consectetur nec, vulputate vitae eros. Vivamus placerat ornare velit ac luctus. Nullam eleifend tincidunt vulputate. Cras quis justo malesuada, luctus lectus ut, tincidunt nisl. Aliquam porttitor tellus eget ligula ultricies, et congue leo tempus. Nulla augue lectus, dapibus facilisis sem sed, congue pulvinar tortor.
+                            {product.description}
                             </Typography>
                         </MyBox>
 
@@ -109,14 +111,16 @@ export default function Product() {
                         <Card elevation={0} sx={classes.box}>
                             <CardHeader
                                 avatar={
-                                    <Avatar>J</Avatar>
+                                    <Avatar src={product.image}>
+                                        {product.image || product.contactName[0].toUpperCase()}
+                                    </Avatar>
                                 }
-                                title="João Textor"
-                                subheader="joaotextor@email.com"
+                                title={product.contactName}
+                                subheader={product.contactEmail}
                             />
                             <CardMedia 
-                                image="https://source.unsplash.com/random"
-                                title="João Textor"
+                                image={product.image}
+                                title={product.contactName}
                             />
                         </Card>
 
@@ -130,4 +134,25 @@ export default function Product() {
             </Container>
         </TemplateDefault>
     )
+}
+
+export async function getServerSideProps({ query }) {
+    const { id } = query
+    await dbConnect()
+
+    const product = await ProductsModel.findOne({ _id: id })
+
+    try {    
+        return {
+            props: {
+                product: JSON.parse(JSON.stringify(product))
+            }
+        }
+    }
+
+    catch {
+        return {
+            props: { null: null }
+        }
+    }
 }

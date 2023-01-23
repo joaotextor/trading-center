@@ -26,8 +26,7 @@ const CheckAuth = ({ Component, pageProps }) => {
     
         <Box sx={classes.box}><Typography variant="h3" component="h1">Loading...</Typography></Box>
     
-        )
-    
+        )   
 }
 
 export default CheckAuth
