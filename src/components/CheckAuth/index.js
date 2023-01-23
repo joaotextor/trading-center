@@ -16,7 +16,7 @@ const CheckAuth = ({ Component, pageProps }) => {
             
         }
 
-    }, [session])
+    }, [router, session])
 
     if (session) {
         return <Component {...pageProps}/>
