@@ -163,7 +163,6 @@ Home.requireAuth = true
 
 export async function getServerSideProps({req}) {
   try {
-    console.log({req})
     const session = await getSession({ req })
 
     await dbConnect()

@@ -23,7 +23,6 @@ export default function FileUpload({ files, errors, touched, setFieldValue }) {
 
     //! Using only wile.path will cause a bug in which if the user uploads 2 ore more files with the same name, all of them will be deleted at once when deleting one of them.
     const handleRemoveFile = filePath => {
-        console.log(filePath, files)
         const newFileState = files.filter((file, index) => (index+file.path) !== filePath )
 
         setFieldValue('files', newFileState)
