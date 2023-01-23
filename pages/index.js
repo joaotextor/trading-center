@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import slugify from 'slugify'
+import {useRouter} from 'next/router'
 
 import {
     Grid,
@@ -8,7 +9,6 @@ import {
     Paper,
     Typography,
     styled, 
-    Button
 } from "@mui/material"
 
 import { Box, Container } from "@mui/system"
@@ -20,6 +20,7 @@ import Card from "../src/components/Card"
 import dbConnect from "../src/utils/dbConnect"
 import ProductsModel from "../src/models/products"
 import formatCurrency from "../src/utils/formatCurrency"
+import { useState } from 'react'
 
 
 const PREFIX = 'Home'
@@ -65,6 +66,12 @@ const MyLink = styled(Link)(({theme}) => ({
 }))
 
 export default function Home({products}) {
+    const [search, setSearch] = useState()
+    const route = useRouter()
+
+    const handleSubmitSearch = () => {
+        route.push(`/search/${search}`)
+    }
     
     return (
         <TemplateDefault>
@@ -73,11 +80,17 @@ export default function Home({products}) {
                     What do you wish to find?
                 </Typography>
                 <SearchBox>
-                    <InputBase 
+                    <InputBase
+                        onChange={(e) => setSearch(e.target.value)}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                                handleSubmitSearch()
+                            }
+                        }}
                         placeholder="Ex.: iPhone 13 with warranty" 
                         fullWidth
                     />
-                    <IconButton>
+                    <IconButton onClick={handleSubmitSearch}>
                         <SearchIcon />
                     </IconButton>
                 </SearchBox>
