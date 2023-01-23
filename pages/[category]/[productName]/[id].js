@@ -52,6 +52,10 @@ const classes = {
 
     carouselNavButtons: {
         color: "white"
+    },
+
+    location: {
+        fontSize: "18px"
     }
 }
 
@@ -86,7 +90,7 @@ export default function Product({ product }) {
 
                         <MyBox>
                             <Typography component="span" variant="caption">
-                                Publish in June 16th, 2022
+                                {`Publish on ${new Date(product.publishDate).toLocaleDateString('en-CA', {year: 'numeric', month: 'long', day: 'numeric'})}`}
                             </Typography>
                             <Typography component="h4" variant="h4" sx={classes.productName}>
                                {product.title}
@@ -111,22 +115,25 @@ export default function Product({ product }) {
                         <Card elevation={0} sx={classes.box}>
                             <CardHeader
                                 avatar={
-                                    <Avatar src={product.image}>
-                                        {product.image || product.contactName[0].toUpperCase()}
+                                    <Avatar src={product.contactImage}>
+                                        {product.contactImage || product.contactName[0].toUpperCase()}
                                     </Avatar>
                                 }
                                 title={product.contactName}
                                 subheader={product.contactEmail}
                             />
                             <CardMedia 
-                                image={product.image}
+                                image={product.contactImage}
                                 title={product.contactName}
                             />
                         </Card>
 
                         <MyBox className="boxLocation">
-                            <Typography component="h6" variant="h6">
-                                Location
+                            <Typography component="span" variant="h6">
+                                Location: 
+                            </Typography>
+                            <Typography component="span" variant="body1" sx={classes.location}>
+                            {` ${product.location}`}
                             </Typography>
                         </MyBox>
                     </Grid>
