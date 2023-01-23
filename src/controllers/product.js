@@ -63,25 +63,29 @@ const product = {
           title,
           category,
           userId,
-          image,
+          contactImage,
           description,
           price,
           contactName,
           contactEmail,
           contactPhone,
+          location,
+          publishDate,
         } = fields
 
         const product = new ProductsModel({
           title,
           category,
           userId,
-          image,
+          contactImage,
           description,
           price,
           contactName,
           contactEmail,
           contactPhone,
           files: filesToSave,
+          location,
+          publishDate,
         })
 
         const register = await product.save()

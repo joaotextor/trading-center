@@ -21,7 +21,7 @@ const schema = new mongoose.Schema({
         type: String,
     },
 
-    image: {
+    contactImage: {
         type: String,
     },
 
@@ -54,6 +54,16 @@ const schema = new mongoose.Schema({
         type: [filesSchema],
         default: undefined,
     },
+
+    location: {
+        type: String,
+        default: 'Location not informed.'
+    },
+
+    publishDate: {
+        type: Date,
+        default: Date.now()
+    }
 })
 
 export default mongoose.models.products || mongoose.model('products', schema)

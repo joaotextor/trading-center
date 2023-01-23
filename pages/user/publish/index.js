@@ -39,7 +39,7 @@ const Publish = ({ userId, image }) => {
     const formValues = {
         ...initialValues,
         userId,
-        image
+        contactImage: image
     }
 
     const handleSuccess = () => {
@@ -110,10 +110,9 @@ const Publish = ({ userId, image }) => {
                                 
                                 <Input
                                     type="hidden"
-                                    name="image"
+                                    name="contactImage"
                                     value={values.image}
                                 />
-
 
                                 <Container className={classes.container} maxWidth="sm">
                                     <Typography component="h1" variant="h2" align="center" color="primary">
@@ -271,6 +270,18 @@ const Publish = ({ userId, image }) => {
                                         />
                                         <FormHelperText sx={classes.helperText}>
                                             {errors.contactPhone && touched.contactPhone ? errors.contactPhone : null}
+                                        </FormHelperText>
+                                    </FormControl>
+                                    <br /><br />
+                                    <FormControl error={errors.location && touched.location} fullWidth>
+                                        <InputLabel sx={classes.inputLabel}>Location</InputLabel>
+                                        <Input
+                                            name="location"
+                                            value={values.location}
+                                            onChange={handleChange}
+                                        />
+                                        <FormHelperText sx={classes.helperText}>
+                                            {errors.location && touched.location ? errors.location : null}
                                         </FormHelperText>
                                     </FormControl>
                                     <br /><br />
