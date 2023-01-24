@@ -105,6 +105,19 @@ const product = {
       const id = req.body.id
 
       const deleted = await ProductsModel.findOneAndRemove({_id: id})
+      // console.log(deleted)
+
+      try {
+          const deletedFiles = deleted.files.map(file => {
+          const deletedFile = fs.rm(file.path, {}, () => {})
+          return deletedFile
+        })
+      }
+      
+      catch {
+        console.log('An error has occurred')
+      }
+
 
       if (deleted) {
         return res.status(200).json({success: true})
