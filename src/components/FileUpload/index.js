@@ -54,10 +54,7 @@ export default function FileUpload({ files, errors, touched, setFieldValue }) {
                 </ThumbBox>
 
                 {
-                    files.map((file, index) => { 
-                        console.log(file)
-                        console.log(file.preview)
-                       
+                    files.map((file, index) => {                      
                         return (
                         <ThumbBox 
                         key={file.preview ? `${file.path}-${index}` : `${file.name}`}

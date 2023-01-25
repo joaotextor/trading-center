@@ -50,14 +50,10 @@ const Publish = ({ product }) => {
         location: `${product.location}`,
     }
 
-    formValues.files.forEach(file => {
-        console.log(JSON.parse(JSON.stringify(file)))
-    })
-
     const handleSuccess = () => {
         setToasty({
             open: true,
-            text: 'Advertisement published successfully',
+            text: 'Advertisement edited successfully',
             severity: 'success'
         })
         //! REMOVE COMMENT TAG WHEN PUT TO PRODUCTION
