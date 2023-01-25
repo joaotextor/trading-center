@@ -2,7 +2,7 @@ import { useState } from 'react'
 import axios from 'axios'
 import Link from 'next/link'
 import { getSession } from 'next-auth/react'
-import Router from 'next/router'
+import Router, {useRouter} from 'next/router'
 
 import { 
   Button, 
@@ -48,6 +48,8 @@ const MyLink = styled(Link)(({theme}) => ({
 }))
 
 const Home = ({products}) => {
+
+  const route = useRouter()
 
   const [alertOpen, setAlertOpen] = useState(false)
   const [productToRemove, setProductToRemove] = useState()
@@ -133,7 +135,8 @@ const Home = ({products}) => {
                       <Button
                         size="small"
                         variant="contained"
-                        color="primary">
+                        color="primary"
+                        onClick={() => route.push(`/user/edit/${product._id}`)}>
                         Edit
                       </Button>
                       <Button
