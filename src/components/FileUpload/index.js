@@ -12,7 +12,7 @@ export default function FileUpload({ files, errors, touched, setFieldValue }) {
         onDrop: (acceptedFile) => {
             const newFiles = acceptedFile.map(file => Object.assign(file, { 
                 preview: URL.createObjectURL(file)
-                    }))
+            }))
 
             setFieldValue('files',[
                 ...files,
@@ -21,7 +21,7 @@ export default function FileUpload({ files, errors, touched, setFieldValue }) {
         }
     })
 
-    //! Using only wile.path will cause a bug in which if the user uploads 2 ore more files with the same name, all of them will be deleted at once when deleting one of them.
+    //! Using only file.path will cause a bug in which if the user uploads 2 ore more files with the same name, all of them will be deleted at once when deleting one of them.
     const handleRemoveFile = filePath => {
         const newFileState = files.filter((file, index) => (index+file.path) !== filePath )
 
@@ -54,12 +54,16 @@ export default function FileUpload({ files, errors, touched, setFieldValue }) {
                 </ThumbBox>
 
                 {
-                    files.map((file, index) => (
+                    files.map((file, index) => { 
+                        console.log(file)
+                        console.log(file.preview)
+                       
+                        return (
                         <ThumbBox 
-                        key={`${file.path}-${index}`}
+                        key={file.preview ? `${file.path}-${index}` : `${file.name}`}
                         className="thumb-img"
                         sx={{
-                            backgroundImage: `url(${file.preview})`,
+                            backgroundImage: file.preview ? `url(${file.preview})` : `url('/uploads/${file.name}')`,
                             backgroundPosition: 'center'
                         }}>
                             <ThumbBox className="thumb-mask">
@@ -79,7 +83,7 @@ export default function FileUpload({ files, errors, touched, setFieldValue }) {
                             }
                             
                         </ThumbBox>
-                    )
+                    )}
                     )
                 }
 
