@@ -4,6 +4,8 @@ export default function formatCurrency(value, countryCode) {
 
         case 'US': return value.toLocaleString('US', {style: 'currency', currency: 'USD'})
 
-        case 'BR': return value.toLocaleString('BR', {style: 'currency', currency: 'BRL'})    
+        case 'BR': return value.toLocaleString('BR', {style: 'currency', currency: 'BRL'}) 
+        
+        case '': return parseFloat(value).toFixed(2)
     }   
 }
