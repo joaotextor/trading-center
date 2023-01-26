@@ -130,13 +130,6 @@ const product = {
         // Transform back the comma separated string into an Array
         const filesToRemoveArr = filesToRemove.split(',')
 
-        // if (product.files.some(e => e.path === filesToRemoveArr[0])) {
-        //   console.log('TRUE')
-        // } else {
-        //   console.log(e.path)
-        //   console.log(filesToRemoveArr[0])
-        // }
-        
         if (error) {
           return res.status(500).json({ success: false })
         }
