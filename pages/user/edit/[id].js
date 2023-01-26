@@ -58,8 +58,8 @@ const Publish = ({ product }) => {
             text: 'Advertisement edited successfully',
             severity: 'success'
         })
-        //! REMOVE COMMENT TAG WHEN PUT TO PRODUCTION
-        //router.push('/user/dashboard')
+        
+        router.push('/user/dashboard')
     }
 
     const handleError = () => {
@@ -305,12 +305,7 @@ const Publish = ({ product }) => {
 
                                 {
                                     isSubmitting
-                                        // ? <CircularProgress sx={classes.loading}/>
-                                        ? <Button
-                                        variant="contained"
-                                        color="primary"
-                                        type="submit"
-                                    >Publish Ad</Button>
+                                        ? <CircularProgress sx={classes.loading}/>
                                         : <Button
                                         variant="contained"
                                         color="primary"
