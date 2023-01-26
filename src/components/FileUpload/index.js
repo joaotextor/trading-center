@@ -5,7 +5,7 @@ import { useDropzone } from 'react-dropzone'
 import { ThumbBox } from './styles'
 
 
-export default function FileUpload({ files, errors, touched, setFieldValue }) {
+export default function FileUpload({ files, filesToRemove, errors, touched, setFieldValue }) {
 
     const { getRootProps, getInputProps } = useDropzone({
         accept: 'image/*',
@@ -22,10 +22,20 @@ export default function FileUpload({ files, errors, touched, setFieldValue }) {
     })
 
     //! Using only file.path will cause a bug in which if the user uploads 2 ore more files with the same name, all of them will be deleted at once when deleting one of them.
-    const handleRemoveFile = filePath => {
-        const newFileState = files.filter((file, index) => (index+file.path) !== filePath )
+    const handleRemoveFile = (fileIndex, filePath) => {
+        const newFileState = files.filter((file, index) => (index+file.path) !== `${fileIndex}${filePath}`)
+
+
+        //This will append the removed file to the FilesToRemove array
+        //When submited in FormData, it will be received as a String separated by commas
+        //Then we just use split(',') to transform back into an Array
+        setFieldValue('filesToRemove', [
+            ...filesToRemove,
+            filePath
+        ])
 
         setFieldValue('files', newFileState)
+
     }
 
     return (
@@ -64,7 +74,7 @@ export default function FileUpload({ files, errors, touched, setFieldValue }) {
                             backgroundPosition: 'center'
                         }}>
                             <ThumbBox className="thumb-mask">
-                                <IconButton color="secondary" onClick={() => handleRemoveFile(`${index}${file.path}`)}>
+                                <IconButton color="secondary" onClick={() => handleRemoveFile(index, file.path)}>
                                     <DeleteForever fontSize="large"/>    
                                 </IconButton>   
                             </ThumbBox>

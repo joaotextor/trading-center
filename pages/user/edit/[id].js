@@ -39,6 +39,7 @@ const Publish = ({ product }) => {
     const router = useRouter()
 
     const formValues = {
+        productId: `${product._id}`,
         title: `${product.title}`,
         category: `${product.category}`,
         description: `${product.description}`,
@@ -48,6 +49,7 @@ const Publish = ({ product }) => {
         contactPhone: `${product.contactPhone}`,
         files: product.files,
         location: `${product.location}`,
+        filesToRemove: [],
     }
 
     const handleSuccess = () => {
@@ -82,7 +84,7 @@ const Publish = ({ product }) => {
             }
         }
 
-        await axios.post('/api/products/post', formData)
+        await axios.put('/api/products/put/', formData)
             .then(handleSuccess)
             .catch(handleError)
     }
@@ -109,6 +111,18 @@ const Publish = ({ product }) => {
 
                         return (
                             <form onSubmit={handleSubmit}>
+
+                                <Input
+                                    type="hidden"
+                                    value={product._id}
+                                    name="productId"
+                                />
+
+                                <Input
+                                    type="hidden"
+                                    value={values.filesToRemove}
+                                    name="filesToRemove"
+                                />
 
                                 <Container className={classes.container} maxWidth="sm">
                                     <Typography component="h1" variant="h2" align="center" color="primary">
@@ -177,6 +191,7 @@ const Publish = ({ product }) => {
                                 <Box className={classes.box}>
                                     <FileUpload
                                         files={values.files}
+                                        filesToRemove={values.filesToRemove}
                                         errors={errors.files}
                                         touched={touched.files}
                                         setFieldValue={setFieldValue}
@@ -290,7 +305,12 @@ const Publish = ({ product }) => {
 
                                 {
                                     isSubmitting
-                                        ? <CircularProgress sx={classes.loading}/>
+                                        // ? <CircularProgress sx={classes.loading}/>
+                                        ? <Button
+                                        variant="contained"
+                                        color="primary"
+                                        type="submit"
+                                    >Publish Ad</Button>
                                         : <Button
                                         variant="contained"
                                         color="primary"

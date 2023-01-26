@@ -99,13 +99,111 @@ const product = {
         })
     },
 
+    put: async (req, res) => {
+
+      await dbConnect()
+
+      const form = new formidable.IncomingForm({
+        multiples: true,
+        uploadDir: 'public/uploads',
+        keepExtensions: true,
+      })
+
+      form.parse(req, async (error, fields, data) => {
+
+        const {
+          productId,
+          title,
+          category,
+          description,
+          price,
+          contactName,
+          contactEmail,
+          contactPhone,
+          location,
+          filesToRemove
+        } = fields
+
+        const product = await ProductsModel.findById(productId)
+
+
+        // Transform back the comma separated string into an Array
+        const filesToRemoveArr = filesToRemove.split(',')
+
+        // if (product.files.some(e => e.path === filesToRemoveArr[0])) {
+        //   console.log('TRUE')
+        // } else {
+        //   console.log(e.path)
+        //   console.log(filesToRemoveArr[0])
+        // }
+        
+        if (error) {
+          return res.status(500).json({ success: false })
+        }
+
+          const { files } = data
+
+          const filesToSave = product.files.filter(f => !filesToRemoveArr.includes( f.path ))
+
+          if (files != undefined) {
+          const filesToRename = files instanceof Array
+            ? files
+            : [files]
+  
+          filesToRename.forEach(file => {
+            const timestamp = Date.now()
+            const random = Math.floor(Math.random() * 999999999) + 1
+  
+            const extension = path.extname(file.name)
+            const filename = `${timestamp}_${random}${extension}`
+  
+            const oldpath = path.join(__dirname, `../../../../../${file.path}`)
+            const newpath = path.join(__dirname, `../../../../../${form.uploadDir}/${filename}`)
+  
+            filesToSave.push({
+              name: filename,
+              path: newpath,
+            })
+  
+            fs.rename(oldpath, newpath, (error) => {
+              if (error) {
+                return res.status(500).json({ success: false })
+              }
+            })
+          })
+        }
+
+        product.title = title
+        product.category = category
+        product.description = description
+        product.price = price
+        product.contactName = contactName
+        product.contactEmail = contactEmail
+        product.contactPhone = contactPhone
+        product.location = location
+        product.publishDate = Date.now()
+        product.files = filesToSave
+
+        const register = await product.save()
+
+        if (register) {
+          filesToRemoveArr.forEach(file => {
+            fs.rm(file, {}, () => {})
+          })
+          res.status(201).json({ success: true })
+        } else {
+          res.status(500).json({ success: false})
+        }
+
+        })
+    },
+
     delete: async (req, res) => {
       await dbConnect()
 
       const id = req.body.id
 
       const deleted = await ProductsModel.findOneAndRemove({_id: id})
-      // console.log(deleted)
 
       try {
           const deletedFiles = deleted.files.map(file => {
