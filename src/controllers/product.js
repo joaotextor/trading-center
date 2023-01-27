@@ -199,7 +199,7 @@ const product = {
       const deleted = await ProductsModel.findOneAndRemove({_id: id})
 
       try {
-          const deletedFiles = deleted.files.map(file => {
+          deleted.files.map(file => {
           const deletedFile = fs.rm(file.path, {}, () => {})
           return deletedFile
         })
