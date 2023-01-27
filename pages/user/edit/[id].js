@@ -33,7 +33,7 @@ import axios from 'axios'
 import dbConnect from '../../../src/utils/dbConnect'
 
 
-const Publish = ({ product }) => {
+const Edit = ({ product }) => {
     
     const { setToasty } = useToasty()
     const router = useRouter()
@@ -58,7 +58,7 @@ const Publish = ({ product }) => {
             text: 'Advertisement edited successfully',
             severity: 'success'
         })
-        
+
         router.push('/user/dashboard')
     }
 
@@ -326,7 +326,7 @@ const Publish = ({ product }) => {
     )
 }
 
-Publish.requireAuth = true
+Edit.requireAuth = true
 
 export async function getServerSideProps({query}) {
     const { id } = query
@@ -349,4 +349,4 @@ export async function getServerSideProps({query}) {
     }
 }
 
-export default Publish
+export default Edit
