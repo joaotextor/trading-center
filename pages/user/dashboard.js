@@ -98,7 +98,7 @@ const Home = ({products}) => {
   return (
 
     <TemplateDefault>
-      <AlertDialog open={alertOpen} onClose={handleCloseModal} action={handleRemoveProduct} title="Delete Product" description="Confirm deletion?"/>
+      <AlertDialog open={alertOpen} onClose={handleCloseModal} action={handleRemoveProduct} title="Delete Product" description="Confirm deletion?" firstBtnText="Disagree" secondBtnText="Agree"/>
       <Container maxWidth="sm" align="center">
         <Typography component="h1" variant="h2" align="center">
           My Adds
