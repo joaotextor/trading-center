@@ -19,6 +19,7 @@ import SearchIcon from '@mui/icons-material/Search'
 import dbConnect from '../../src/utils/dbConnect'
 import formatCurrency from '../../src/utils/formatCurrency'
 import ProductsModel from '../../src/models/products'
+import SearchBar from '../../src/components/SearchBar'
 
 const MyBox = styled(Box)(({theme}) => ({
     backgroundColor: theme.palette.background.white,
@@ -52,15 +53,7 @@ export default function List({ products, searchQuery }) {
                 <Grid container spacing={3}>
 
                     <Grid item xs={12} sm={12} md={12}>
-                        <SearchBox>
-                            <InputBase 
-                                placeholder="Ex.: iPhone 13 with warranty" 
-                                fullWidth
-                            />
-                            <IconButton>
-                                <SearchIcon />
-                            </IconButton>
-                        </SearchBox>
+                        <SearchBar />
                     </Grid>
 
                     <Grid item xs={12} sm={12} md={12}>

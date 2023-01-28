@@ -16,6 +16,7 @@ import { Box, Container } from "@mui/system"
 import SearchIcon from '@mui/icons-material/Search'
 import TemplateDefault from "../src/templates/Default"
 import Card from "../src/components/Card"
+import SearchBar from "../src/components/SearchBar"
 
 import dbConnect from "../src/utils/dbConnect"
 import ProductsModel from "../src/models/products"
@@ -47,14 +48,6 @@ const MyContainer = styled(Container)(({theme}) => ({
     },
 }))
 
-const SearchBox = styled(Paper)(({theme}) => ({
-    display: 'flex',
-    justifyContent: 'center',
-    padding: theme.spacing(0.2),
-    paddingLeft: 10,
-    marginTop: 20,
-}))
-
 const MyLink = styled(Link)(({theme}) => ({
     textDecoration: 'none',
     ['&:any-link']: {
@@ -66,12 +59,10 @@ const MyLink = styled(Link)(({theme}) => ({
 }))
 
 export default function Home({products}) {
-    const [search, setSearch] = useState()
+    
     const route = useRouter()
 
-    const handleSubmitSearch = () => {
-        route.push(`/search/${search}`)
-    }
+    
     
     return (
         <TemplateDefault>
@@ -79,21 +70,7 @@ export default function Home({products}) {
                 <Typography component="h1" variant="h3" align="center" color="primary">
                     What do you wish to find?
                 </Typography>
-                <SearchBox>
-                    <InputBase
-                        onChange={(e) => setSearch(e.target.value)}
-                        onKeyDown={(e) => {
-                            if (e.key === 'Enter') {
-                                handleSubmitSearch()
-                            }
-                        }}
-                        placeholder="Ex.: iPhone 13 with warranty" 
-                        fullWidth
-                    />
-                    <IconButton onClick={handleSubmitSearch}>
-                        <SearchIcon />
-                    </IconButton>
-                </SearchBox>
+                <SearchBar/>
             </Container>
 
             <MyContainer maxWidth="lg" sx={{padding: 5}}>
