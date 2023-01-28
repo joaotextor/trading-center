@@ -6,7 +6,7 @@ import DialogContent from '@mui/material/DialogContent'
 import DialogContentText from '@mui/material/DialogContentText'
 import DialogTitle from '@mui/material/DialogTitle'
 
-export default function AlertDialog( {open, onClose, action, title, description} ) {
+export default function AlertDialog( {open, onClose, action, title, description, firstBtnText, secondBtnText} ) {
 
     return (
       <>
@@ -23,10 +23,19 @@ export default function AlertDialog( {open, onClose, action, title, description}
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={onClose}>Disagree</Button>
-            <Button onClick={action} autoFocus>
-              Agree
-            </Button>
+
+            {
+              firstBtnText
+                ? <Button onClick={onClose}>{firstBtnText}</Button>
+                : null
+            }           
+
+            {
+              secondBtnText
+                ? <Button onClick={action} autoFocus>{secondBtnText}</Button>
+                : null
+            }
+            
           </DialogActions>
         </Dialog>
       </>
