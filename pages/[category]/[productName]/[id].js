@@ -115,8 +115,9 @@ export default function Product({ product }) {
                         <Card elevation={0} sx={classes.box}>
                             <CardHeader
                                 avatar={
-                                    <Avatar src={product.contactImage}>
-                                        {product.contactImage || product.contactName[0].toUpperCase()}
+                                    //It works with only src={product.contactImage}, but throws a CastError: Cast to ObjectId failed for value "null"
+                                    <Avatar src={product.contactImage != "null" ? product.contactImage : '' }>
+                                        {product.contactImage === "null" && product.contactName[0].toUpperCase() }
                                     </Avatar>
                                 }
                                 title={product.contactName}
