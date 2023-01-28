@@ -19,14 +19,14 @@ import { Container } from '@mui/material'
 import TemplateDefault from '../../../src/templates/Default'
 
 import ProductsModel from '../../../src/models/products'
-import { validationSchema } from './formValues'
+import { validationSchema } from '../../../src/lib/formValues/edit/formValues'
 import useToasty from '../../../src/contexts/Toasty'
 import formatCurrency from '../../../src/utils/formatCurrency'
 
 import {
     classes,
     MyContainer,
-} from './styles'
+} from '../../../styles/edit/styles'
 
 import FileUpload from '../../../src/components/FileUpload'
 import axios from 'axios'

@@ -19,13 +19,13 @@ import { Formik } from 'formik'
 import { useRouter } from 'next/router'
 import { getSession } from 'next-auth/react'
 
-import { initialValues, validationSchema } from './formValues'
+import { initialValues, validationSchema } from '../../../src/lib/formValues/publish/formValues'
 import useToasty from '../../../src/contexts/Toasty'
 
 import {
     classes,
     MyContainer,
-} from './styles'
+} from '../../../styles/publish/styles'
 
 import FileUpload from '../../../src/components/FileUpload'
 import axios from 'axios'

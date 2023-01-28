@@ -19,8 +19,8 @@ import TemplateDefault from '../../../src/templates/Default'
 import {
   validationSchema,
   initialValues
-} from './formValues'
-import { classes } from './styles'
+} from '../../../src/lib/formValues/signin/formValues'
+import { classes } from '../../../styles/signin/styles'
 import Image from 'next/image'
 
 export default function Login({ APP_URL }) {

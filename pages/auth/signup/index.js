@@ -18,9 +18,9 @@ import TemplateDefault from '../../../src/templates/Default'
 import {
     validationSchema,
     initialValues
-} from './formValues'
+} from '../../../src/lib/formValues/signup/formValues'
 import useToasty from '../../../src/contexts/Toasty'
-import { classes } from './styles'
+import { classes } from '../../../styles/signup/styles'
 
 export default function Signup() {
 
