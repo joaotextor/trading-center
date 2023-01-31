@@ -85,7 +85,10 @@ export default function ButtonAppBar() {
               </MyLink>
               
               <Divider />
-              <MenuItem onClick={() => signOut({callbackUrl: process.env.NEXT_PUBLIC_APP_URL})}>Logout</MenuItem>
+              <MenuItem onClick={() => {
+                console.log(process.env.NEXT_PUBLIC_APP_URL)
+                signOut({callbackUrl: process.env.NEXT_PUBLIC_APP_URL})}
+                }>Logout</MenuItem>
             </Menu>
           </Toolbar>
           </Container>
