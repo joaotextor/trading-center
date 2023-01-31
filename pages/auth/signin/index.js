@@ -23,7 +23,7 @@ import {
 import { classes } from '../../../styles/signin/styles'
 import Image from 'next/image'
 
-export default function Login({ APP_URL }) {
+export default function Login() {
 
     const router = useRouter()
     const { data: session, status } = useSession()
@@ -37,24 +37,20 @@ export default function Login({ APP_URL }) {
 
     if (signInStatus.ok == false) {
         return router.push(`/auth/signin?i=1`)
-        // return router.push(`${APP_URL}/auth/signin?i=1`)
     }
 
     router.push(`/user/dashboard`)
-    // router.push(`${APP_URL}/user/dashboard`)
  }
 
     const handleGoogleLogin = async () => {
         await signIn('google', {
             redirect: true,
             callbackUrl: `/user/dashboard`
-            // callbackUrl: `${APP_URL}/user/dashboard`
         })
     }
 
     if (status === 'authenticated') {
         router.push(`/user/dashboard`)
-        // router.push(`${APP_URL}/user/dashboard`)
     } else {
 
         return (
@@ -163,12 +159,5 @@ export default function Login({ APP_URL }) {
                 </Container>
             </TemplateDefault>
         )
-    }
-}
-
-export async function getServerSideProps(context) {
-    const APP_URL = await process.env.APP_URL
-    return {
-        props: {APP_URL}
     }
 }
