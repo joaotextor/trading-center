@@ -5,7 +5,7 @@ import { MongooseAdapter } from "@choutkamartin/mongoose-adapter"
 import axios from "axios"
 
 export const authOptions = {
-  site: 'https://tradingcenter.joaotextor.com',
+  site: process.env.APP_URL,
 
   session: {
     strategy: "jwt",
@@ -15,7 +15,6 @@ export const authOptions = {
     CredentialsProvider({
         name: 'credentials',
         async authorize(credentials, req) {
-            // const res = await axios.post(`/api/auth/signin`, credentials)
 
             const res = await axios.post(`${process.env.APP_URL}/api/auth/signin`, credentials)
 
