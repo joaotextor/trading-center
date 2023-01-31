@@ -5,7 +5,7 @@ import { MongooseAdapter } from "@choutkamartin/mongoose-adapter"
 import axios from "axios"
 
 export const authOptions = {
-  site: process.env.APP_URL,
+  site: process.env.NEXT_PUBLIC_APP_URL,
 
   session: {
     strategy: "jwt",
@@ -16,7 +16,7 @@ export const authOptions = {
         name: 'credentials',
         async authorize(credentials, req) {
 
-            const res = await axios.post(`${process.env.APP_URL}/api/auth/signin`, credentials)
+            const res = await axios.post(`${process.env.NEXT_PUBLIC_APP_URL}/api/auth/signin`, credentials)
 
             const user = res.data
 
