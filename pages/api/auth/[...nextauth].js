@@ -5,6 +5,8 @@ import { MongooseAdapter } from "@choutkamartin/mongoose-adapter"
 import axios from "axios"
 
 export const authOptions = {
+  site: process.env.AUTH_URL,
+
   session: {
     strategy: "jwt",
   },
