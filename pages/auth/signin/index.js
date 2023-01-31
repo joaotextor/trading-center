@@ -14,7 +14,6 @@ import {
 import { Formik } from 'formik'
 import { useRouter } from 'next/router'
 import { signIn, useSession } from 'next-auth/react'
-import Cookies from 'cookies'
 
 import TemplateDefault from '../../../src/templates/Default'
 import {
@@ -161,16 +160,5 @@ export default function Login() {
                 </Container>
             </TemplateDefault>
         )
-    }
-}
-
-export async function getServerSideProps(context) {
-    try {
-        const cookies = new Cookies(context.req, context.res)
-        cookies.set("next-auth.callback-url", process.env.NEXT_PUBLIC_NEXTAUTH_URL)
-    }
-
-    catch {
-        console.log("An error has occurred!")
     }
 }
