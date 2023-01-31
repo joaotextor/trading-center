@@ -32,8 +32,8 @@ export default function Login() {
     const signInStatus = await signIn('credentials', {
         email: values.email,
         password: values.password,
-        redirect: true, //was false
-        callbackUrl: '/user/dashboard'
+        redirect: false,
+        // callbackUrl: '/user/dashboard'
     })
 
     if (signInStatus.ok == false) {
