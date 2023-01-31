@@ -36,21 +36,25 @@ export default function Login({ APP_URL }) {
     })
 
     if (signInStatus.ok == false) {
-        return router.push(`${APP_URL}/auth/signin?i=1`)
+        return router.push(`/auth/signin?i=1`)
+        // return router.push(`${APP_URL}/auth/signin?i=1`)
     }
 
-    router.push(`${APP_URL}/user/dashboard`)
+    router.push(`/user/dashboard`)
+    // router.push(`${APP_URL}/user/dashboard`)
  }
 
     const handleGoogleLogin = async () => {
         await signIn('google', {
             redirect: true,
-            callbackUrl: `${APP_URL}/user/dashboard`
+            callbackUrl: `/user/dashboard`
+            // callbackUrl: `${APP_URL}/user/dashboard`
         })
     }
 
     if (status === 'authenticated') {
-        router.push(`${APP_URL}/user/dashboard`)
+        router.push(`/user/dashboard`)
+        // router.push(`${APP_URL}/user/dashboard`)
     } else {
 
         return (
