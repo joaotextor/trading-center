@@ -85,7 +85,7 @@ export default function ButtonAppBar() {
               </MyLink>
               
               <Divider />
-              <MenuItem onClick={() => signOut()}>Logout</MenuItem>
+              <MenuItem onClick={() => signOut({callbackUrl: '/'})}>Logout</MenuItem>
             </Menu>
           </Toolbar>
           </Container>
