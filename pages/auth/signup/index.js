@@ -48,7 +48,7 @@ export default function Signup() {
                     Create your account
                 </Typography>
                 <Typography component="h5" variant="h5" align="center" color="primary" gutterBottom>
-                    And advertise to whole Canada
+                    And advertise to whole World
                 </Typography>
             </Container>
             <Container maxWidth="md">  
