@@ -89,13 +89,13 @@ export default function ButtonAppBar() {
               </MyLink>
               
               <Divider />
-              <MenuItem onClick={async () => {
+              <MenuItem onClick={() => {
                 console.log(process.env.NEXT_PUBLIC_NEXTAUTH_URL)
-                const data = await signOut({
+                signOut({
                   redirect: false,
                   callbackUrl: process.env.NEXT_PUBLIC_NEXTAUTH_URL,
                 })
-                router.push('/')
+                router.push(process.env.NEXT_PUBLIC_NEXTAUTH_URL)
               }
                 }>Logout</MenuItem>
             </Menu>
