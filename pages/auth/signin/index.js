@@ -33,7 +33,7 @@ export default function Login() {
         email: values.email,
         password: values.password,
         redirect: true,
-        callbackUrl: process.env.NEXT_PUBLIC_NEXTAUTH_URL || '/'
+        callbackUrl: `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/user/dashboard`
     })
 
     if (signInStatus.ok == false) {
