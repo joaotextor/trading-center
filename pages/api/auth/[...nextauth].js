@@ -76,11 +76,11 @@ export const authOptions = {
       return session
     },
 
-    async redirect({ url, baseUrl }) {
-      console.log(`URL: ${url}`)
-      console.log(`BASEURL: ${baseUrl}`)
-      return '/'
-    }
+    // async redirect({ url, baseUrl }) {
+    //   console.log(`URL: ${url}`)
+    //   console.log(`BASEURL: ${baseUrl}`)
+    //   return '/'
+    // }
   },
 
   adapter: MongooseAdapter(process.env.MONGODB_URI),
