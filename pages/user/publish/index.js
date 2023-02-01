@@ -316,38 +316,17 @@ const Publish = ({ userId, image }) => {
 
 Publish.requireAuth = true
 
-export async function getServerSideProps(context) {
-    const { req, resolvedUrl } = context
-    const destination = `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}${resolvedUrl}`
-    const callbackUrl = `/auth/signin?callbackUrl=${encodeURIComponent(destination)}`
-    const { userId, user, session } = await getSession({ req })
-
+export async function getServerSideProps({req}) {
+    
     try {
+        const { userId, user } = await getSession({ req })
 
-        if (!session) {
-        
-            return {
-                props: {
-                    userId,
-                    image: user.image || null,
-                redirect: {
-                    destionation: callbackUrl,
-                    permanent: false,
-                }
-                }
+        return {
+            props: {
+                userId,
+                image: user.image || null
             }
         }
-
-        if (session) {
-            return {
-                props: {
-                    userId,
-                    image: user.image || null,
-                    session
-                }
-            }
-        }
-        
     }
 
     catch {

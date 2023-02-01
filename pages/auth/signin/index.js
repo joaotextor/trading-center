@@ -33,11 +33,6 @@ export default function Login() {
         email: values.email,
         password: values.password,
         redirect: false,
-        callbackUrl: `${
-            router.query.callbackUrl
-                ? router.query.callbackUrl
-                : window.location.origin
-        }`
     })
 
     if (signInStatus.ok == false) {
