@@ -32,7 +32,7 @@ export default function Login() {
     const signInStatus = await signIn('credentials', {
         email: values.email,
         password: values.password,
-        redirect: false,
+        redirect: true,
         callbackUrl: process.env.NEXT_PUBLIC_NEXTAUTH_URL || '/'
     })
 
