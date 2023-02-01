@@ -33,6 +33,7 @@ export default function Login() {
         email: values.email,
         password: values.password,
         redirect: false,
+        callbackUrl: process.env.NEXT_PUBLIC_NEXTAUTH_URL || '/'
     })
 
     if (signInStatus.ok == false) {
