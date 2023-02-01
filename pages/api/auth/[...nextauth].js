@@ -7,6 +7,19 @@ import axios from "axios"
 export const authOptions = {
   site: process.env.NEXT_PUBLIC_NEXTAUTH_URL,
 
+  useSecureCookies: true,
+
+  cookies: {
+    callbackUrl: {
+      name: '__Secure-next-auth.callback-url',
+      options: {
+        sameSite: 'lax',
+        path: '/',
+        secure: true
+      }
+    }
+  },
+
   session: {
     strategy: "jwt",
   },
