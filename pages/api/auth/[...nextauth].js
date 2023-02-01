@@ -14,7 +14,7 @@ export const authOptions = {
       name: '__Secure-next-auth.callback-url',
       options: {
         sameSite: 'lax',
-        path: '/',
+        path: 'https://tradingcenter.joaotextor.com',
         secure: true
       }
     }
