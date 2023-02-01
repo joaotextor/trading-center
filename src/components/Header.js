@@ -95,7 +95,7 @@ export default function ButtonAppBar() {
                   redirect: false,
                   callbackUrl: process.env.NEXT_PUBLIC_NEXTAUTH_URL,
                 })
-                router.push(data.url)
+                router.push('/')
               }
                 }>Logout</MenuItem>
             </Menu>
