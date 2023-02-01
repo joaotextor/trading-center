@@ -91,10 +91,7 @@ export default function ButtonAppBar() {
               <Divider />
               <MenuItem onClick={() => {
                 console.log(process.env.NEXT_PUBLIC_NEXTAUTH_URL)
-                signOut({
-                  redirect: false,
-                  callbackUrl: process.env.NEXT_PUBLIC_NEXTAUTH_URL,
-                })
+                signOut({redirect: false})
                 router.push(process.env.NEXT_PUBLIC_NEXTAUTH_URL)
               }
                 }>Logout</MenuItem>
