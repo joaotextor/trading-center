@@ -1,3 +1,3 @@
-To test this project, open https://tradingcenter.joaotextor.com/auth/signup
+Project under construction.
 
-Not everything is working on production. Need to configure the file upload folder inside AWS
+Refactoring from localhost to AWS.
