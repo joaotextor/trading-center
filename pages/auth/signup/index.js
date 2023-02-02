@@ -30,6 +30,7 @@ export default function Signup() {
     const router = useRouter()
 
     const handleFormSubmit = async values => {
+        console.log(values)
         try {
             const { user } = await Auth.signUp({
                 username: values.email,
