@@ -1,5 +1,3 @@
-To test this project, open https://tradingcenter.joaotextor.com/auth/signin
+To test this project, open https://tradingcenter.joaotextor.com/auth/signup
 
-Test credentials:
-username: test@mail.com
-password: test1234
+Not everything is working on production. Need to configure the file upload folder inside AWS
