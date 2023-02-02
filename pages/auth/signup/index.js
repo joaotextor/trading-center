@@ -1,3 +1,5 @@
+import { Auth } from 'aws-amplify'
+
 import {
     Box,
     Button,
@@ -28,16 +30,19 @@ export default function Signup() {
     const router = useRouter()
 
     const handleFormSubmit = async values => {
-        const response = await axios.post('/api/users', values)
-
-        if (response.data.success) {
-            
-            setToasty({
-                open: true,
-                severity: 'success',
-                text: 'Signup successful'
+        try {
+            const { user } = await Auth.signUp({
+                username: values.email,
+                password: values.password,
+                attributes: {
+                    email: values.email,
+                }
             })
-            router.push('/auth/signin')
+            console.log(user)
+        }        
+
+        catch (err) {
+            console.error(err)
         }
     }
 
