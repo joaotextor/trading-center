@@ -19,6 +19,7 @@
     "@mui/styles": "^5.11.2",
     "@next-auth/mongodb-adapter": "^1.1.1",
     "@next/font": "13.1.1",
+    "aws-amplify": "^5.0.12",
     "axios": "^1.2.2",
     "bcrypt": "^5.1.0",
     "cookies": "^0.8.0",
