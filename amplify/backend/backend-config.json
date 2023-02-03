@@ -1,6 +1,6 @@
 {
   "auth": {
-    "tradingcenter1df4d112": {
+    "tradingcenter40165e43": {
       "customAuth": false,
       "dependsOn": [],
       "frontendAuthConfig": {
@@ -9,10 +9,7 @@
           "SMS"
         ],
         "passwordProtectionSettings": {
-          "passwordPolicyCharacters": [
-            "REQUIRES_NUMBERS",
-            "REQUIRES_UPPERCASE"
-          ],
+          "passwordPolicyCharacters": [],
           "passwordPolicyMinLength": 8
         },
         "signupAttributes": [
@@ -21,9 +18,7 @@
         "socialProviders": [
           "GOOGLE"
         ],
-        "usernameAttributes": [
-          "EMAIL"
-        ],
+        "usernameAttributes": [],
         "verificationMechanisms": [
           "EMAIL"
         ]
