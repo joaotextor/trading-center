@@ -27,8 +27,8 @@ import { classes } from '../../../styles/signup/styles'
 
 export default function Signup() {
 
-    Amplify.configure(awsconfig)
-    Auth.configure(awsconfig)
+    // Amplify.configure(awsconfig)
+    // Auth.configure(awsconfig)
 
     const { setToasty } = useToasty()
     const router = useRouter()
