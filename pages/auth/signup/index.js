@@ -1,5 +1,5 @@
 import { Amplify, Auth } from 'aws-amplify'
-import awsconfig from '../../../src/aws-exports'
+import awsmobile from '../../../src/aws-exports'
 
 import {
     Box,
@@ -27,7 +27,7 @@ import { classes } from '../../../styles/signup/styles'
 
 export default function Signup() {
 
-    Amplify.configure(awsconfig)
+    Amplify.configure(awsmobile)
 
     const { setToasty } = useToasty()
     const router = useRouter()
