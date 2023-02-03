@@ -5,8 +5,11 @@ import { ThemeProvider } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
 import { ToastyProvider } from '../src/contexts/Toasty'
 import { SessionProvider } from "next-auth/react"
+import {Amplify} from "aws-amplify"
+import awsconfig from "../aws-exports"
 import theme from '../src/theme'
 
+Amplify.configure({...awsconfig,ssr:true})
 import CheckAuth from '../src/components/CheckAuth'
 
 export default function MyApp(props) {
