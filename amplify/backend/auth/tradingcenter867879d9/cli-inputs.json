@@ -1,10 +1,10 @@
 {
   "version": "1",
   "cognitoConfig": {
-    "identityPoolName": "tradingcenter40165e43_identitypool_40165e43",
+    "identityPoolName": "tradingcenter867879d9_identitypool_867879d9",
     "allowUnauthenticatedIdentities": false,
-    "resourceNameTruncated": "tradin40165e43",
-    "userPoolName": "tradingcenter40165e43_userpool_40165e43",
+    "resourceNameTruncated": "tradin867879d9",
+    "userPoolName": "tradingcenter867879d9_userpool_867879d9",
     "autoVerifiedAttributes": [
       "email"
     ],
@@ -31,36 +31,25 @@
     "userpoolClientReadAttributes": [
       "email"
     ],
-    "userpoolClientLambdaRole": "tradin40165e43_userpoolclient_lambda_role",
+    "userpoolClientLambdaRole": "tradin867879d9_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
-    "sharedId": "40165e43",
-    "resourceName": "tradingcenter40165e43",
+    "sharedId": "867879d9",
+    "resourceName": "tradingcenter867879d9",
     "authSelections": "identityPoolAndUserPool",
     "useDefault": "defaultSocial",
     "hostedUI": true,
+    "usernameAttributes": [
+      "email"
+    ],
     "hostedUIDomainName": "tradingcenter",
     "authProvidersUserPool": [
       "Google"
     ],
     "hostedUIProviderMeta": "[{\"ProviderName\":\"Google\",\"authorize_scopes\":\"openid email profile\",\"AttributeMapping\":{\"email\":\"email\",\"username\":\"sub\"}}]",
+    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"https://tradingcenter.joaotextor.com/user/dashboard/\"],\"LogoutURLs\":[\"https://tradingcenter.joaotextor.com/\"]}",
     "userPoolGroupList": [],
     "serviceName": "Cognito",
     "usernameCaseSensitive": false,
-    "useEnabledMfas": true,
-    "authRoleArn": {
-      "Fn::GetAtt": [
-        "AuthRole",
-        "Arn"
-      ]
-    },
-    "unauthRoleArn": {
-      "Fn::GetAtt": [
-        "UnauthRole",
-        "Arn"
-      ]
-    },
-    "breakCircularDependency": true,
-    "dependsOn": [],
-    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"https://tradingcenter.joaotextor.com/user/dashboard/\"],\"LogoutURLs\":[\"https://tradingcenter.joaotextor.com/\"]}"
+    "useEnabledMfas": true
   }
 }
