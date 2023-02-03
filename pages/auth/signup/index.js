@@ -1,5 +1,5 @@
-// import Amplify, { Auth } from 'aws-amplify'
-// import awsconfig from '../../../src/aws-exports'
+import Amplify, { Auth } from 'aws-amplify'
+import awsconfig from '../../../src/aws-exports'
 
 import {
     Box,
@@ -27,28 +27,28 @@ import { classes } from '../../../styles/signup/styles'
 
 export default function Signup() {
 
-    // Amplify.configure(awsconfig)
-    // Auth.configure(awsconfig)
+    Amplify.configure(awsconfig)
+    Auth.configure(awsconfig)
 
     const { setToasty } = useToasty()
     const router = useRouter()
 
     const handleFormSubmit = async values => {
         console.log(values)
-        // try {
-        //     const { user } = await Auth.signUp({
-        //         username: values.email,
-        //         password: values.password,
-        //         attributes: {
-        //             email: values.email,
-        //         }
-        //     })
-        //     console.log(user)
-        // }        
+        try {
+            const { user } = await Auth.signUp({
+                username: values.email,
+                password: values.password,
+                attributes: {
+                    email: values.email,
+                }
+            })
+            console.log(user)
+        }        
 
-        // catch (err) {
-        //     console.error(err)
-        // }
+        catch (err) {
+            console.error(err)
+        }
     }
 
     return (
