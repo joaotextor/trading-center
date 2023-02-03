@@ -5,7 +5,20 @@ import { MongooseAdapter } from "@choutkamartin/mongoose-adapter"
 import axios from "axios"
 
 export const authOptions = {
-  site: process.env.NEXT_PUBLIC_APP_URL,
+  site: process.env.NEXT_PUBLIC_NEXTAUTH_URL,
+
+  useSecureCookies: true,
+
+  cookies: {
+    callbackUrl: {
+      name: '__Secure-next-auth.callback-url',
+      options: {
+        sameSite: 'lax',
+        path: 'https://tradingcenter.joaotextor.com',
+        secure: true
+      }
+    }
+  },
 
   session: {
     strategy: "jwt",
@@ -16,7 +29,7 @@ export const authOptions = {
         name: 'credentials',
         async authorize(credentials, req) {
 
-            const res = await axios.post(`${process.env.NEXT_PUBLIC_APP_URL}/api/auth/signin`, credentials)
+            const res = await axios.post(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/auth/signin`, credentials)
 
             const user = res.data
 
@@ -63,13 +76,11 @@ export const authOptions = {
       return session
     },
 
-    async redirect({ url, baseUrl }) {
-      // Allows relative callback URLs
-      if (url.startsWith("/")) return `${baseUrl}${url}`
-      // Allows callback URLs on the same origin
-      else if (new URL(url).origin === baseUrl) return url
-      return baseUrl
-    }
+    // async redirect({ url, baseUrl }) {
+    //   console.log(`URL: ${url}`)
+    //   console.log(`BASEURL: ${baseUrl}`)
+    //   return '/'
+    // }
   },
 
   adapter: MongooseAdapter(process.env.MONGODB_URI),

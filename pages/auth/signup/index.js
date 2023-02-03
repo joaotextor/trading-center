@@ -1,3 +1,6 @@
+// import Amplify, { Auth } from 'aws-amplify'
+import awsconfig from '../../../src/aws-exports'
+
 import {
     Box,
     Button,
@@ -24,21 +27,28 @@ import { classes } from '../../../styles/signup/styles'
 
 export default function Signup() {
 
+    Amplify.configure(awsconfig)
+    Auth.configure(awsconfig)
+
     const { setToasty } = useToasty()
     const router = useRouter()
 
     const handleFormSubmit = async values => {
-        const response = await axios.post('/api/users', values)
+        console.log(values)
+        // try {
+        //     const { user } = await Auth.signUp({
+        //         username: values.email,
+        //         password: values.password,
+        //         attributes: {
+        //             email: values.email,
+        //         }
+        //     })
+        //     console.log(user)
+        // }        
 
-        if (response.data.success) {
-            
-            setToasty({
-                open: true,
-                severity: 'success',
-                text: 'Signup successful'
-            })
-            router.push('/auth/signin')
-        }
+        // catch (err) {
+        //     console.error(err)
+        // }
     }
 
     return (
@@ -48,7 +58,7 @@ export default function Signup() {
                     Create your account
                 </Typography>
                 <Typography component="h5" variant="h5" align="center" color="primary" gutterBottom>
-                    And advertise to whole World
+                    And advertise to the World
                 </Typography>
             </Container>
             <Container maxWidth="md">  
