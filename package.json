@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@aws-amplify/cli": "^10.7.0",
     "@aws-amplify/ui-components": "^1.9.40",
     "@aws-amplify/ui-react": "^4.3.6",
     "@choutkamartin/mongoose-adapter": "^0.1.0",
