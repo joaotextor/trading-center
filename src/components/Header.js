@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import { useRouter } from 'next/router'
+
 import {
   AppBar,
   Box,
@@ -30,6 +32,8 @@ const MyLink = styled(Link)(({theme}) => ({
 }))
 
 export default function ButtonAppBar() {
+
+  const router = useRouter()
 
   const [anchorUserMenu, setAnchorUserMenu] = useState(false)
 
@@ -85,7 +89,12 @@ export default function ButtonAppBar() {
               </MyLink>
               
               <Divider />
-              <MenuItem onClick={() => signOut({callbackUrl: '/'})}>Logout</MenuItem>
+              <MenuItem onClick={() => {
+                console.log(process.env.NEXT_PUBLIC_NEXTAUTH_URL)
+                signOut({redirect: false})
+                router.push(process.env.NEXT_PUBLIC_NEXTAUTH_URL)
+              }
+                }>Logout</MenuItem>
             </Menu>
           </Toolbar>
           </Container>

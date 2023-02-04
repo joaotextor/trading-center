@@ -1,3 +1,5 @@
+import { Auth } from 'aws-amplify'
+
 import {
     Box,
     Button,
@@ -28,16 +30,20 @@ export default function Signup() {
     const router = useRouter()
 
     const handleFormSubmit = async values => {
-        const response = await axios.post('/api/users', values)
-
-        if (response.data.success) {
-            
-            setToasty({
-                open: true,
-                severity: 'success',
-                text: 'Signup successful'
+        console.log(values)
+        try {
+            const { user } = await Auth.signUp({
+                username: values.email,
+                password: values.password,
+                attributes: {
+                    email: values.email,
+                }
             })
-            router.push('/auth/signin')
+            console.log(user)
+        }        
+
+        catch (err) {
+            console.error(err)
         }
     }
 
@@ -48,7 +54,7 @@ export default function Signup() {
                     Create your account
                 </Typography>
                 <Typography component="h5" variant="h5" align="center" color="primary" gutterBottom>
-                    And advertise to whole Canada
+                    And advertise to the World
                 </Typography>
             </Container>
             <Container maxWidth="md">  
