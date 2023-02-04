@@ -149,6 +149,16 @@ export default function Login() {
                                                 )
                                             }
 
+                                                    <Button
+                                                        fullWidth
+                                                        variant="contained"
+                                                        color="primary"
+                                                        sx={classes.submit}
+                                                        onClick={() => router.push('/auth/signup')}
+                                                    >
+                                                    Singup
+                                                    </Button>   
+
                                             
                                         </form>
                                     )
