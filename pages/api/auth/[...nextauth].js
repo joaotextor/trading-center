@@ -28,8 +28,7 @@ export const authOptions = {
     CredentialsProvider({
         name: 'credentials',
         async authorize(credentials, req) {
-
-            const res = await axios.post(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/auth/signin`, credentials)
+            const res = await axios.post(`/api/auth/signin`, credentials)
 
             const user = res.data
 
