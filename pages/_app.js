@@ -21,7 +21,7 @@ export default function MyApp(props) {
         <title>Trading Center</title>
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
       </Head>
-      <SessionProvider session={pageProps.session}>
+      {/* <SessionProvider session={pageProps.session}> */}
         <ThemeProvider theme={theme}>
           <ToastyProvider>
             <CssBaseline />
@@ -33,7 +33,7 @@ export default function MyApp(props) {
             
           </ToastyProvider>
         </ThemeProvider>
-      </SessionProvider>
+      {/* </SessionProvider> */}
     </React.Fragment>
   );
 }
