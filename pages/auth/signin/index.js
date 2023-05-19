@@ -51,8 +51,9 @@ export default function Login() {
         })
     }
 
-    if (status === 'authenticated') {
-        router.push(`/user/dashboard`)
+    // if (status === 'authenticated') {
+    if (false) {
+    router.push(`/user/dashboard`)
     } else {
 
         return (
