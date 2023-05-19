@@ -13,7 +13,8 @@ import {
 
 import { Formik } from 'formik'
 import { useRouter } from 'next/router'
-import { signIn, useSession } from 'next-auth/react'
+//!DELETE! import { signIn, useSession } from 'next-auth/react'
+// import { Auth } from
 
 import TemplateDefault from '../../../src/templates/Default'
 import {
@@ -26,10 +27,10 @@ import Image from 'next/image'
 export default function Login() {
 
     const router = useRouter()
-    const { data: session, status } = useSession()
+    // const { data: session, status } = useSession()
     
-        const handleFormSubmit = async values => {
-    const signInStatus = await signIn('credentials', {
+    const handleFormSubmit = async values => {
+        const signInStatus = await signIn('credentials', {
         email: values.email,
         password: values.password,
         redirect: false,
