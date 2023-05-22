@@ -37,7 +37,7 @@ export default function ButtonAppBar() {
 
   const [anchorUserMenu, setAnchorUserMenu] = useState(false)
 
-  // const { data: session, status } = useSession()
+  const { data: session, status } = useSession()
 
   const openUserMenu = Boolean(anchorUserMenu) //Considering that, when clicked, anchorUserMenu will have a value, openUserMenu will become true. When closing the Menu, anchorUserMenu will be 'null', therefore passing openUserMenu a 'false' state 
 
@@ -49,7 +49,7 @@ export default function ButtonAppBar() {
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               <MyLink className="homeLink" href="/" passHref>Trading Center</MyLink>
             </Typography>
-            {/* <MyLink href={session ? "/user/publish" : "/auth/signin"} passHref> */}
+            <MyLink href={session ? "/user/publish" : "/auth/signin"} passHref/>
             <MyLink href={"/auth/signin"} passHref>
               <Button color="secondary" variant="outlined">
                 Advertise and Sell
@@ -57,16 +57,16 @@ export default function ButtonAppBar() {
             </MyLink>
 
             {
-              // session
-              // ? (
-              //   <IconButton sx={{gap: 1}} onClick={(e) => setAnchorUserMenu(e.currentTarget)}>
-              //   <Avatar src={session.user.image} sx={{marginLeft: '10px'}}/>
-              //   <Typography variant="subtitle2" color="secondary">
-              //     {/* { session.user.name } */}
-              //   </Typography>
-              //   </IconButton>
-              // )
-              // : null
+              session
+              ? (
+                <IconButton sx={{gap: 1}} onClick={(e) => setAnchorUserMenu(e.currentTarget)}>
+                <Avatar src={session.user.image} sx={{marginLeft: '10px'}}/>
+                <Typography variant="subtitle2" color="secondary">
+                  {/* { session.user.name } */}
+                </Typography>
+                </IconButton>
+              )
+              : null
             }
 
 

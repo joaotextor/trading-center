@@ -47,7 +47,7 @@ export default function Signup() {
             const response = await axios.post('/api/users', values)
 
             if (response.data.success) {
-                console.log(`MongoDB: ${response.data}`)
+                console.log(`MongoDB: ${JSON.stringify(response)}`)
                 setToasty({
                     open: true,
                     severity: 'success',
