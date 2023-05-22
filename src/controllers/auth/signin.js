@@ -16,6 +16,7 @@ const authSignin = {
           const user = await UsersModel.findOne({ email })
 
           if (!user) {
+            console.log("user not found")
             return res.status(401).json({ success: false, message: "invalid" })
           }
 
@@ -29,7 +30,7 @@ const authSignin = {
             })
           }
         
-          
+          console.log("Not working")
           return res.status(401).json({ success: false, message: "invalid" })
  
         }

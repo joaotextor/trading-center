@@ -4,7 +4,7 @@ import Head from 'next/head'
 import { ThemeProvider } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
 import { ToastyProvider } from '../src/contexts/Toasty'
-// import { SessionProvider } from "next-auth/react"
+import { SessionProvider } from "next-auth/react"
 
 import {Amplify} from "aws-amplify"
 import awsconfig from "../aws-exports"
@@ -24,7 +24,7 @@ export default function MyApp(props) {
         <title>Trading Center</title>
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
       </Head>
-      {/* <SessionProvider session={pageProps.session}> */}
+      <SessionProvider session={pageProps.session}>
         <ThemeProvider theme={theme}>
           <ToastyProvider>
             <CssBaseline />
@@ -36,7 +36,7 @@ export default function MyApp(props) {
             
           </ToastyProvider>
         </ThemeProvider>
-      {/* </SessionProvider> */}
+      </SessionProvider>
     </React.Fragment>
   );
 }

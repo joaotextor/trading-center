@@ -6,6 +6,7 @@ import axios from "axios"
 
 export const authOptions = {
   site: process.env.NEXT_PUBLIC_NEXTAUTH_URL,
+  // site: 'http://127.0.0.1:3000',
 
   useSecureCookies: true,
 
