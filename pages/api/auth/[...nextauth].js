@@ -5,21 +5,21 @@ import { MongooseAdapter } from "@choutkamartin/mongoose-adapter"
 import axios from "axios"
 
 export const authOptions = {
-  site: process.env.NEXT_PUBLIC_NEXTAUTH_URL,
-  // site: 'http://127.0.0.1:3000',
+  // site: process.env.NEXT_PUBLIC_NEXTAUTH_URL,
+  // // site: 'http://127.0.0.1:3000',
 
-  useSecureCookies: true,
+  // useSecureCookies: true,
 
-  cookies: {
-    callbackUrl: {
-      name: '__Secure-next-auth.callback-url',
-      options: {
-        sameSite: 'lax',
-        path: 'https://tradingcenter.joaotextor.com',
-        secure: true
-      }
-    }
-  },
+  // cookies: {
+  //   callbackUrl: {
+  //     name: '__Secure-next-auth.callback-url',
+  //     options: {
+  //       sameSite: 'lax',
+  //       path: 'https://tradingcenter.joaotextor.com',
+  //       secure: true
+  //     }
+  //   }
+  // },
 
   session: {
     strategy: "jwt",

@@ -195,7 +195,7 @@ const product = {
       await dbConnect()
 
       const id = req.body.id
-
+      
       const deleted = await ProductsModel.findOneAndRemove({_id: id})
 
       try {
