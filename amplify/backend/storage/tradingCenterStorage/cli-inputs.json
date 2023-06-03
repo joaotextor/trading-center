@@ -1,0 +1,15 @@
+{
+  "resourceName": "tradingCenterStorage",
+  "policyUUID": "66a0bd65",
+  "bucketName": "tradingcenterbucket",
+  "storageAccess": "authAndGuest",
+  "guestAccess": [
+    "READ"
+  ],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ],
+  "groupAccess": {}
+}

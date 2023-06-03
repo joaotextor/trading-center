@@ -14,6 +14,9 @@
     "categories": {
       "auth": {
         "tradingcenter5912b391": {}
+      },
+      "storage": {
+        "tradingCenterStorage": {}
       }
     }
   }

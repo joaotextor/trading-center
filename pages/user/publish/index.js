@@ -49,7 +49,7 @@ const Publish = ({ userId, image }) => {
             severity: 'success'
         })
 
-        router.push('/user/dashboard')
+        // router.push('/user/dashboard')
     }
 
     const handleError = () => {
@@ -73,6 +73,8 @@ const Publish = ({ userId, image }) => {
                 formData.append(field, values[field])
             }
         }
+
+        console.log(`FormData Files: ${JSON.stringify(formData.get('files'))}`)
 
         await axios.post('/api/products/post', formData)
             .then(handleSuccess)
@@ -292,13 +294,19 @@ const Publish = ({ userId, image }) => {
                                 <Box display="flex" justifyContent="right"> 
 
                                 {
-                                    isSubmitting
-                                        ? <CircularProgress sx={classes.loading}/>
-                                        : <Button
-                                        variant="contained"
-                                        color="primary"
-                                        type="submit"
+
+                                    <Button
+                                    variant="contained"
+                                    color="primary"
+                                    type="submit"
                                     >Publish Ad</Button>
+                                    // isSubmitting
+                                    //     ? <CircularProgress sx={classes.loading}/>
+                                    //     : <Button
+                                    //     variant="contained"
+                                    //     color="primary"
+                                    //     type="submit"
+                                    // >Publish Ad</Button>
                                 }
                                     
                                 </Box>

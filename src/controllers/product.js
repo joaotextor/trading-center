@@ -5,6 +5,8 @@ import dbConnect from "../utils/dbConnect"
 import ProductsModel from '../models/products'
 import formidable from 'formidable-serverless'
 
+import S3 from 'aws-sdk/clients/s3'
+
 
 
 const product = {
@@ -19,84 +21,134 @@ const product = {
 
       const form = new formidable.IncomingForm({
         multiples: true,
-        uploadDir: 'public/uploads',
+        // uploadDir: 'public/uploads', //! AJUSTAR ISSO
         keepExtensions: true,
       })
 
+      const s3 = new S3({
+        accessIdKey: process.env.AWS_ACCESS_KEY,
+        secretAccessKey: process.env.AWS_SECRET_KEY,
+      })
+      
       form.parse(req, async (error, fields, data) => {
         
         if (error) {
           return res.status(500).json({ success: false })
         }
 
+
+        // console.log(`Data: ${JSON.stringify(data)}`)
+
         const { files } = data
 
-        const filesToRename = files instanceof Array
+        const filesToUpload = files instanceof Array
           ? files
           : [files]
 
-        const filesToSave = []
+        // console.log(`Files to Upload: ${JSON.stringify(filesToUpload)}`)
 
-        filesToRename.forEach(file => {
-          const timestamp = Date.now()
-          const random = Math.floor(Math.random() * 999999999) + 1
+        let filesToSaveOnDb = []
 
-          const extension = path.extname(file.name)
-          const filename = `${timestamp}_${random}${extension}`
+        async function uploadFile(filesToUpload) {
+          await filesToUpload.forEach(async file => {
+            try {
+              const timestamp = Date.now()
+              const random = Math.floor(Math.random() * 999999999) + 1
+              const extension = path.extname(file.name)
 
-          const oldpath = path.join(__dirname, `../../../../../${file.path}`)
-          const newpath = path.join(__dirname, `../../../../../${form.uploadDir}/${filename}`)
+              const Key = `${timestamp}_${random}${extension}`
 
-          filesToSave.push({
-            name: filename,
-            path: newpath,
-          })
+              const fileToUpload = fs.readFileSync(file.path)
+              console.log(`File to Upload: ${file.name}`)
+              console.log(`File to Upload Path: ${file.path}`)
+              const uploadedImage = await s3.upload({
+                Bucket: process.env.BUCKET_NAME,
+                Key,
+                Body: fileToUpload,
+                ContentType: "image/*"
+              }).promise()
+                        
+              filesToSaveOnDb.push({
+                name: file.name,
+                path: `${uploadedImage.Location}`,
+              })
 
-          fs.rename(oldpath, newpath, (error) => {
-            if (error) {
-              return res.status(500).json({ success: false })
+              console.log(`Loop - files to save: ${JSON.stringify(filesToSaveOnDb)}`)
+    
+            }
+            catch (error) {
+              console.log(`Error: ${error}`)
             }
           })
-        })
-
-        const {
-          title,
-          category,
-          userId,
-          contactImage,
-          description,
-          price,
-          contactName,
-          contactEmail,
-          contactPhone,
-          location,
-          publishDate,
-        } = fields
-
-        const product = new ProductsModel({
-          title,
-          category,
-          userId,
-          contactImage,
-          description,
-          price,
-          contactName,
-          contactEmail,
-          contactPhone,
-          files: filesToSave,
-          location,
-          publishDate,
-        })
-
-        const register = await product.save()
-
-        if (register) {
-          res.status(201).json({ success: true })
-        } else {
-          res.status(500).json({ success: false})
         }
+        // const filesToSave = []
 
-        })
+        // filesToRename.forEach(async file => {
+        //   const timestamp = Date.now()
+        //   const random = Math.floor(Math.random() * 999999999) + 1
+
+        //   const extension = path.extname(file.name)
+        //   const filename = `${timestamp}_${random}${extension}`
+          
+        //   const oldpath = path.join(__dirname, `../../../../../${file.path}`)
+
+        //   const newpath = path.join(__dirname, `../../../../../${form.uploadDir}/${filename}`)
+
+        //   filesToSave.push({
+        //     name: filename,
+        //     path: newpath,
+        //   })
+
+        //   fs.rename(oldpath, newpath, (error) => {
+        //     if (error) {
+        //       return res.status(500).json({ success: false })
+        //     }
+        //   })
+        // })
+
+        async function saveFilesOnDb() {
+          await uploadFile(filesToUpload)
+          const {
+            title,
+            category,
+            userId,
+            contactImage,
+            description,
+            price,
+            contactName,
+            contactEmail,
+            contactPhone,
+            location,
+            publishDate,
+          } = fields
+  
+          const product = new ProductsModel({
+            title,
+            category,
+            userId,
+            contactImage,
+            description,
+            price,
+            contactName,
+            contactEmail,
+            contactPhone,
+            files: filesToSaveOnDb,
+            location,
+            publishDate,
+          })
+  
+          console.log(`Product Files: ${product.files}`) //This is being called first
+  
+          const register = await product.save()
+  
+          if (register) {
+            res.status(201).json({ success: true })
+          } else {
+            res.status(500).json({ success: false})
+          }
+        }
+        saveFilesOnDb()
+      })
     },
 
     put: async (req, res) => {

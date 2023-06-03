@@ -17,6 +17,7 @@
     "@mui/material": "^5.13.1",
     "@next/font": "^13.4.3",
     "aws-amplify": "^5.2.2",
+    "aws-sdk": "^2.1390.0",
     "axios": "~1.2.2",
     "bcrypt": "~5.1.0",
     "cookies": "^0.8.0",

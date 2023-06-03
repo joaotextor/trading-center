@@ -2,7 +2,7 @@
   "version": "1",
   "cognitoConfig": {
     "identityPoolName": "tradingcenter5912b391_identitypool_5912b391",
-    "allowUnauthenticatedIdentities": false,
+    "allowUnauthenticatedIdentities": true,
     "resourceNameTruncated": "tradin5912b391",
     "userPoolName": "tradingcenter5912b391_userpool_5912b391",
     "autoVerifiedAttributes": [

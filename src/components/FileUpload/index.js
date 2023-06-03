@@ -21,9 +21,16 @@ export default function FileUpload({ files, filesToRemove, errors, touched, setF
         }
     })
 
+    if (!filesToRemove) { filesToRemove = [] }
+
     //! Using only file.path will cause a bug in which if the user uploads 2 ore more files with the same name, all of them will be deleted at once when deleting one of them.
     const handleRemoveFile = (fileIndex, filePath) => {
         const newFileState = files.filter((file, index) => (index+file.path) !== `${fileIndex}${filePath}`)
+
+        console.log(`File Index: ${fileIndex}`)
+        console.log(`File Path: ${filePath}`)
+        
+        
 
 
         //This will append the removed file to the FilesToRemove array
@@ -35,6 +42,8 @@ export default function FileUpload({ files, filesToRemove, errors, touched, setF
         ])
 
         setFieldValue('files', newFileState)
+        console.log(`Files to Remove: ${filesToRemove}`)
+        console.log(`New File State: ${newFileState}`)
 
     }
 

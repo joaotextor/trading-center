@@ -129,7 +129,10 @@ const Home = ({products}) => {
                   <Card
                   title={product.title}
                   subtitle={formatCurrency(product.price, 'CA')}
-                  image={`/uploads/${product.files[0].name}`}
+                  image={
+                    product.files[0]
+                    ? `/uploads/${product.files[0].name}`
+                    : ""}
                   actions={
                     <>
                       <Button
