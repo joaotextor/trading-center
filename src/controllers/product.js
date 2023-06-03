@@ -50,7 +50,7 @@ const product = {
         let filesToSaveOnDb = []
 
         async function uploadFile(filesToUpload) {
-          await filesToUpload.forEach(async file => {
+          for(let file of filesToUpload) {
             try {
               const timestamp = Date.now()
               const random = Math.floor(Math.random() * 999999999) + 1
@@ -59,52 +59,29 @@ const product = {
               const Key = `${timestamp}_${random}${extension}`
 
               const fileToUpload = fs.readFileSync(file.path)
-              console.log(`File to Upload: ${file.name}`)
-              console.log(`File to Upload Path: ${file.path}`)
+              // console.log(`File to Upload: ${file.name}`)
+              // console.log(`File to Upload Path: ${file.path}`)
               const uploadedImage = await s3.upload({
                 Bucket: process.env.BUCKET_NAME,
                 Key,
                 Body: fileToUpload,
-                ContentType: "image/*"
+                ContentType: "image/jpg"
               }).promise()
                         
               filesToSaveOnDb.push({
-                name: file.name,
+                name: Key,
                 path: `${uploadedImage.Location}`,
               })
 
-              console.log(`Loop - files to save: ${JSON.stringify(filesToSaveOnDb)}`)
+              // console.log(`Loop - files to save: ${JSON.stringify(filesToSaveOnDb)}`)
     
             }
             catch (error) {
               console.log(`Error: ${error}`)
             }
-          })
+          }
+
         }
-        // const filesToSave = []
-
-        // filesToRename.forEach(async file => {
-        //   const timestamp = Date.now()
-        //   const random = Math.floor(Math.random() * 999999999) + 1
-
-        //   const extension = path.extname(file.name)
-        //   const filename = `${timestamp}_${random}${extension}`
-          
-        //   const oldpath = path.join(__dirname, `../../../../../${file.path}`)
-
-        //   const newpath = path.join(__dirname, `../../../../../${form.uploadDir}/${filename}`)
-
-        //   filesToSave.push({
-        //     name: filename,
-        //     path: newpath,
-        //   })
-
-        //   fs.rename(oldpath, newpath, (error) => {
-        //     if (error) {
-        //       return res.status(500).json({ success: false })
-        //     }
-        //   })
-        // })
 
         async function saveFilesOnDb() {
           await uploadFile(filesToUpload)
@@ -137,7 +114,7 @@ const product = {
             publishDate,
           })
   
-          console.log(`Product Files: ${product.files}`) //This is being called first
+          // console.log(`Product Files: ${product.files}`) //This is being called first
   
           const register = await product.save()
   

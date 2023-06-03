@@ -78,7 +78,7 @@ export default function Product({ product }) {
                                         <Card key={file.name} sx={classes.card}>
                                             <CardMedia
                                                 sx={classes.cardMedia}
-                                                image={`/uploads/${file.name}`}
+                                                image={`${file.path}`}
                                                 title={product.title}
                                             />
                                         </Card>

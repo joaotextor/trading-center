@@ -89,7 +89,7 @@ export default function Home({products}) {
                                     subtitle={formatCurrency(product.price, "CA")}
                                     image={
                                         product.files[0] 
-                                        ? `/uploads/${product.files[0].name}`
+                                        ? `${product.files[0].path}`
                                         : ""}
                                     />
                                 </MyLink>

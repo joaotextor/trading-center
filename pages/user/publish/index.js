@@ -49,7 +49,7 @@ const Publish = ({ userId, image }) => {
             severity: 'success'
         })
 
-        // router.push('/user/dashboard')
+        router.push('/user/dashboard')
     }
 
     const handleError = () => {
@@ -295,18 +295,18 @@ const Publish = ({ userId, image }) => {
 
                                 {
 
-                                    <Button
-                                    variant="contained"
-                                    color="primary"
-                                    type="submit"
-                                    >Publish Ad</Button>
-                                    // isSubmitting
-                                    //     ? <CircularProgress sx={classes.loading}/>
-                                    //     : <Button
-                                    //     variant="contained"
-                                    //     color="primary"
-                                    //     type="submit"
+                                    // <Button
+                                    // variant="contained"
+                                    // color="primary"
+                                    // type="submit"
                                     // >Publish Ad</Button>
+                                    isSubmitting
+                                        ? <CircularProgress sx={classes.loading}/>
+                                        : <Button
+                                        variant="contained"
+                                        color="primary"
+                                        type="submit"
+                                    >Publish Ad</Button>
                                 }
                                     
                                 </Box>
