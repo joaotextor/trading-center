@@ -26,6 +26,7 @@ const product = {
       })
 
       const s3 = new S3({
+        apiVersion: 'latest',
         accessIdKey: process.env.ACCESS_KEY_AWS,
         secretAccessKey: process.env.SECRET_KEY_AWS,
       })
