@@ -26,8 +26,8 @@ const product = {
       })
 
       const s3 = new S3({
-        accessIdKey: process.env.AWS_ACCESS_KEY,
-        secretAccessKey: process.env.AWS_SECRET_KEY,
+        accessIdKey: process.env.ACCESS_KEY_AWS,
+        secretAccessKey: process.env.SECRET_KEY_AWS,
       })
       
       form.parse(req, async (error, fields, data) => {
@@ -65,7 +65,7 @@ const product = {
                 Bucket: process.env.BUCKET_NAME,
                 Key,
                 Body: fileToUpload,
-                ContentType: "image/jpg"
+                ContentType: "image/*"
               }).promise()
                         
               filesToSaveOnDb.push({
