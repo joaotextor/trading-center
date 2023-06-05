@@ -22,6 +22,10 @@ const product = {
       AWS.config.apiVersions = {
         s3: '2006-03-01',
       }
+      AWS.config.credentials = {
+        accessIdKey: process.env.ACCESS_KEY_AWS,
+        secretAccessKey: process.env.SECRET_KEY_AWS,
+      }
       // const credentials = new AWS.CognitoIdentityCredentials({
       //   IdentityPoolId: 'sa-east-1:0582b3ac-3542-4c5c-b04a-d8d98ba345ae',
       // })
@@ -33,9 +37,6 @@ const product = {
         multiples: true,
         keepExtensions: true,
       })
-
-      console.log(process.env.ACCESS_KEY_AWS)
-      console.log(process.env.SECRET_KEY_AWS)
 
       const s3 = new S3({
         region: 'sa-east-1',
