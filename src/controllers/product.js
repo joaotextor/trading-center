@@ -6,8 +6,7 @@ import ProductsModel from '../models/products'
 import formidable from 'formidable-serverless'
 
 import S3 from 'aws-sdk/clients/s3'
-
-
+import AWS from 'aws-sdk'
 
 const product = {
     // get: async (req, res) => {
@@ -19,14 +18,28 @@ const product = {
     post: async (req, res) => {
       await dbConnect()
 
+      AWS.config.region = 'sa-east-1'
+      AWS.config.apiVersions = {
+        s3: '2006-03-01',
+      }
+      // const credentials = new AWS.CognitoIdentityCredentials({
+      //   IdentityPoolId: 'sa-east-1:0582b3ac-3542-4c5c-b04a-d8d98ba345ae',
+      // })
+      // const locationClient = new AWS.Location({
+      //   credentials,
+      // })
+
       const form = new formidable.IncomingForm({
         multiples: true,
-        // uploadDir: 'public/uploads', //! AJUSTAR ISSO
         keepExtensions: true,
       })
 
+      console.log(process.env.ACCESS_KEY_AWS)
+      console.log(process.env.SECRET_KEY_AWS)
+
       const s3 = new S3({
-        apiVersion: 'latest',
+        region: 'sa-east-1',
+        apiVersion: '2006-03-01',
         accessIdKey: process.env.ACCESS_KEY_AWS,
         secretAccessKey: process.env.SECRET_KEY_AWS,
       })
