@@ -73,7 +73,8 @@ const product = {
                 path: `${uploadedImage.Location}`,
               })
 
-              // console.log(`Loop - files to save: ${JSON.stringify(filesToSaveOnDb)}`)
+              console.log(`Loop - files to save: ${JSON.stringify(filesToSaveOnDb)}`)
+              console.log(`S3 Request: ${uploadedImage}`)
     
             }
             catch (error) {
