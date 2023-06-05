@@ -62,6 +62,7 @@ const product = {
               // console.log(`File to Upload: ${file.name}`)
               // console.log(`File to Upload Path: ${file.path}`)
               const uploadedImage = await s3.upload({
+                apiVersion: 'latest',
                 Bucket: process.env.BUCKET_NAME,
                 Key,
                 Body: fileToUpload,
