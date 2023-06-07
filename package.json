@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@aws-amplify/ui-react": "^4.6.2",
+    "@aws-sdk/lib-storage": "^3.347.1",
     "@choutkamartin/mongoose-adapter": "^0.1.0",
     "@emotion/react": "~11.11.0",
     "@emotion/styled": "^11.11.0",
@@ -21,6 +22,7 @@
     "axios": "~1.2.2",
     "bcrypt": "~5.1.0",
     "cookies": "^0.8.0",
+    "dotenv": "^16.1.4",
     "eslint": "8.40.0",
     "eslint-config-next": "13.4.3",
     "formidable-serverless": "~1.1.1",
