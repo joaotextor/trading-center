@@ -6,6 +6,7 @@ import ProductsModel from '../models/products'
 import formidable from 'formidable-serverless'
 
 import S3 from 'aws-sdk/clients/s3'
+import AWS from 'aws-sdk'
 
 const product = {
     // get: async (req, res) => {
@@ -20,6 +21,12 @@ const product = {
       const form = new formidable.IncomingForm({
         multiples: true,
         keepExtensions: true,
+      })
+
+      AWS.config.update({
+        accessIdKey: process.env.ACCESS_KEY_AWS,
+        secretAccessKey: process.env.SECRET_KEY_AWS,
+        region: "sa-east-1",
       })
 
       const s3 = new S3({
