@@ -35,7 +35,6 @@ export default function Login() {
             password: values.password,
             redirect: false,
         })
-        console.log(signInStatus)
 
     if (signInStatus.ok == false) {
         return router.push(`/auth/signin?i=1`)

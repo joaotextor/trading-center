@@ -6,7 +6,7 @@ import ProductsModel from '../models/products'
 import formidable from 'formidable-serverless'
 
 import { Amplify, Storage } from 'aws-amplify'
-import awsconfig from "./aws-exports.js"
+import awsconfig from "../../aws-exports"
 
 // import S3 from 'aws-sdk/clients/s3'
 // import AWS from 'aws-sdk'
@@ -33,8 +33,6 @@ const product = {
         if (error) {
           return res.status(500).json({ success: false })
         }
-
-
         // console.log(`Data: ${JSON.stringify(data)}`)
 
         const { files } = data
