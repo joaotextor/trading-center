@@ -37,6 +37,8 @@ const product = {
 
         const { files } = data
 
+        console.log(files)
+
         const filesToUpload = files instanceof Array
           ? files
           : [files]
@@ -58,12 +60,14 @@ const product = {
 
               const uploadResult = await Storage.put(file.name, fileToUpload)
 
-              console.log(uploadResult)
+              console.log(`Uploaded Files: ${uploadResult}`)
 
-              filesToSaveOnDb.push({
-                name: Key,
-                path: `${uploadedImage.Location}`,
-              })
+
+
+              // filesToSaveOnDb.push({
+              //   name: Key,
+              //   path: `${uploadedImage.Location}`,
+              // })
               
     
             }
