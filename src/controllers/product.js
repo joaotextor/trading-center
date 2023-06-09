@@ -5,8 +5,11 @@ import dbConnect from "../utils/dbConnect"
 import ProductsModel from '../models/products'
 import formidable from 'formidable-serverless'
 
-import S3 from 'aws-sdk/clients/s3'
-import AWS from 'aws-sdk'
+import { Amplify, Storage } from 'aws-amplify'
+import awsconfig from "./aws-exports.js"
+
+// import S3 from 'aws-sdk/clients/s3'
+// import AWS from 'aws-sdk'
 
 const product = {
     // get: async (req, res) => {
@@ -23,16 +26,7 @@ const product = {
         keepExtensions: true,
       })
 
-      AWS.config.update({
-        accessIdKey: process.env.ACCESS_KEY_AWS,
-        secretAccessKey: process.env.SECRET_KEY_AWS,
-        region: "sa-east-1",
-      })
-
-      const s3 = new S3({
-        accessIdKey: process.env.ACCESS_KEY_AWS,
-        secretAccessKey: process.env.SECRET_KEY_AWS,
-      })
+      Amplify.configure(awsconfig);
       
       form.parse(req, async (error, fields, data) => {
         
@@ -64,12 +58,9 @@ const product = {
 
               const fileToUpload = fs.readFileSync(file.path)
 
-              const uploadedImage = await s3.upload({
-                Bucket: process.env.BUCKET_NAME,
-                Key,
-                Body: fileToUpload,
-                ContentType: "image/*"
-              }).promise()
+              const uploadResult = await Storage.put(file.name, fileToUpload)
+
+              console.log(uploadResult)
 
               filesToSaveOnDb.push({
                 name: Key,
