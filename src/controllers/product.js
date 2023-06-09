@@ -37,8 +37,6 @@ const product = {
 
         const { files } = data
 
-        console.log(files)
-
         const filesToUpload = files instanceof Array
           ? files
           : [files]
@@ -58,9 +56,14 @@ const product = {
 
               const fileToUpload = fs.readFileSync(file.path)
 
-              const uploadResult = await Storage.put(file.name, fileToUpload)
+              console.log("Uploading...")
+              await Storage.put(Key, fileToUpload)
+              console.log("Uploaded")
+              
+              
+              uploadedFileLink = Storage.get(Key)
 
-              console.log(`Uploaded Files: ${uploadResult}`)
+              console.log(uploadedFileLink)
 
 
 
@@ -108,8 +111,6 @@ const product = {
             location,
             publishDate,
           })
-  
-          // console.log(`Product Files: ${product.files}`) //This is being called first
   
           const register = await product.save()
   
