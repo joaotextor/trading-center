@@ -29,11 +29,30 @@
       "service": "Cognito"
     }
   },
+  "parameters": {
+    "AMPLIFY_storage_tradingcentera5d96477_bucketName": {
+      "usedBy": [
+        {
+          "category": "storage",
+          "resourceName": "tradingcentera5d96477"
+        }
+      ]
+    },
+    "AMPLIFY_storage_tradingcentera5d96477_region": {
+      "usedBy": [
+        {
+          "category": "storage",
+          "resourceName": "tradingcentera5d96477"
+        }
+      ]
+    }
+  },
   "storage": {
-    "tradingCenterStorage": {
+    "tradingcentera5d96477": {
       "dependsOn": [],
       "providerPlugin": "awscloudformation",
-      "service": "S3"
+      "service": "S3",
+      "serviceType": "imported"
     }
   }
 }

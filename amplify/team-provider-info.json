@@ -16,7 +16,10 @@
         "tradingcenter5912b391": {}
       },
       "storage": {
-        "tradingCenterStorage": {}
+        "tradingcentera5d96477": {
+          "bucketName": "tradingcenterstorage",
+          "region": "sa-east-1"
+        }
       }
     }
   }

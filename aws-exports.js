@@ -41,9 +41,8 @@ const awsmobile = {
     "aws_cognito_verification_mechanisms": [
         "EMAIL"
     ],
-    "aws_user_files_s3_bucket": "tradingcenterbucket-dev",
-    "aws_user_files_s3_bucket_region": "sa-east-1",
-    "aws_user_files_s3_dangerously_connect_to_http_endpoint_for_testing": true
+    "aws_user_files_s3_bucket": "tradingcenterstorage",
+    "aws_user_files_s3_bucket_region": "sa-east-1"
 };
 
 
