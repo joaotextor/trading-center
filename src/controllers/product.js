@@ -8,8 +8,8 @@ import formidable from 'formidable-serverless'
 import { Amplify, Storage } from 'aws-amplify'
 import awsconfig from "../../aws-exports"
 
-// import S3 from 'aws-sdk/clients/s3'
-// import AWS from 'aws-sdk'
+import S3 from 'aws-sdk/clients/s3'
+import AWS from 'aws-sdk'
 
 const product = {
     // get: async (req, res) => {
@@ -26,7 +26,21 @@ const product = {
         keepExtensions: true,
       })
 
-      Amplify.configure(awsconfig);
+      //? Amplify.configure(awsconfig);
+
+      AWS.config.update({
+        apiVersions: {
+          s3: '2006-03-01',
+        },
+        region: 'sa-east-1',
+      })
+
+      const s3 = new S3({
+        apiVersion: 'latest',
+        region: 'sa-east-1',
+        accessKeyId: process.env.ACCESS_KEY_AWS,
+        secretAccessKey: process.env.SECRET_KEY_AWS,
+      })
       
       form.parse(req, async (error, fields, data) => {
         
@@ -56,21 +70,31 @@ const product = {
 
               const fileToUpload = fs.readFileSync(file.path)
 
-              console.log("Uploading...")
-              await Storage.put(Key, fileToUpload)
-              console.log("Uploaded")
-              
-              
-              uploadedFileLink = Storage.get(Key)
+              const uploadedImage = await s3.upload({
+                Bucket: process.env.BUCKET_NAME,
+                Key,
+                Body: fileToUpload,
+              }).promise()
 
+              const uploadedFileLink = uploadedImage.Location
+              
               console.log(uploadedFileLink)
 
+              //? console.log("Uploading...")
+              //? await Storage.put(Key, fileToUpload)
+              // ? console.log("Uploaded")
+              
+              
 
 
-              // filesToSaveOnDb.push({
-              //   name: Key,
-              //   path: `${uploadedImage.Location}`,
-              // })
+
+
+              filesToSaveOnDb.push({
+                name: Key,
+                path: `${uploadedImage.Location}`,
+              })
+
+              console.log(filesToSaveOnDb)
               
     
             }
