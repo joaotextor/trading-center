@@ -24,11 +24,11 @@ export default function FileUpload({ files, filesToRemove, errors, touched, setF
     if (!filesToRemove) { filesToRemove = [] }
 
     //! Using only file.path will cause a bug in which if the user uploads 2 ore more files with the same name, all of them will be deleted at once when deleting one of them.
-    const handleRemoveFile = (fileIndex, filePath) => {
-        const newFileState = files.filter((file, index) => (index+file.path) !== `${fileIndex}${filePath}`)
+    const handleRemoveFile = (fileIndex, fileName) => {
+        const newFileState = files.filter((file, index) => (index+file.name) !== `${fileIndex}${fileName}`)
 
         console.log(`File Index: ${fileIndex}`)
-        console.log(`File Path: ${filePath}`)
+        console.log(`File Name: ${fileName}`)
         
         
 
@@ -38,7 +38,7 @@ export default function FileUpload({ files, filesToRemove, errors, touched, setF
         //Then we just use split(',') to transform back into an Array
         setFieldValue('filesToRemove', [
             ...filesToRemove,
-            filePath
+            fileName
         ])
 
         setFieldValue('files', newFileState)
@@ -83,7 +83,7 @@ export default function FileUpload({ files, filesToRemove, errors, touched, setF
                             backgroundPosition: 'center'
                         }}>
                             <ThumbBox className="thumb-mask">
-                                <IconButton color="secondary" onClick={() => handleRemoveFile(index, file.path)}>
+                                <IconButton color="secondary" onClick={() => handleRemoveFile(index, file.name)}>
                                     <DeleteForever fontSize="large"/>    
                                 </IconButton>   
                             </ThumbBox>

@@ -84,7 +84,7 @@ const Edit = ({ product }) => {
             }
         }
 
-        await axios.put('/api/products/put/', formData)
+        await axios.put('/api/products/put', formData)
             .then(handleSuccess)
             .catch(handleError)
     }

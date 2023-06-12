@@ -163,7 +163,10 @@ const product = {
 
 
         // Transform back the comma separated string into an Array
-        const filesToRemoveArr = filesToRemove.split(',')
+        let filesToRemoveArr = []
+        if (filesToRemove.length != 0) {
+          filesToRemoveArr = filesToRemove.split(',')
+        }
 
         if (error) {
           return res.status(500).json({ success: false })
@@ -171,75 +174,93 @@ const product = {
 
           const { files } = data
 
-          const filesToSave = product.files.filter(f => !filesToRemoveArr.includes( f.path ))
+          const filesToSave = product.files.filter(f => !filesToRemoveArr.includes( f.name ))
+
+          let filesToSaveOnDb = [
+            ...filesToSave
+          ]
+
+          let filesToUpload
 
           if (files != undefined) {
-            const filesToUpload = files instanceof Array
-              ? files
-              : [files]
+            filesToUpload = files instanceof Array
+                ? files
+                : [files]
+          }
 
-              let filesToSaveOnDb = [
-                ...filesToSave
-              ]
+          async function uploadFile(filesToUpload) {
 
-              async function uploadFile(filesToUpload) {
-                for (let file of filesToUpload) {
-                  try {
-                    const timestamp = Date.now()
-                    const random = Math.floor(Math.random() * 999999999) + 1
-          
-                    const extension = path.extname(file.name)
-                    const Key = `${timestamp}_${random}${extension}`
+            if (files == undefined) return 0;
 
-                    const fileToUpload = fs.readFileSync(file.path)
-
-                    const uploadedImage = await s3.upload({
-                      Bucket: process.env.BUCKET_NAME,
-                      Key,
-                      Body: fileToUpload,
-                    }).promise()
-
-                    const uploadedFileLink = uploadedImage.Location
-
-                    filesToSaveOnDb.push({
-                      name: Key,
-                      path: uploadedFileLink,
-                    })
-                  }
-                  catch (error) {
-                    console.log(`Error: ${error}`)
-                  }
-                }
-              }
-
-              async function saveFilesOnDb() {
-                await uploadFile(filesToUpload)
-                product.title = title
-                product.category = category
-                product.description = description
-                product.price = price
-                product.contactName = contactName
-                product.contactEmail = contactEmail
-                product.contactPhone = contactPhone
-                product.location = location
-                product.publishDate = Date.now()
-                product.files = filesToSaveOnDb
-        
-                const register = await product.save()
-        
-                if (register) {
-                  // filesToRemoveArr.forEach(file => {
-                  //   fs.rm(file, {}, () => {})
-                  // })
-                  console.log(filesToRemoveArr)
-                  res.status(201).json({ success: true })
-                } else {
-                  res.status(500).json({ success: false})
-                }
+            for (let file of filesToUpload) {
+              try {
+                const timestamp = Date.now()
+                const random = Math.floor(Math.random() * 999999999) + 1
       
+                const extension = path.extname(file.name)
+                const Key = `${timestamp}_${random}${extension}`
+
+                const fileToUpload = fs.readFileSync(file.path)
+
+                const uploadedImage = await s3.upload({
+                  Bucket: process.env.BUCKET_NAME,
+                  Key,
+                  Body: fileToUpload,
+                }).promise()
+
+                const uploadedFileLink = uploadedImage.Location
+
+                filesToSaveOnDb.push({
+                  name: Key,
+                  path: uploadedFileLink,
+                })
               }
-              saveFilesOnDb()
-        }
+              catch (error) {
+                console.log(`Error: ${error}`)
+              }
+            }
+          }
+
+          async function saveFilesOnDb() {
+            await uploadFile(filesToUpload)
+
+            product.title = title
+            product.category = category
+            product.description = description
+            product.price = price
+            product.contactName = contactName
+            product.contactEmail = contactEmail
+            product.contactPhone = contactPhone
+            product.location = location
+            product.publishDate = Date.now()
+            product.files = filesToSaveOnDb
+    
+            const register = await product.save()
+
+            if (register) {
+              if (filesToRemoveArr.length != 0) {
+                let filesToDeleteFromS3 = []
+                filesToRemoveArr.forEach(file => {
+                  filesToDeleteFromS3.push({"Key": file})
+                })
+                s3.deleteObjects({
+                  Bucket: process.env.BUCKET_NAME,
+                  Delete: {
+                    Objects: filesToDeleteFromS3,
+                    Quiet: false
+                  }
+                }, (err, data) => {
+                  if (err) console.log(err, err.stack)
+                })
+              }
+              res.status(201).json({ success: true })
+            } else {
+              res.status(500).json({ success: false})
+            }
+  
+          }
+
+          saveFilesOnDb()
 
       })
     },
