@@ -302,6 +302,12 @@ const Edit = ({ product }) => {
             
                             <MyContainer className={classes.container} maxWidth="md">
                                 <Box display="flex" justifyContent="right"> 
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    sx={{marginRight: 2}}
+                                    onClick={() => router.push('/user/dashboard')}
+                                >Cancel</Button>
 
                                 {
                                     isSubmitting

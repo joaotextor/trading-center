@@ -49,7 +49,7 @@ const Publish = ({ userId, image }) => {
             severity: 'success'
         })
 
-        // router.push('/user/dashboard')
+        router.push('/user/dashboard')
     }
 
     const handleError = () => {
@@ -74,7 +74,7 @@ const Publish = ({ userId, image }) => {
             }
         }
 
-        console.log(`FormData Files: ${JSON.stringify(formData.get('files'))}`)
+        // console.log(`FormData Files: ${JSON.stringify(formData.get('files'))}`)
 
         await axios.post('/api/products/post', formData)
             .then(handleSuccess)
@@ -292,21 +292,23 @@ const Publish = ({ userId, image }) => {
             
                             <MyContainer className={classes.container} maxWidth="md">
                                 <Box display="flex" justifyContent="right"> 
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    sx={{marginRight: 2}}
+                                    onClick={() => router.push('/user/dashboard')}
+                                >Cancel</Button>
 
                                 {
 
-                                    <Button
-                                    variant="contained"
-                                    color="primary"
-                                    type="submit"
+                                    
+                                    isSubmitting
+                                        ? <CircularProgress sx={classes.loading}/>
+                                        : <Button
+                                        variant="contained"
+                                        color="primary"
+                                        type="submit"
                                     >Publish Ad</Button>
-                                    // isSubmitting
-                                    //     ? <CircularProgress sx={classes.loading}/>
-                                    //     : <Button
-                                    //     variant="contained"
-                                    //     color="primary"
-                                    //     type="submit"
-                                    // >Publish Ad</Button>
                                 }
                                     
                                 </Box>
