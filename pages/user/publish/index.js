@@ -299,9 +299,7 @@ const Publish = ({ userId, image }) => {
                                     onClick={() => router.push('/user/dashboard')}
                                 >Cancel</Button>
 
-                                {
-
-                                    
+                                {                                    
                                     isSubmitting
                                         ? <CircularProgress sx={classes.loading}/>
                                         : <Button

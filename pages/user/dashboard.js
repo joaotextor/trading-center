@@ -75,7 +75,7 @@ const Home = ({products}) => {
   }
 
   const handleSuccess = () => {
-    Router.reload(window,location.pathname)
+    route.push('/user/dashboard')
     setAlertOpen(false)
     setToasty(
       {open: true,
