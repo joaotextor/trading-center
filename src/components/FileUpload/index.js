@@ -79,7 +79,7 @@ export default function FileUpload({ files, filesToRemove, errors, touched, setF
                         key={file.preview ? `${file.path}-${index}` : `${file.name}`}
                         className="thumb-img"
                         sx={{
-                            backgroundImage: file.preview ? `url(${file.preview})` : `url('/uploads/${file.name}')`,
+                            backgroundImage: file.preview ? `url(${file.preview})` : `url('${file.path}')`,
                             backgroundPosition: 'center'
                         }}>
                             <ThumbBox className="thumb-mask">
