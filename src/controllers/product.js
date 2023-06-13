@@ -8,6 +8,8 @@ import formidable from 'formidable-serverless'
 import S3 from 'aws-sdk/clients/s3'
 import AWS from 'aws-sdk'
 
+const s3Bucket = process.env.BUCKET_NAME
+
 const form = new formidable.IncomingForm({
   multiples: true,
   keepExtensions: true,
@@ -26,6 +28,18 @@ const s3 = new S3({
   accessKeyId: process.env.ACCESS_KEY_AWS,
   secretAccessKey: process.env.SECRET_KEY_AWS,
 })
+
+function removeS3Objects(bucket, files) {
+  s3.deleteObjects({
+    Bucket: bucket,
+    Delete: {
+      Objects: files,
+      Quiet: false
+    }
+  }, (err, data) => {
+    if (err) console.log(err, err.stack)
+  })
+}
 
 async function uploadFile(filesToUpload, filesToSaveOnDb, incomingFiles) {
 
@@ -204,21 +218,12 @@ const product = {
                 filesToRemoveArr.forEach(file => {
                   filesToDeleteFromS3.push({"Key": file})
                 })
-                s3.deleteObjects({
-                  Bucket: process.env.BUCKET_NAME,
-                  Delete: {
-                    Objects: filesToDeleteFromS3,
-                    Quiet: false
-                  }
-                }, (err, data) => {
-                  if (err) console.log(err, err.stack)
-                })
+                removeS3Objects(s3Bucket, filesToDeleteFromS3)
               }
               res.status(201).json({ success: true })
             } else {
               res.status(500).json({ success: false})
             }
-  
           }
 
           saveFilesOnDb()
@@ -233,17 +238,16 @@ const product = {
       
       const deleted = await ProductsModel.findOneAndRemove({_id: id})
 
+      const filesToDeleteFromS3 = []
+
       try {
-          deleted.files.map(file => {
-          const deletedFile = fs.rm(file.path, {}, () => {})
-          return deletedFile
+        deleted.files.map(file => {
+          filesToDeleteFromS3.push({"Key": file.name})
         })
-      }
-      
-      catch {
+        removeS3Objects(s3Bucket, filesToDeleteFromS3)
+      } catch {
         console.log('An error has occurred')
       }
-
 
       if (deleted) {
         return res.status(200).json({success: true})
