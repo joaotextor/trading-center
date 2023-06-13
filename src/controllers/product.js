@@ -8,6 +8,61 @@ import formidable from 'formidable-serverless'
 import S3 from 'aws-sdk/clients/s3'
 import AWS from 'aws-sdk'
 
+const form = new formidable.IncomingForm({
+  multiples: true,
+  keepExtensions: true,
+})
+
+AWS.config.update({
+  apiVersions: {
+    s3: '2006-03-01',
+  },
+  region: 'sa-east-1',
+})
+
+const s3 = new S3({
+  apiVersion: 'latest',
+  region: 'sa-east-1',
+  accessKeyId: process.env.ACCESS_KEY_AWS,
+  secretAccessKey: process.env.SECRET_KEY_AWS,
+})
+
+async function uploadFile(filesToUpload, filesToSaveOnDb, incomingFiles) {
+
+  if (incomingFiles == undefined) return 0
+  
+  incomingFiles = incomingFiles || 0
+
+  for(let file of filesToUpload) {
+    try {
+      const timestamp = Date.now()
+      const random = Math.floor(Math.random() * 999999999) + 1
+      
+      const extension = path.extname(file.name)
+
+      const Key = `${timestamp}_${random}${extension}`
+
+      const fileToUpload = fs.readFileSync(file.path)
+
+      const uploadedImage = await s3.upload({
+        Bucket: process.env.BUCKET_NAME,
+        Key,
+        Body: fileToUpload,
+      }).promise()
+
+      const uploadedFileLink = uploadedImage.Location
+      
+      filesToSaveOnDb.push({
+        name: Key,
+        path: uploadedFileLink,
+      })
+    }
+    catch (error) {
+      console.log(`Error: ${error}`)
+    }
+  }
+}
+
 const product = {
     // get: async (req, res) => {
     //     await dbConnect()
@@ -16,26 +71,8 @@ const product = {
     // },
 
     post: async (req, res) => {
+
       await dbConnect()
-
-      const form = new formidable.IncomingForm({
-        multiples: true,
-        keepExtensions: true,
-      })
-
-      AWS.config.update({
-        apiVersions: {
-          s3: '2006-03-01',
-        },
-        region: 'sa-east-1',
-      })
-
-      const s3 = new S3({
-        apiVersion: 'latest',
-        region: 'sa-east-1',
-        accessKeyId: process.env.ACCESS_KEY_AWS,
-        secretAccessKey: process.env.SECRET_KEY_AWS,
-      })
       
       form.parse(req, async (error, fields, data) => {
         
@@ -44,51 +81,18 @@ const product = {
         }
         // console.log(`Data: ${JSON.stringify(data)}`)
 
-        const { files } = data
+        const { files: incomingFiles } = data
 
-        const filesToUpload = files instanceof Array
-          ? files
-          : [files]
+        const filesToUpload = incomingFiles instanceof Array
+          ? incomingFiles
+          : [incomingFiles]
 
         // console.log(`Files to Upload: ${JSON.stringify(filesToUpload)}`)
 
         let filesToSaveOnDb = []
 
-        async function uploadFile(filesToUpload) {
-          for(let file of filesToUpload) {
-            try {
-              const timestamp = Date.now()
-              const random = Math.floor(Math.random() * 999999999) + 1
-              const extension = path.extname(file.name)
-
-              const Key = `${timestamp}_${random}${extension}`
-
-              const fileToUpload = fs.readFileSync(file.path)
-
-              const uploadedImage = await s3.upload({
-                Bucket: process.env.BUCKET_NAME,
-                Key,
-                Body: fileToUpload,
-              }).promise()
-
-              const uploadedFileLink = uploadedImage.Location
-              
-              filesToSaveOnDb.push({
-                name: Key,
-                path: uploadedFileLink,
-              })
-              
-    
-            }
-            catch (error) {
-              console.log(`Error: ${error}`)
-            }
-          }
-
-        }
-
         async function saveFilesOnDb() {
-          await uploadFile(filesToUpload)
+          await uploadFile(filesToUpload, filesToSaveOnDb, 0)
           const {
             title,
             category,
@@ -134,16 +138,6 @@ const product = {
 
       await dbConnect()
 
-      const form = new formidable.IncomingForm({
-        multiples: true,
-        keepExtensions: true,
-      })
-
-      const s3 = new S3({
-        apiVersion: 'latest',
-        region: 'sa-east-1',
-      })
-
       form.parse(req, async (error, fields, data) => {
 
         const {
@@ -172,7 +166,7 @@ const product = {
           return res.status(500).json({ success: false })
         }
 
-          const { files } = data
+          const { files: incomingFiles } = data
 
           const filesToSave = product.files.filter(f => !filesToRemoveArr.includes( f.name ))
 
@@ -182,47 +176,14 @@ const product = {
 
           let filesToUpload
 
-          if (files != undefined) {
-            filesToUpload = files instanceof Array
-                ? files
-                : [files]
-          }
-
-          async function uploadFile(filesToUpload) {
-
-            if (files == undefined) return 0;
-
-            for (let file of filesToUpload) {
-              try {
-                const timestamp = Date.now()
-                const random = Math.floor(Math.random() * 999999999) + 1
-      
-                const extension = path.extname(file.name)
-                const Key = `${timestamp}_${random}${extension}`
-
-                const fileToUpload = fs.readFileSync(file.path)
-
-                const uploadedImage = await s3.upload({
-                  Bucket: process.env.BUCKET_NAME,
-                  Key,
-                  Body: fileToUpload,
-                }).promise()
-
-                const uploadedFileLink = uploadedImage.Location
-
-                filesToSaveOnDb.push({
-                  name: Key,
-                  path: uploadedFileLink,
-                })
-              }
-              catch (error) {
-                console.log(`Error: ${error}`)
-              }
-            }
+          if (incomingFiles != undefined) {
+            filesToUpload = incomingFiles instanceof Array
+                ? incomingFiles
+                : [incomingFiles]
           }
 
           async function saveFilesOnDb() {
-            await uploadFile(filesToUpload)
+            await uploadFile(filesToUpload, filesToSaveOnDb, incomingFiles)
 
             product.title = title
             product.category = category
