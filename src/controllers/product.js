@@ -89,7 +89,6 @@ const product = {
         if (error) {
           return res.status(500).json({ success: false })
         }
-        // console.log(`Data: ${JSON.stringify(data)}`)
 
         const { files } = data
 
@@ -97,42 +96,7 @@ const product = {
           ? files
           : [files]
 
-        // console.log(`Files to Upload: ${JSON.stringify(filesToUpload)}`)
-
         let filesToSaveOnDb = []
-
-        // async function uploadFile(filesToUpload) {
-        //   for(let file of filesToUpload) {
-        //     try {
-        //       const timestamp = Date.now()
-        //       const random = Math.floor(Math.random() * 999999999) + 1
-        //       const extension = path.extname(file.name)
-
-        //       const Key = `${timestamp}_${random}${extension}`
-
-        //       const fileToUpload = fs.readFileSync(file.path)
-
-        //       const uploadedImage = await s3.upload({
-        //         Bucket: process.env.BUCKET_NAME,
-        //         Key,
-        //         Body: fileToUpload,
-        //       }).promise()
-
-        //       const uploadedFileLink = uploadedImage.Location
-              
-        //       filesToSaveOnDb.push({
-        //         name: Key,
-        //         path: uploadedFileLink,
-        //       })
-              
-    
-        //     }
-        //     catch (error) {
-        //       console.log(`Error: ${error}`)
-        //     }
-        //   }
-
-        // }
 
         async function saveFilesOnDb() {
           await uploadFile(filesToUpload, filesToSaveOnDb, 0)
@@ -229,39 +193,6 @@ const product = {
                 ? incomingFiles
                 : [incomingFiles]
           }
-
-          // async function uploadFile(filesToUpload) {
-
-          //   if (files == undefined) return 0;
-
-          //   for (let file of filesToUpload) {
-          //     try {
-          //       const timestamp = Date.now()
-          //       const random = Math.floor(Math.random() * 999999999) + 1
-      
-          //       const extension = path.extname(file.name)
-          //       const Key = `${timestamp}_${random}${extension}`
-
-          //       const fileToUpload = fs.readFileSync(file.path)
-
-          //       const uploadedImage = await s3.upload({
-          //         Bucket: process.env.BUCKET_NAME,
-          //         Key,
-          //         Body: fileToUpload,
-          //       }).promise()
-
-          //       const uploadedFileLink = uploadedImage.Location
-
-          //       filesToSaveOnDb.push({
-          //         name: Key,
-          //         path: uploadedFileLink,
-          //       })
-          //     }
-          //     catch (error) {
-          //       console.log(`Error: ${error}`)
-          //     }
-          //   }
-          // }
 
           async function saveFilesOnDb() {
             await uploadFile(filesToUpload, filesToSaveOnDb, incomingFiles)

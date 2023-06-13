@@ -29,7 +29,6 @@ export const authOptions = {
     CredentialsProvider({
         name: 'credentials',
         async authorize(credentials, req) {
-            console.log(credentials)
             const res = await axios.post(`${process.env.APP_URL}/api/auth/signin`, credentials)
 
             const user = res.data
@@ -76,12 +75,6 @@ export const authOptions = {
       session.userId = token.uid
       return session
     },
-
-    // async redirect({ url, baseUrl }) {
-    //   console.log(`URL: ${url}`)
-    //   console.log(`BASEURL: ${baseUrl}`)
-    //   return '/'
-    // }
   },
 
   adapter: MongooseAdapter(process.env.MONGODB_URI),

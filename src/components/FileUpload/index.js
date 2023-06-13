@@ -27,12 +27,6 @@ export default function FileUpload({ files, filesToRemove, errors, touched, setF
     const handleRemoveFile = (fileIndex, fileName) => {
         const newFileState = files.filter((file, index) => (index+file.name) !== `${fileIndex}${fileName}`)
 
-        console.log(`File Index: ${fileIndex}`)
-        console.log(`File Name: ${fileName}`)
-        
-        
-
-
         //This will append the removed file to the FilesToRemove array
         //When submited in FormData, it will be received as a String separated by commas
         //Then we just use split(',') to transform back into an Array
@@ -42,9 +36,6 @@ export default function FileUpload({ files, filesToRemove, errors, touched, setF
         ])
 
         setFieldValue('files', newFileState)
-        console.log(`Files to Remove: ${filesToRemove}`)
-        console.log(`New File State: ${newFileState}`)
-
     }
 
     return (

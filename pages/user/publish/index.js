@@ -74,8 +74,6 @@ const Publish = ({ userId, image }) => {
             }
         }
 
-        // console.log(`FormData Files: ${JSON.stringify(formData.get('files'))}`)
-
         await axios.post('/api/products/post', formData)
             .then(handleSuccess)
             .catch(handleError)

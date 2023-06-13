@@ -31,7 +31,6 @@ export default function Signup() {
 
     const handleFormSubmit = async values => {
         try {
-            console.log(values)
             const { user } = await Auth.signUp({
                 username: values.email,
                 password: values.password,
@@ -42,12 +41,10 @@ export default function Signup() {
                     enabled: true,
                 }
             })
-            console.log(`Cognito: ${user}`)
             
             const response = await axios.post('/api/users', values)
 
             if (response.data.success) {
-                console.log(`MongoDB: ${JSON.stringify(response)}`)
                 setToasty({
                     open: true,
                     severity: 'success',
