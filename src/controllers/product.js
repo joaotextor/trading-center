@@ -10,11 +10,6 @@ import AWS from 'aws-sdk'
 
 const s3Bucket = process.env.BUCKET_NAME
 
-const form = new formidable.IncomingForm({
-  multiples: true,
-  keepExtensions: true,
-})
-
 AWS.config.update({
   apiVersions: {
     s3: '2006-03-01',
@@ -43,17 +38,14 @@ function removeS3Objects(bucket, files) {
 
 async function uploadFile(filesToUpload, filesToSaveOnDb, incomingFiles) {
 
-  if (incomingFiles == undefined) return 0
-  
-  incomingFiles = incomingFiles || 0
+  if (incomingFiles == undefined) return 0;
 
-  for(let file of filesToUpload) {
+  for (let file of filesToUpload) {
     try {
       const timestamp = Date.now()
       const random = Math.floor(Math.random() * 999999999) + 1
-      
-      const extension = path.extname(file.name)
 
+      const extension = path.extname(file.name)
       const Key = `${timestamp}_${random}${extension}`
 
       const fileToUpload = fs.readFileSync(file.path)
@@ -65,7 +57,7 @@ async function uploadFile(filesToUpload, filesToSaveOnDb, incomingFiles) {
       }).promise()
 
       const uploadedFileLink = uploadedImage.Location
-      
+
       filesToSaveOnDb.push({
         name: Key,
         path: uploadedFileLink,
@@ -85,8 +77,12 @@ const product = {
     // },
 
     post: async (req, res) => {
-
       await dbConnect()
+
+      const form = new formidable.IncomingForm({
+        multiples: true,
+        keepExtensions: true,
+      })
       
       form.parse(req, async (error, fields, data) => {
         
@@ -95,15 +91,48 @@ const product = {
         }
         // console.log(`Data: ${JSON.stringify(data)}`)
 
-        const { files: incomingFiles } = data
+        const { files } = data
 
-        const filesToUpload = incomingFiles instanceof Array
-          ? incomingFiles
-          : [incomingFiles]
+        const filesToUpload = files instanceof Array
+          ? files
+          : [files]
 
         // console.log(`Files to Upload: ${JSON.stringify(filesToUpload)}`)
 
         let filesToSaveOnDb = []
+
+        // async function uploadFile(filesToUpload) {
+        //   for(let file of filesToUpload) {
+        //     try {
+        //       const timestamp = Date.now()
+        //       const random = Math.floor(Math.random() * 999999999) + 1
+        //       const extension = path.extname(file.name)
+
+        //       const Key = `${timestamp}_${random}${extension}`
+
+        //       const fileToUpload = fs.readFileSync(file.path)
+
+        //       const uploadedImage = await s3.upload({
+        //         Bucket: process.env.BUCKET_NAME,
+        //         Key,
+        //         Body: fileToUpload,
+        //       }).promise()
+
+        //       const uploadedFileLink = uploadedImage.Location
+              
+        //       filesToSaveOnDb.push({
+        //         name: Key,
+        //         path: uploadedFileLink,
+        //       })
+              
+    
+        //     }
+        //     catch (error) {
+        //       console.log(`Error: ${error}`)
+        //     }
+        //   }
+
+        // }
 
         async function saveFilesOnDb() {
           await uploadFile(filesToUpload, filesToSaveOnDb, 0)
@@ -152,6 +181,11 @@ const product = {
 
       await dbConnect()
 
+      const form = new formidable.IncomingForm({
+        multiples: true,
+        keepExtensions: true,
+      })
+
       form.parse(req, async (error, fields, data) => {
 
         const {
@@ -196,6 +230,39 @@ const product = {
                 : [incomingFiles]
           }
 
+          // async function uploadFile(filesToUpload) {
+
+          //   if (files == undefined) return 0;
+
+          //   for (let file of filesToUpload) {
+          //     try {
+          //       const timestamp = Date.now()
+          //       const random = Math.floor(Math.random() * 999999999) + 1
+      
+          //       const extension = path.extname(file.name)
+          //       const Key = `${timestamp}_${random}${extension}`
+
+          //       const fileToUpload = fs.readFileSync(file.path)
+
+          //       const uploadedImage = await s3.upload({
+          //         Bucket: process.env.BUCKET_NAME,
+          //         Key,
+          //         Body: fileToUpload,
+          //       }).promise()
+
+          //       const uploadedFileLink = uploadedImage.Location
+
+          //       filesToSaveOnDb.push({
+          //         name: Key,
+          //         path: uploadedFileLink,
+          //       })
+          //     }
+          //     catch (error) {
+          //       console.log(`Error: ${error}`)
+          //     }
+          //   }
+          // }
+
           async function saveFilesOnDb() {
             await uploadFile(filesToUpload, filesToSaveOnDb, incomingFiles)
 
@@ -224,6 +291,7 @@ const product = {
             } else {
               res.status(500).json({ success: false})
             }
+  
           }
 
           saveFilesOnDb()
@@ -238,16 +306,17 @@ const product = {
       
       const deleted = await ProductsModel.findOneAndRemove({_id: id})
 
-      const filesToDeleteFromS3 = []
+      let filesToDeleteFromS3 = []
 
       try {
-        deleted.files.map(file => {
+        deleted.files.forEach(file => {
           filesToDeleteFromS3.push({"Key": file.name})
         })
         removeS3Objects(s3Bucket, filesToDeleteFromS3)
       } catch {
         console.log('An error has occurred')
       }
+
 
       if (deleted) {
         return res.status(200).json({success: true})
