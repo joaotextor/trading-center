@@ -1,4 +1,4 @@
-**Trading Center** is the final project of the course Fullstack Javascript Developer.
+**Trading Center** is the final project of the [JS Fullstack Course](https://go.hotmart.com/H75713532I) by [Thiago M. Medeiros](https://github.com/thiagommedeiros).
 
 **Version 1.0 was developed using:**
 
@@ -13,6 +13,12 @@
 - AWS Amplify as backend/frontend as the hosting service.
 - MongoDB Atlas (Serverless) as databaes.
 - AWS S3 to store the image files.
+
+**Live Preview**
+
+Version 1.0 was able to be run only on local machine.
+After finishing the JS Fullstack Course, I refactored the code to put the app online.
+Version 2.0 can be accessed [HERE](https://tradingcenter.joaotextor.com)
 
 **To deploy the project on your local machine:**
 
