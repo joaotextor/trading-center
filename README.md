@@ -18,7 +18,8 @@
 
 Version 1.0 was able to be run only on local machine.
 After finishing the JS Fullstack Course, I refactored the code to put the app online.
-Version 2.0 can be accessed [HERE](https://tradingcenter.joaotextor.com)
+Version 2.0 can be accessed <a href="https://tradingcenter.joaotextor.com" target="_blank">HERE</a>
+This newer version was not deeply checked for bugs. So, if you find any, please file a [Issue](https://github.com/joaotextor/trading-center/issues)
 
 **To deploy the project on your local machine:**
 
