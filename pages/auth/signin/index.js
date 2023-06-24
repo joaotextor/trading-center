@@ -14,6 +14,7 @@ import {
 import { Formik } from 'formik'
 import { useRouter } from 'next/router'
 import { signIn, useSession } from 'next-auth/react'
+import { Auth } from 'aws-amplify'
 
 import TemplateDefault from '../../../src/templates/Default'
 import {
@@ -28,13 +29,12 @@ export default function Login() {
     const router = useRouter()
     const { data: session, status } = useSession()
     
-        const handleFormSubmit = async values => {
-    const signInStatus = await signIn('credentials', {
-        email: values.email,
-        password: values.password,
-        redirect: false,
-        callbackUrl: `/user/dashboard`
-    })
+    const handleFormSubmit = async values => {
+        const signInStatus = await signIn('credentials', {
+            email: values.email,
+            password: values.password,
+            redirect: false,
+        })
 
     if (signInStatus.ok == false) {
         return router.push(`/auth/signin?i=1`)
@@ -51,6 +51,7 @@ export default function Login() {
     }
 
     if (status === 'authenticated') {
+    // if (false) {
         router.push(`/user/dashboard`)
     } else {
 
@@ -172,3 +173,10 @@ export default function Login() {
         )
     }
 }
+
+// export async function getServerSideProps(context) {
+//     const APP_URL = process.env.APP_URL
+//     return {
+//         props: {APP_URL}
+//     }
+// }

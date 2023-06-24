@@ -78,7 +78,7 @@ export default function Product({ product }) {
                                         <Card key={file.name} sx={classes.card}>
                                             <CardMedia
                                                 sx={classes.cardMedia}
-                                                image={`/uploads/${file.name}`}
+                                                image={`${file.path}`}
                                                 title={product.title}
                                             />
                                         </Card>
@@ -115,7 +115,7 @@ export default function Product({ product }) {
                         <Card elevation={0} sx={classes.box}>
                             <CardHeader
                                 avatar={
-                                    //It works with only src={product.contactImage}, but throws a CastError: Cast to ObjectId failed for value "null"
+                                    //It works with just src={product.contactImage}, but throws a CastError: Cast to ObjectId failed for value "null"
                                     <Avatar src={product.contactImage != "null" ? product.contactImage : '' }>
                                         {product.contactImage === "null" && product.contactName[0].toUpperCase() }
                                     </Avatar>
@@ -151,9 +151,10 @@ export async function getServerSideProps({ query }) {
     const product = await ProductsModel.findOne({ _id: id })
 
     try {    
+        const productRes = await JSON.parse(JSON.stringify(product))
         return {
             props: {
-                product: JSON.parse(JSON.stringify(product))
+                product: productRes
             }
         }
     }

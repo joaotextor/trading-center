@@ -5,7 +5,69 @@ import dbConnect from "../utils/dbConnect"
 import ProductsModel from '../models/products'
 import formidable from 'formidable-serverless'
 
+import S3 from 'aws-sdk/clients/s3'
+import AWS from 'aws-sdk'
 
+const s3Bucket = process.env.BUCKET_NAME
+
+AWS.config.update({
+  apiVersions: {
+    s3: '2006-03-01',
+  },
+  region: 'sa-east-1',
+})
+
+const s3 = new S3({
+  apiVersion: 'latest',
+  region: 'sa-east-1',
+  accessKeyId: process.env.ACCESS_KEY_AWS,
+  secretAccessKey: process.env.SECRET_KEY_AWS,
+})
+
+function removeS3Objects(bucket, files) {
+  s3.deleteObjects({
+    Bucket: bucket,
+    Delete: {
+      Objects: files,
+      Quiet: false
+    }
+  }, (err, data) => {
+    if (err) console.log(err, err.stack)
+  })
+}
+
+async function uploadFile(filesToUpload, filesToSaveOnDb, incomingFiles) {
+
+  if (incomingFiles == undefined) return 0;
+
+  for (let file of filesToUpload) {
+    try {
+      const timestamp = Date.now()
+      const random = Math.floor(Math.random() * 999999999) + 1
+
+      const extension = path.extname(file.name)
+      const Key = `${timestamp}_${random}${extension}`
+
+      const fileToUpload = fs.readFileSync(file.path)
+
+      const uploadedImage = await s3.upload({
+        Bucket: process.env.BUCKET_NAME,
+        Key,
+        Body: fileToUpload,
+      }).promise()
+
+      const uploadedFileLink = uploadedImage.Location
+
+      filesToSaveOnDb.push({
+        name: Key,
+        path: uploadedFileLink,
+      })
+    }
+    catch (error) {
+      console.log(`Error: ${error}`)
+    }
+  }
+}
 
 const product = {
     // get: async (req, res) => {
@@ -19,10 +81,9 @@ const product = {
 
       const form = new formidable.IncomingForm({
         multiples: true,
-        uploadDir: 'public/uploads',
         keepExtensions: true,
       })
-
+      
       form.parse(req, async (error, fields, data) => {
         
         if (error) {
@@ -31,72 +92,53 @@ const product = {
 
         const { files } = data
 
-        const filesToRename = files instanceof Array
+        const filesToUpload = files instanceof Array
           ? files
           : [files]
 
-        const filesToSave = []
+        let filesToSaveOnDb = []
 
-        filesToRename.forEach(file => {
-          const timestamp = Date.now()
-          const random = Math.floor(Math.random() * 999999999) + 1
-
-          const extension = path.extname(file.name)
-          const filename = `${timestamp}_${random}${extension}`
-
-          const oldpath = path.join(__dirname, `../../../../../${file.path}`)
-          const newpath = path.join(__dirname, `../../../../../${form.uploadDir}/${filename}`)
-
-          filesToSave.push({
-            name: filename,
-            path: newpath,
+        async function saveFilesOnDb() {
+          await uploadFile(filesToUpload, filesToSaveOnDb, 0)
+          const {
+            title,
+            category,
+            userId,
+            contactImage,
+            description,
+            price,
+            contactName,
+            contactEmail,
+            contactPhone,
+            location,
+            publishDate,
+          } = fields
+  
+          const product = new ProductsModel({
+            title,
+            category,
+            userId,
+            contactImage,
+            description,
+            price,
+            contactName,
+            contactEmail,
+            contactPhone,
+            files: filesToSaveOnDb,
+            location,
+            publishDate,
           })
-
-          fs.rename(oldpath, newpath, (error) => {
-            if (error) {
-              return res.status(500).json({ success: false })
-            }
-          })
-        })
-
-        const {
-          title,
-          category,
-          userId,
-          contactImage,
-          description,
-          price,
-          contactName,
-          contactEmail,
-          contactPhone,
-          location,
-          publishDate,
-        } = fields
-
-        const product = new ProductsModel({
-          title,
-          category,
-          userId,
-          contactImage,
-          description,
-          price,
-          contactName,
-          contactEmail,
-          contactPhone,
-          files: filesToSave,
-          location,
-          publishDate,
-        })
-
-        const register = await product.save()
-
-        if (register) {
-          res.status(201).json({ success: true })
-        } else {
-          res.status(500).json({ success: false})
+  
+          const register = await product.save()
+  
+          if (register) {
+            res.status(201).json({ success: true })
+          } else {
+            res.status(500).json({ success: false})
+          }
         }
-
-        })
+        saveFilesOnDb()
+      })
     },
 
     put: async (req, res) => {
@@ -105,7 +147,6 @@ const product = {
 
       const form = new formidable.IncomingForm({
         multiples: true,
-        uploadDir: 'public/uploads',
         keepExtensions: true,
       })
 
@@ -128,84 +169,82 @@ const product = {
 
 
         // Transform back the comma separated string into an Array
-        const filesToRemoveArr = filesToRemove.split(',')
+        let filesToRemoveArr = []
+        if (filesToRemove.length != 0) {
+          filesToRemoveArr = filesToRemove.split(',')
+        }
 
         if (error) {
           return res.status(500).json({ success: false })
         }
 
-          const { files } = data
+          const { files: incomingFiles } = data
 
-          const filesToSave = product.files.filter(f => !filesToRemoveArr.includes( f.path ))
+          const filesToSave = product.files.filter(f => !filesToRemoveArr.includes( f.name ))
 
-          if (files != undefined) {
-          const filesToRename = files instanceof Array
-            ? files
-            : [files]
-  
-          filesToRename.forEach(file => {
-            const timestamp = Date.now()
-            const random = Math.floor(Math.random() * 999999999) + 1
-  
-            const extension = path.extname(file.name)
-            const filename = `${timestamp}_${random}${extension}`
-  
-            const oldpath = path.join(__dirname, `../../../../../${file.path}`)
-            const newpath = path.join(__dirname, `../../../../../${form.uploadDir}/${filename}`)
-  
-            filesToSave.push({
-              name: filename,
-              path: newpath,
-            })
-  
-            fs.rename(oldpath, newpath, (error) => {
-              if (error) {
-                return res.status(500).json({ success: false })
+          let filesToSaveOnDb = [
+            ...filesToSave
+          ]
+
+          let filesToUpload
+
+          if (incomingFiles != undefined) {
+            filesToUpload = incomingFiles instanceof Array
+                ? incomingFiles
+                : [incomingFiles]
+          }
+
+          async function saveFilesOnDb() {
+            await uploadFile(filesToUpload, filesToSaveOnDb, incomingFiles)
+
+            product.title = title
+            product.category = category
+            product.description = description
+            product.price = price
+            product.contactName = contactName
+            product.contactEmail = contactEmail
+            product.contactPhone = contactPhone
+            product.location = location
+            product.publishDate = Date.now()
+            product.files = filesToSaveOnDb
+    
+            const register = await product.save()
+
+            if (register) {
+              if (filesToRemoveArr.length != 0) {
+                let filesToDeleteFromS3 = []
+                filesToRemoveArr.forEach(file => {
+                  filesToDeleteFromS3.push({"Key": file})
+                })
+                removeS3Objects(s3Bucket, filesToDeleteFromS3)
               }
-            })
-          })
-        }
+              res.status(201).json({ success: true })
+            } else {
+              res.status(500).json({ success: false})
+            }
+  
+          }
 
-        product.title = title
-        product.category = category
-        product.description = description
-        product.price = price
-        product.contactName = contactName
-        product.contactEmail = contactEmail
-        product.contactPhone = contactPhone
-        product.location = location
-        product.publishDate = Date.now()
-        product.files = filesToSave
+          saveFilesOnDb()
 
-        const register = await product.save()
-
-        if (register) {
-          filesToRemoveArr.forEach(file => {
-            fs.rm(file, {}, () => {})
-          })
-          res.status(201).json({ success: true })
-        } else {
-          res.status(500).json({ success: false})
-        }
-
-        })
+      })
     },
 
     delete: async (req, res) => {
       await dbConnect()
 
       const id = req.body.id
-
+      
       const deleted = await ProductsModel.findOneAndRemove({_id: id})
 
+      let filesToDeleteFromS3 = []
+
       try {
-          deleted.files.map(file => {
-          const deletedFile = fs.rm(file.path, {}, () => {})
-          return deletedFile
+        deleted.files.forEach(file => {
+          filesToDeleteFromS3.push({"Key": file.name})
         })
-      }
-      
-      catch {
+        removeS3Objects(s3Bucket, filesToDeleteFromS3)
+      } catch {
         console.log('An error has occurred')
       }
 

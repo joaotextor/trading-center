@@ -11,6 +11,7 @@ const authSignin = {
             password,
           } = req.body
 
+
           await dbConnect()
           
           const user = await UsersModel.findOne({ email })
@@ -29,7 +30,6 @@ const authSignin = {
             })
           }
         
-          
           return res.status(401).json({ success: false, message: "invalid" })
  
         }

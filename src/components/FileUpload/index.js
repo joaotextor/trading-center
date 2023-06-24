@@ -21,21 +21,21 @@ export default function FileUpload({ files, filesToRemove, errors, touched, setF
         }
     })
 
-    //! Using only file.path will cause a bug in which if the user uploads 2 ore more files with the same name, all of them will be deleted at once when deleting one of them.
-    const handleRemoveFile = (fileIndex, filePath) => {
-        const newFileState = files.filter((file, index) => (index+file.path) !== `${fileIndex}${filePath}`)
+    if (!filesToRemove) { filesToRemove = [] }
 
+    //! Using only file.path will cause a bug in which if the user uploads 2 ore more files with the same name, all of them will be deleted at once when deleting one of them.
+    const handleRemoveFile = (fileIndex, fileName) => {
+        const newFileState = files.filter((file, index) => (index+file.name) !== `${fileIndex}${fileName}`)
 
         //This will append the removed file to the FilesToRemove array
         //When submited in FormData, it will be received as a String separated by commas
         //Then we just use split(',') to transform back into an Array
         setFieldValue('filesToRemove', [
             ...filesToRemove,
-            filePath
+            fileName
         ])
 
         setFieldValue('files', newFileState)
-
     }
 
     return (
@@ -70,11 +70,11 @@ export default function FileUpload({ files, filesToRemove, errors, touched, setF
                         key={file.preview ? `${file.path}-${index}` : `${file.name}`}
                         className="thumb-img"
                         sx={{
-                            backgroundImage: file.preview ? `url(${file.preview})` : `url('/uploads/${file.name}')`,
+                            backgroundImage: file.preview ? `url(${file.preview})` : `url('${file.path}')`,
                             backgroundPosition: 'center'
                         }}>
                             <ThumbBox className="thumb-mask">
-                                <IconButton color="secondary" onClick={() => handleRemoveFile(index, file.path)}>
+                                <IconButton color="secondary" onClick={() => handleRemoveFile(index, file.name)}>
                                     <DeleteForever fontSize="large"/>    
                                 </IconButton>   
                             </ThumbBox>

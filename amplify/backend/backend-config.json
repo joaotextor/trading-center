@@ -1,0 +1,58 @@
+{
+  "auth": {
+    "tradingcenter5912b391": {
+      "customAuth": false,
+      "dependsOn": [],
+      "frontendAuthConfig": {
+        "mfaConfiguration": "OFF",
+        "mfaTypes": [
+          "SMS"
+        ],
+        "passwordProtectionSettings": {
+          "passwordPolicyCharacters": [],
+          "passwordPolicyMinLength": 8
+        },
+        "signupAttributes": [
+          "EMAIL"
+        ],
+        "socialProviders": [
+          "GOOGLE"
+        ],
+        "usernameAttributes": [
+          "EMAIL"
+        ],
+        "verificationMechanisms": [
+          "EMAIL"
+        ]
+      },
+      "providerPlugin": "awscloudformation",
+      "service": "Cognito"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_storage_tradingcentera5d96477_bucketName": {
+      "usedBy": [
+        {
+          "category": "storage",
+          "resourceName": "tradingcentera5d96477"
+        }
+      ]
+    },
+    "AMPLIFY_storage_tradingcentera5d96477_region": {
+      "usedBy": [
+        {
+          "category": "storage",
+          "resourceName": "tradingcentera5d96477"
+        }
+      ]
+    }
+  },
+  "storage": {
+    "tradingcentera5d96477": {
+      "dependsOn": [],
+      "providerPlugin": "awscloudformation",
+      "service": "S3",
+      "serviceType": "imported"
+    }
+  }
+}

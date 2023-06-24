@@ -30,16 +30,28 @@ export default function Signup() {
     const router = useRouter()
 
     const handleFormSubmit = async values => {
-        console.log(values)
         try {
             const { user } = await Auth.signUp({
                 username: values.email,
                 password: values.password,
                 attributes: {
                     email: values.email,
+                },
+                autoSignIn: {
+                    enabled: true,
                 }
             })
-            console.log(user)
+            
+            const response = await axios.post('/api/users', values)
+
+            if (response.data.success) {
+                setToasty({
+                    open: true,
+                    severity: 'success',
+                    text: 'Signup successful'
+                })
+                router.push('/auth/signin')
+            }
         }        
 
         catch (err) {
@@ -136,7 +148,7 @@ export default function Signup() {
                                                     fullWidth
                                                     variant="contained"
                                                     color="primary"
-                                                    // disabled={isSubmitting}
+                                                    disabled={isSubmitting}
                                                     sx={classes.submit}
                                                 >
                                                 Signup

@@ -75,7 +75,7 @@ const Home = ({products}) => {
   }
 
   const handleSuccess = () => {
-    Router.reload(window,location.pathname)
+    route.push('/user/dashboard')
     setAlertOpen(false)
     setToasty(
       {open: true,
@@ -129,7 +129,10 @@ const Home = ({products}) => {
                   <Card
                   title={product.title}
                   subtitle={formatCurrency(product.price, 'CA')}
-                  image={`/uploads/${product.files[0].name}`}
+                  image={
+                    product.files[0]
+                    ? `${product.files[0].path}`
+                    : ""}
                   actions={
                     <>
                       <Button

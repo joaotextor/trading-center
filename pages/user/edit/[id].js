@@ -84,7 +84,7 @@ const Edit = ({ product }) => {
             }
         }
 
-        await axios.put('/api/products/put/', formData)
+        await axios.put('/api/products/put', formData)
             .then(handleSuccess)
             .catch(handleError)
     }
@@ -302,6 +302,12 @@ const Edit = ({ product }) => {
             
                             <MyContainer className={classes.container} maxWidth="md">
                                 <Box display="flex" justifyContent="right"> 
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    sx={{marginRight: 2}}
+                                    onClick={() => router.push('/user/dashboard')}
+                                >Cancel</Button>
 
                                 {
                                     isSubmitting
